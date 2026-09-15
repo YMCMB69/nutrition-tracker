@@ -30,7 +30,7 @@
 
         .header {
             text-align: center;
-            margin-bottom: 35px;
+            margin-bottom: 25px;
         }
 
         .header h1 {
@@ -48,6 +48,47 @@
             margin-top: 8px;
             color: #888;
             font-size: 15px;
+        }
+
+        /* TOP NAVIGATION */
+
+        .tabs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            background: #121218;
+            border: 1px solid #24242d;
+            border-radius: 14px;
+            padding: 5px;
+            margin-bottom: 20px;
+        }
+
+        .tab-button {
+            border: none;
+            border-radius: 10px;
+            padding: 13px 10px;
+            background: transparent;
+            color: #777;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .tab-button.active {
+            background: #a855f7;
+            color: white;
+        }
+
+        .tab-button:active {
+            transform: scale(0.98);
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
         }
 
         .card {
@@ -288,6 +329,18 @@
             font-size: 12px;
             margin-top: 25px;
         }
+
+        /* GRAPHS PLACEHOLDER */
+
+        .graphs-placeholder {
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #444;
+            font-size: 15px;
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -300,225 +353,363 @@
         <div class="date" id="date"></div>
     </div>
 
-    <div class="card">
 
-        <div class="card-title">Add Food</div>
+    <!-- TOP TABS -->
 
-        <label for="savedMeal">Meals</label>
+    <div class="tabs">
 
-        <select id="savedMeal" onchange="mealSelected()">
-            <option value="">Choose a meal...</option>
-            <option value="mcdees">Mcdees 2x Double Burger</option>
-            <option value="bigmac">Big Mac Meal</option>
-            <option value="wimpy">Wimpy Burger Meal</option>
-            <option value="usn1">USN Choc Caramel 1 Scoop</option>
-            <option value="usn2">USN Choc Caramel 2 Scoop</option>
-        </select>
-
-        <div class="meal-info" id="mealInfo"></div>
-
-        <label for="drink">Drinks</label>
-
-        <select id="drink" onchange="drinkSelected()">
-            <option value="">Choose a drink...</option>
-            <option value="vodka">Single Vodka with Zero Mix</option>
-            <option value="jager">Jägermeister Shot</option>
-        </select>
-
-        <div class="drink-info" id="drinkInfo"></div>
-
-        <label for="quantity">Quantity</label>
-
-        <input
-            type="number"
-            id="quantity"
-            value="1"
-            min="1"
-            step="1"
-            inputmode="numeric"
+        <button
+            class="tab-button active"
+            id="mainTab"
+            onclick="showPage('main')"
         >
+            Main
+        </button>
 
-        <div class="divider">
-            OR ENTER MANUALLY
-        </div>
-
-        <label for="calories">Calories</label>
-
-        <input
-            type="number"
-            id="calories"
-            placeholder="0"
-            min="0"
-            inputmode="decimal"
+        <button
+            class="tab-button"
+            id="graphsTab"
+            onclick="showPage('graphs')"
         >
-
-        <label for="protein">Protein (g)</label>
-
-        <input
-            type="number"
-            id="protein"
-            placeholder="0"
-            min="0"
-            step="0.1"
-            inputmode="decimal"
-        >
-
-        <button class="add-button" onclick="addFood()">
-            + Add Food
+            Graphs
         </button>
 
     </div>
 
 
-    <div class="card">
+    <!-- ========================= -->
+    <!-- MAIN PAGE                  -->
+    <!-- ========================= -->
 
-        <div class="card-title">
-            Today's Total
-        </div>
+    <div id="mainPage" class="page active">
 
-        <div class="totals">
 
-            <div class="total-box">
-                <div class="total-label">
-                    Calories
-                </div>
+        <div class="card">
 
-                <div class="total-number" id="totalCalories">
-                    0
-                </div>
-
-                <span class="total-unit">
-                    kcal
-                </span>
+            <div class="card-title">
+                Add Food
             </div>
 
 
-            <div class="total-box">
-                <div class="total-label">
-                    Protein
-                </div>
+            <label for="savedMeal">
+                Meals
+            </label>
 
-                <div class="total-number protein-number" id="totalProtein">
-                    0
-                </div>
 
-                <span class="total-unit">
-                    g
-                </span>
+            <select
+                id="savedMeal"
+                onchange="mealSelected()"
+            >
+
+                <option value="">
+                    Choose a meal...
+                </option>
+
+                <option value="mcdees">
+                    Mcdees 2x Double Burger
+                </option>
+
+                <option value="bigmac">
+                    Big Mac Meal
+                </option>
+
+                <option value="wimpy">
+                    Wimpy Burger Meal
+                </option>
+
+                <option value="usn1">
+                    USN Choc Caramel 1 Scoop
+                </option>
+
+                <option value="usn2">
+                    USN Choc Caramel 2 Scoop
+                </option>
+
+            </select>
+
+
+            <div
+                class="meal-info"
+                id="mealInfo"
+            ></div>
+
+
+            <label for="drink">
+                Drinks
+            </label>
+
+
+            <select
+                id="drink"
+                onchange="drinkSelected()"
+            >
+
+                <option value="">
+                    Choose a drink...
+                </option>
+
+                <option value="vodka">
+                    Single Vodka with Zero Mix
+                </option>
+
+                <option value="jager">
+                    Jägermeister Shot
+                </option>
+
+            </select>
+
+
+            <div
+                class="drink-info"
+                id="drinkInfo"
+            ></div>
+
+
+            <label for="quantity">
+                Quantity
+            </label>
+
+
+            <input
+                type="number"
+                id="quantity"
+                value="1"
+                min="1"
+                step="1"
+                inputmode="numeric"
+            >
+
+
+            <div class="divider">
+                OR ENTER MANUALLY
             </div>
+
+
+            <label for="calories">
+                Calories
+            </label>
+
+
+            <input
+                type="number"
+                id="calories"
+                placeholder="0"
+                min="0"
+                inputmode="decimal"
+            >
+
+
+            <label for="protein">
+                Protein (g)
+            </label>
+
+
+            <input
+                type="number"
+                id="protein"
+                placeholder="0"
+                min="0"
+                step="0.1"
+                inputmode="decimal"
+            >
+
+
+            <button
+                class="add-button"
+                onclick="addFood()"
+            >
+                + Add Food
+            </button>
 
         </div>
 
 
-        <button
-            class="week-button"
-            id="addWeekButton"
-            onclick="addTodayToWeek()"
-        >
-            + Add Today to Week
-        </button>
+        <!-- TODAY'S TOTAL -->
+
+        <div class="card">
+
+            <div class="card-title">
+                Today's Total
+            </div>
 
 
-        <button
-            class="reset-button"
-            onclick="resetDay()"
-        >
-            Reset Today
-        </button>
+            <div class="totals">
+
+                <div class="total-box">
+
+                    <div class="total-label">
+                        Calories
+                    </div>
+
+                    <div
+                        class="total-number"
+                        id="totalCalories"
+                    >
+                        0
+                    </div>
+
+                    <span class="total-unit">
+                        kcal
+                    </span>
+
+                </div>
+
+
+                <div class="total-box">
+
+                    <div class="total-label">
+                        Protein
+                    </div>
+
+                    <div
+                        class="total-number protein-number"
+                        id="totalProtein"
+                    >
+                        0
+                    </div>
+
+                    <span class="total-unit">
+                        g
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="week-button"
+                id="addWeekButton"
+                onclick="addTodayToWeek()"
+            >
+                + Add Today to Week
+            </button>
+
+
+            <button
+                class="reset-button"
+                onclick="resetDay()"
+            >
+                Reset Today
+            </button>
+
+        </div>
+
+
+        <!-- WEEK -->
+
+        <div class="card">
+
+            <div class="card-title">
+                This Week
+            </div>
+
+
+            <div class="week-target">
+                Weekly target: 16,800 kcal • 1,120g protein
+            </div>
+
+
+            <div class="week-total">
+
+                <div class="week-row">
+
+                    <span class="week-label">
+                        Calories
+                    </span>
+
+                    <span
+                        class="week-value"
+                        id="weekCalories"
+                    >
+                        0 / 16,800
+                    </span>
+
+                </div>
+
+
+                <div class="week-progress">
+
+                    <div
+                        class="week-progress-bar"
+                        id="calorieBar"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+            <div class="week-total">
+
+                <div class="week-row">
+
+                    <span class="week-label">
+                        Protein
+                    </span>
+
+                    <span
+                        class="week-value"
+                        id="weekProtein"
+                    >
+                        0 / 1,120 g
+                    </span>
+
+                </div>
+
+
+                <div class="week-progress">
+
+                    <div
+                        class="week-progress-bar"
+                        id="proteinBar"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="remaining"
+                id="remaining"
+            ></div>
+
+
+            <button
+                class="reset-button"
+                onclick="resetWeek()"
+            >
+                Reset Week
+            </button>
+
+        </div>
+
+
+        <div class="footer">
+            Stay consistent. 💪
+        </div>
 
     </div>
 
 
-    <div class="card">
+    <!-- ========================= -->
+    <!-- GRAPHS PAGE                -->
+    <!-- ========================= -->
 
-        <div class="card-title">
-            This Week
-        </div>
+    <div
+        id="graphsPage"
+        class="page"
+    >
 
+        <div class="card">
 
-        <div class="week-target">
-            Weekly target: 16,800 kcal • 1,120g protein
-        </div>
-
-
-        <div class="week-total">
-
-            <div class="week-row">
-
-                <span class="week-label">
-                    Calories
-                </span>
-
-                <span
-                    class="week-value"
-                    id="weekCalories"
-                >
-                    0 / 16,800
-                </span>
-
-            </div>
-
-
-            <div class="week-progress">
-
-                <div
-                    class="week-progress-bar"
-                    id="calorieBar"
-                ></div>
-
+            <div class="graphs-placeholder">
+                Graphs coming soon...
             </div>
 
         </div>
 
-
-        <div class="week-total">
-
-            <div class="week-row">
-
-                <span class="week-label">
-                    Protein
-                </span>
-
-                <span
-                    class="week-value"
-                    id="weekProtein"
-                >
-                    0 / 1,120 g
-                </span>
-
-            </div>
-
-
-            <div class="week-progress">
-
-                <div
-                    class="week-progress-bar"
-                    id="proteinBar"
-                ></div>
-
-            </div>
-
-        </div>
-
-
-        <div
-            class="remaining"
-            id="remaining"
-        ></div>
-
-
-        <button
-            class="reset-button"
-            onclick="resetWeek()"
-        >
-            Reset Week
-        </button>
-
-    </div>
-
-
-    <div class="footer">
-        Stay consistent. 💪
     </div>
 
 </div>
@@ -582,6 +773,50 @@ const drinks = {
 };
 
 
+/* ========================= */
+/* TAB SWITCHING              */
+/* ========================= */
+
+function showPage(page) {
+
+    const mainPage =
+        document.getElementById("mainPage");
+
+    const graphsPage =
+        document.getElementById("graphsPage");
+
+    const mainTab =
+        document.getElementById("mainTab");
+
+    const graphsTab =
+        document.getElementById("graphsTab");
+
+
+    if (page === "main") {
+
+        mainPage.classList.add("active");
+        graphsPage.classList.remove("active");
+
+        mainTab.classList.add("active");
+        graphsTab.classList.remove("active");
+
+    } else {
+
+        mainPage.classList.remove("active");
+        graphsPage.classList.add("active");
+
+        mainTab.classList.remove("active");
+        graphsTab.classList.add("active");
+
+    }
+
+}
+
+
+/* ========================= */
+/* DATE / WEEK               */
+/* ========================= */
+
 function getToday() {
 
     const today = new Date();
@@ -605,15 +840,22 @@ function getWeekID() {
 
     const day = date.getUTCDay();
 
-    const diff = day === 0 ? -6 : 1 - day;
+    const diff =
+        day === 0
+            ? -6
+            : 1 - day;
 
     date.setUTCDate(
         date.getUTCDate() + diff
     );
 
     return date.getUTCFullYear() + "-" +
-        String(date.getUTCMonth() + 1).padStart(2, "0") + "-" +
-        String(date.getUTCDate()).padStart(2, "0");
+        String(
+            date.getUTCMonth() + 1
+        ).padStart(2, "0") + "-" +
+        String(
+            date.getUTCDate()
+        ).padStart(2, "0");
 
 }
 
@@ -625,6 +867,7 @@ function checkNewDay() {
 
     const today =
         getToday();
+
 
     if (savedDate !== today) {
 
@@ -656,6 +899,7 @@ function checkNewWeek() {
     const savedWeek =
         localStorage.getItem("weekID");
 
+
     if (savedWeek !== currentWeek) {
 
         localStorage.setItem(
@@ -683,22 +927,29 @@ function checkNewWeek() {
 }
 
 
+/* ========================= */
+/* LOAD TOTALS               */
+/* ========================= */
+
 function loadTotals() {
 
     checkNewDay();
-
     checkNewWeek();
 
 
     const calories =
         parseFloat(
-            localStorage.getItem("calories")
+            localStorage.getItem(
+                "calories"
+            )
         ) || 0;
 
 
     const protein =
         parseFloat(
-            localStorage.getItem("protein")
+            localStorage.getItem(
+                "protein"
+            )
         ) || 0;
 
 
@@ -730,6 +981,10 @@ function loadTotals() {
 }
 
 
+/* ========================= */
+/* WEEK                      */
+/* ========================= */
+
 function loadWeek() {
 
     checkNewWeek();
@@ -737,13 +992,17 @@ function loadWeek() {
 
     const calories =
         parseFloat(
-            localStorage.getItem("weekCalories")
+            localStorage.getItem(
+                "weekCalories"
+            )
         ) || 0;
 
 
     const protein =
         parseFloat(
-            localStorage.getItem("weekProtein")
+            localStorage.getItem(
+                "weekProtein"
+            )
         ) || 0;
 
 
@@ -766,7 +1025,10 @@ function loadWeek() {
 
     const caloriePercent =
         Math.min(
-            (calories / WEEK_CALORIE_TARGET) * 100,
+            (
+                calories /
+                WEEK_CALORIE_TARGET
+            ) * 100,
             100
         );
 
@@ -779,7 +1041,10 @@ function loadWeek() {
 
     const proteinPercent =
         Math.min(
-            (protein / WEEK_PROTEIN_TARGET) * 100,
+            (
+                protein /
+                WEEK_PROTEIN_TARGET
+            ) * 100,
             100
         );
 
@@ -791,11 +1056,13 @@ function loadWeek() {
 
 
     const calorieRemaining =
-        WEEK_CALORIE_TARGET - calories;
+        WEEK_CALORIE_TARGET -
+        calories;
 
 
     const proteinRemaining =
-        WEEK_PROTEIN_TARGET - protein;
+        WEEK_PROTEIN_TARGET -
+        protein;
 
 
     let message = "";
@@ -813,7 +1080,9 @@ function loadWeek() {
         message +=
             '<span class="over">' +
             "Calories over: " +
-            Math.abs(calorieRemaining).toLocaleString() +
+            Math.abs(
+                calorieRemaining
+            ).toLocaleString() +
             " kcal" +
             "</span>";
 
@@ -835,7 +1104,9 @@ function loadWeek() {
         message +=
             '<span class="over">' +
             "Protein over: " +
-            Math.abs(proteinRemaining).toLocaleString() +
+            Math.abs(
+                proteinRemaining
+            ).toLocaleString() +
             " g" +
             "</span>";
 
@@ -851,6 +1122,10 @@ function loadWeek() {
 
 }
 
+
+/* ========================= */
+/* MEAL SELECTION             */
+/* ========================= */
 
 function mealSelected() {
 
@@ -869,7 +1144,6 @@ function mealSelected() {
     if (selected === "") {
 
         info.style.display = "none";
-
         info.textContent = "";
 
         return;
@@ -888,7 +1162,8 @@ function mealSelected() {
         "g protein";
 
 
-    info.style.display = "block";
+    info.style.display =
+        "block";
 
 
     document.getElementById(
@@ -898,7 +1173,8 @@ function mealSelected() {
 
     document.getElementById(
         "drinkInfo"
-    ).style.display = "none";
+    ).style.display =
+        "none";
 
 
     document.getElementById(
@@ -917,6 +1193,10 @@ function mealSelected() {
 
 }
 
+
+/* ========================= */
+/* DRINK SELECTION            */
+/* ========================= */
 
 function drinkSelected() {
 
@@ -935,7 +1215,6 @@ function drinkSelected() {
     if (selected === "") {
 
         info.style.display = "none";
-
         info.textContent = "";
 
         return;
@@ -954,7 +1233,8 @@ function drinkSelected() {
         "g protein";
 
 
-    info.style.display = "block";
+    info.style.display =
+        "block";
 
 
     document.getElementById(
@@ -964,7 +1244,8 @@ function drinkSelected() {
 
     document.getElementById(
         "mealInfo"
-    ).style.display = "none";
+    ).style.display =
+        "none";
 
 
     document.getElementById(
@@ -983,6 +1264,10 @@ function drinkSelected() {
 
 }
 
+
+/* ========================= */
+/* ADD FOOD                  */
+/* ========================= */
 
 function addFood() {
 
@@ -1002,7 +1287,6 @@ function addFood() {
 
 
     let calories = 0;
-
     let protein = 0;
 
 
@@ -1082,18 +1366,21 @@ function addFood() {
 
     let totalCalories =
         parseFloat(
-            localStorage.getItem("calories")
+            localStorage.getItem(
+                "calories"
+            )
         ) || 0;
 
 
     let totalProtein =
         parseFloat(
-            localStorage.getItem("protein")
+            localStorage.getItem(
+                "protein"
+            )
         ) || 0;
 
 
     totalCalories += calories;
-
     totalProtein += protein;
 
 
@@ -1159,10 +1446,13 @@ function addFood() {
 }
 
 
+/* ========================= */
+/* ADD TODAY TO WEEK         */
+/* ========================= */
+
 function addTodayToWeek() {
 
     checkNewDay();
-
     checkNewWeek();
 
 
@@ -1223,9 +1513,12 @@ function addTodayToWeek() {
         ) || 0;
 
 
-    weekCalories += todayCalories;
+    weekCalories +=
+        todayCalories;
 
-    weekProtein += todayProtein;
+
+    weekProtein +=
+        todayProtein;
 
 
     localStorage.setItem(
@@ -1245,7 +1538,9 @@ function addTodayToWeek() {
 
     localStorage.setItem(
         "weekAddedDays",
-        JSON.stringify(addedDays)
+        JSON.stringify(
+            addedDays
+        )
     );
 
 
@@ -1253,6 +1548,10 @@ function addTodayToWeek() {
 
 }
 
+
+/* ========================= */
+/* WEEK BUTTON               */
+/* ========================= */
 
 function updateWeekButton() {
 
@@ -1295,6 +1594,10 @@ function updateWeekButton() {
 }
 
 
+/* ========================= */
+/* RESET TODAY               */
+/* ========================= */
+
 function resetDay() {
 
     if (
@@ -1319,6 +1622,10 @@ function resetDay() {
 
 }
 
+
+/* ========================= */
+/* RESET WEEK                */
+/* ========================= */
 
 function resetWeek() {
 
@@ -1349,6 +1656,10 @@ function resetWeek() {
 
 }
 
+
+/* ========================= */
+/* START APP                 */
+/* ========================= */
 
 loadTotals();
 
