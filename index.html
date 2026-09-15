@@ -1,776 +1,528 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#08080c">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
-    <title>Dyl's Six Pack Tracker</title>
-
-    <style>
-
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            min-height: 100vh;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-            background: #08080c;
-            color: white;
-        }
-
-        .app {
-            width: 100%;
-            max-width: 450px;
-            margin: auto;
-            padding: 45px 20px 30px;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        .header h1 {
-            margin: 0;
-            font-size: 32px;
-            font-weight: 800;
-            letter-spacing: -1px;
-        }
-
-        .purple {
-            color: #a855f7;
-        }
-
-        .date {
-            margin-top: 8px;
-            color: #888;
-            font-size: 15px;
-        }
-
-
-        /* ========================= */
-        /* TOP TABS                  */
-        /* ========================= */
-
-        .tabs {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            background: #121218;
-            border: 1px solid #24242d;
-            border-radius: 14px;
-            padding: 5px;
-            margin-bottom: 20px;
-        }
-
-        .tab-button {
-            border: none;
-            border-radius: 10px;
-            padding: 13px 10px;
-            background: transparent;
-            color: #777;
-            font-size: 15px;
-            font-weight: 700;
-            cursor: pointer;
-        }
-
-        .tab-button.active {
-            background: #a855f7;
-            color: white;
-        }
-
-        .tab-button:active {
-            transform: scale(0.98);
-        }
-
-        .page {
-            display: none;
-        }
-
-        .page.active {
-            display: block;
-        }
-
-
-        /* ========================= */
-        /* CARDS                     */
-        /* ========================= */
-
-        .card {
-            background: #121218;
-            border: 1px solid #24242d;
-            border-radius: 20px;
-            padding: 22px;
-            margin-bottom: 18px;
-        }
-
-        .card-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin: 0 0 20px;
-        }
-
-
-        /* ========================= */
-        /* INPUTS                    */
-        /* ========================= */
-
-        label {
-            display: block;
-            font-size: 14px;
-            font-weight: 600;
-            color: #aaa;
-            margin-bottom: 8px;
-        }
-
-        select,
-        input {
-            width: 100%;
-            padding: 16px;
-            margin-bottom: 16px;
-            background: #08080c;
-            color: white;
-            border: 1px solid #30303a;
-            border-radius: 12px;
-            font-size: 17px;
-            outline: none;
-        }
-
-        select:focus,
-        input:focus {
-            border-color: #a855f7;
-            box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.15);
-        }
-
-        input::placeholder {
-            color: #555;
-        }
-
-
-        /* ========================= */
-        /* MEAL INFO                 */
-        /* ========================= */
-
-        .meal-info,
-        .drink-info {
-            background: #1a1222;
-            border: 1px solid #39204d;
-            border-radius: 12px;
-            padding: 12px;
-            margin-top: -5px;
-            margin-bottom: 16px;
-            color: #c084fc;
-            font-size: 14px;
-            display: none;
-        }
-
-
-        /* ========================= */
-        /* DIVIDER                   */
-        /* ========================= */
-
-        .divider {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 5px 0 20px;
-            color: #555;
-            font-size: 13px;
-        }
-
-        .divider::before,
-        .divider::after {
-            content: "";
-            flex: 1;
-            height: 1px;
-            background: #292930;
-        }
-
-
-        /* ========================= */
-        /* BUTTONS                   */
-        /* ========================= */
-
-        .add-button {
-            width: 100%;
-            padding: 17px;
-            border: none;
-            border-radius: 12px;
-            background: #a855f7;
-            color: white;
-            font-size: 17px;
-            font-weight: 700;
-            cursor: pointer;
-        }
-
-        .add-button:active {
-            transform: scale(0.98);
-        }
-
-        .week-button {
-            width: 100%;
-            padding: 15px;
-            margin-top: 15px;
-            border: 1px solid #a855f7;
-            border-radius: 12px;
-            background: #1a1222;
-            color: #c084fc;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-        }
-
-        .week-button:active {
-            transform: scale(0.98);
-        }
-
-        .week-button:disabled {
-            opacity: 0.45;
-            cursor: not-allowed;
-        }
-
-        .reset-button {
-            width: 100%;
-            margin-top: 15px;
-            padding: 13px;
-            border: 1px solid #30303a;
-            border-radius: 12px;
-            background: transparent;
-            color: #777;
-            font-size: 14px;
-            cursor: pointer;
-        }
-
-        .reset-button:active {
-            background: #18181f;
-        }
-
-
-        /* ========================= */
-        /* TODAY TOTALS              */
-        /* ========================= */
-
-        .totals {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        .total-box {
-            background: #08080c;
-            border: 1px solid #24242d;
-            border-radius: 15px;
-            padding: 18px 12px;
-            text-align: center;
-        }
-
-        .total-label {
-            color: #888;
-            font-size: 13px;
-            margin-bottom: 8px;
-        }
-
-        .total-number {
-            font-size: 25px;
-            font-weight: 800;
-        }
-
-        .total-unit {
-            font-size: 12px;
-            color: #888;
-            margin-left: 2px;
-        }
-
-        .protein-number {
-            color: #c084fc;
-        }
-
-
-        /* ========================= */
-        /* WEEK TOTAL                */
-        /* ========================= */
-
-        .week-target {
-            text-align: center;
-            color: #777;
-            font-size: 13px;
-            margin-top: -12px;
-            margin-bottom: 20px;
-        }
-
-        .week-total {
-            background: #08080c;
-            border: 1px solid #24242d;
-            border-radius: 15px;
-            padding: 18px;
-            margin-bottom: 12px;
-        }
-
-        .week-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .week-row:last-child {
-            margin-bottom: 0;
-        }
-
-        .week-label {
-            color: #aaa;
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .week-value {
-            font-size: 18px;
-            font-weight: 800;
-        }
-
-        .week-progress {
-            width: 100%;
-            height: 8px;
-            background: #24242d;
-            border-radius: 20px;
-            overflow: hidden;
-            margin-top: 8px;
-        }
-
-        .week-progress-bar {
-            height: 100%;
-            width: 0%;
-            background: #a855f7;
-            border-radius: 20px;
-            transition: width 0.3s ease;
-        }
-
-        .remaining {
-            text-align: center;
-            margin-top: 15px;
-            color: #888;
-            font-size: 14px;
-            line-height: 1.7;
-        }
-
-        .over {
-            color: #ff5c5c;
-            font-weight: 700;
-        }
-
-
-        /* ========================= */
-        /* GRAPH CARDS               */
-        /* ========================= */
-
-        .graph-card {
-            background: #08080c;
-            border: 1px solid #24242d;
-            border-radius: 16px;
-            padding: 18px;
-            margin-bottom: 18px;
-        }
-
-        .graph-title {
-            font-size: 17px;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-
-        .graph-subtitle {
-            color: #777;
-            font-size: 13px;
-            margin-bottom: 18px;
-        }
-
-        .chart {
-            width: 100%;
-            height: 230px;
-            position: relative;
-        }
-
-        .chart-grid {
-            position: absolute;
-            left: 42px;
-            right: 5px;
-            top: 10px;
-            bottom: 35px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .grid-line {
-            width: 100%;
-            height: 1px;
-            background: #24242d;
-        }
-
-        .bars {
-            position: absolute;
-            left: 42px;
-            right: 5px;
-            top: 10px;
-            bottom: 35px;
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-around;
-            gap: 5px;
-        }
-
-        .bar-column {
-            height: 100%;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-end;
-        }
-
-        .bar-value {
-            color: #aaa;
-            font-size: 10px;
-            margin-bottom: 4px;
-            min-height: 12px;
-        }
-
-        .bar {
-            width: 70%;
-            max-width: 30px;
-            min-height: 2px;
-            background: #a855f7;
-            border-radius: 5px 5px 2px 2px;
-            transition: height 0.4s ease;
-        }
-
-        .day-label {
-            color: #777;
-            font-size: 10px;
-            margin-top: 8px;
-        }
-
-        .y-labels {
-            position: absolute;
-            left: 0;
-            top: 5px;
-            bottom: 35px;
-            width: 36px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            color: #555;
-            font-size: 10px;
-            text-align: right;
-        }
-
-        .target-line {
-            position: absolute;
-            left: 42px;
-            right: 5px;
-            height: 1px;
-            border-top: 1px dashed #6b21a8;
-            z-index: 2;
-            pointer-events: none;
-        }
-
-        .graph-legend {
-            text-align: center;
-            color: #777;
-            font-size: 11px;
-            margin-top: 4px;
-        }
-
-
-        /* ========================= */
-        /* FOOTER                    */
-        /* ========================= */
-
-        .footer {
-            text-align: center;
-            color: #444;
-            font-size: 12px;
-            margin-top: 25px;
-        }
-
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Six Pack Tracker">
+<title>Dyl's Six Pack Tracker</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #090909;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.container {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    margin: 10px 0 5px;
+    font-size: 28px;
+}
+
+.date {
+    text-align: center;
+    color: #999;
+    margin-bottom: 20px;
+}
+
+.card {
+    background: #151515;
+    border: 1px solid #292929;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 18px;
+}
+
+.card h2 {
+    margin-top: 0;
+    font-size: 21px;
+}
+
+.tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.tab-button {
+    flex: 1;
+    padding: 14px;
+    border-radius: 12px;
+    border: 1px solid #333;
+    background: #151515;
+    color: #aaa;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.tab-button.active {
+    background: #7b2cff;
+    color: white;
+    border-color: #7b2cff;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+label {
+    display: block;
+    color: #aaa;
+    margin-top: 12px;
+    margin-bottom: 6px;
+}
+
+select,
+input {
+    width: 100%;
+    padding: 13px;
+    border-radius: 10px;
+    border: 1px solid #333;
+    background: #0d0d0d;
+    color: white;
+    font-size: 16px;
+}
+
+button {
+    cursor: pointer;
+}
+
+.primary-button {
+    width: 100%;
+    margin-top: 16px;
+    padding: 14px;
+    border: none;
+    border-radius: 11px;
+    background: #7b2cff;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.primary-button:disabled {
+    background: #333;
+    color: #777;
+}
+
+.secondary-button {
+    width: 100%;
+    margin-top: 10px;
+    padding: 12px;
+    border: 1px solid #333;
+    border-radius: 11px;
+    background: #111;
+    color: #ddd;
+    font-size: 15px;
+}
+
+.total-number {
+    font-size: 32px;
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+.total-label {
+    color: #999;
+    font-size: 14px;
+}
+
+.remaining {
+    margin-top: 20px;
+    padding: 14px;
+    background: #101010;
+    border-radius: 12px;
+    border: 1px solid #292929;
+}
+
+.remaining-title {
+    color: #999;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.remaining-number {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.progress-container {
+    margin-top: 15px;
+}
+
+.progress-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #aaa;
+    margin-bottom: 7px;
+}
+
+.progress {
+    width: 100%;
+    height: 12px;
+    background: #292929;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: #7b2cff;
+    border-radius: 20px;
+    transition: width 0.3s ease;
+}
+
+.over-target {
+    background: #e53935;
+}
+
+.stat-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.stat-box {
+    flex: 1;
+    background: #101010;
+    border: 1px solid #292929;
+    border-radius: 12px;
+    padding: 14px;
+}
+
+.stat-title {
+    color: #999;
+    font-size: 13px;
+    margin-bottom: 5px;
+}
+
+.stat-value {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.week-row {
+    margin-bottom: 18px;
+}
+
+.week-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 7px;
+}
+
+.week-header span:first-child {
+    color: #aaa;
+}
+
+.week-header span:last-child {
+    font-weight: bold;
+}
+
+.week-progress {
+    height: 12px;
+    background: #292929;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.week-progress-bar {
+    height: 100%;
+    background: #7b2cff;
+    border-radius: 20px;
+}
+
+.week-remaining {
+    color: #aaa;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+.graph-card {
+    background: #151515;
+    border: 1px solid #292929;
+    border-radius: 16px;
+    padding: 18px;
+    margin-bottom: 18px;
+}
+
+.graph-card h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.chart {
+    position: relative;
+    height: 250px;
+    display: flex;
+    padding-left: 35px;
+    padding-bottom: 30px;
+}
+
+.chart-area {
+    position: relative;
+    flex: 1;
+    border-left: 1px solid #444;
+    border-bottom: 1px solid #444;
+}
+
+.chart-grid {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #292929;
+}
+
+.y-labels {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 30px;
+    width: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: #777;
+    font-size: 10px;
+    text-align: right;
+    padding-right: 5px;
+}
+
+.bars {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    padding: 10px 5px 0;
+}
+
+.bar-column {
+    height: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.bar {
+    width: 65%;
+    max-width: 35px;
+    background: #7b2cff;
+    border-radius: 5px 5px 0 0;
+    min-height: 2px;
+}
+
+.day-label {
+    position: absolute;
+    bottom: -25px;
+    font-size: 11px;
+    color: #999;
+}
+
+.target-line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    border-top: 2px dashed #777;
+}
+
+.graph-legend {
+    margin-top: 15px;
+    color: #aaa;
+    font-size: 12px;
+    text-align: center;
+}
+
+.saved-note {
+    color: #777;
+    font-size: 12px;
+    margin-top: 10px;
+    text-align: center;
+}
+</style>
 </head>
-
 
 <body>
 
-<div class="app">
+<div class="container">
 
+    <h1>Dyl's Six Pack Tracker</h1>
+    <div class="date" id="date"></div>
 
-    <!-- ========================= -->
-    <!-- HEADER                    -->
-    <!-- ========================= -->
-
-    <div class="header">
-
-        <h1>
-            Dyl's
-            <span class="purple">Six Pack</span>
-            Tracker
-        </h1>
-
-        <div
-            class="date"
-            id="date"
-        ></div>
-
-    </div>
-
-
-    <!-- ========================= -->
-    <!-- TABS                      -->
-    <!-- ========================= -->
-
+    <!-- TABS -->
     <div class="tabs">
-
-        <button
-            class="tab-button active"
-            id="mainTab"
-            onclick="showPage('main')"
-        >
-            Main
-        </button>
-
-        <button
-            class="tab-button"
-            id="graphsTab"
-            onclick="showPage('graphs')"
-        >
-            Graphs
-        </button>
-
+        <button class="tab-button active" onclick="showPage('main', this)">Main</button>
+        <button class="tab-button" onclick="showPage('graphs', this)">Graphs</button>
     </div>
 
 
-    <!-- ========================= -->
-    <!-- MAIN PAGE                 -->
-    <!-- ========================= -->
+    <!-- ================= MAIN ================= -->
 
-    <div
-        id="mainPage"
-        class="page active"
-    >
-
+    <div id="main" class="page active">
 
         <!-- ADD FOOD -->
-
         <div class="card">
+            <h2>Add Food</h2>
 
-            <div class="card-title">
-                Add Food
-            </div>
-
-
-            <label for="savedMeal">
-                Meals
-            </label>
-
-
-            <select
-                id="savedMeal"
-                onchange="mealSelected()"
-            >
-
-                <option value="">
-                    Choose a meal...
-                </option>
-
-                <option value="mcdees">
-                    Mcdees 2x Double Burger
-                </option>
-
-                <option value="bigmac">
-                    Big Mac Meal
-                </option>
-
-                <option value="wimpy">
-                    Wimpy Burger Meal
-                </option>
-
-                <option value="usn1">
-                    USN Choc Caramel 1 Scoop
-                </option>
-
-                <option value="usn2">
-                    USN Choc Caramel 2 Scoop
-                </option>
-
+            <label>Meal</label>
+            <select id="mealSelect" onchange="mealSelected()">
+                <option value="">Select a meal</option>
+                <option value="Mcdees 2x Double Burger">Mcdees 2x Double Burger</option>
+                <option value="Big Mac Meal">Big Mac Meal</option>
+                <option value="Wimpy Burger Meal">Wimpy Burger Meal</option>
+                <option value="USN Choc Caramel 1 Scoop">USN Choc Caramel 1 Scoop</option>
+                <option value="USN Choc Caramel 2 Scoop">USN Choc Caramel 2 Scoop</option>
             </select>
 
-
-            <div
-                class="meal-info"
-                id="mealInfo"
-            ></div>
-
-
-            <label for="drink">
-                Drinks
-            </label>
-
-
-            <select
-                id="drink"
-                onchange="drinkSelected()"
-            >
-
-                <option value="">
-                    Choose a drink...
-                </option>
-
-                <option value="vodka">
-                    Single Vodka with Zero Mix
-                </option>
-
-                <option value="jager">
-                    Jägermeister Shot
-                </option>
-
+            <label>Drink</label>
+            <select id="drinkSelect" onchange="drinkSelected()">
+                <option value="">Select a drink</option>
+                <option value="Single Vodka with Zero Mix">Single Vodka with Zero Mix</option>
+                <option value="Jägermeister Shot">Jägermeister Shot</option>
             </select>
 
+            <label>Quantity</label>
+            <input type="number" id="quantity" value="1" min="1">
 
-            <div
-                class="drink-info"
-                id="drinkInfo"
-            ></div>
+            <label>Calories</label>
+            <input type="number" id="calories" placeholder="Enter calories">
 
+            <label>Protein (g)</label>
+            <input type="number" id="protein" placeholder="Enter protein">
 
-            <label for="quantity">
-                Quantity
-            </label>
-
-
-            <input
-                type="number"
-                id="quantity"
-                value="1"
-                min="1"
-                step="1"
-                inputmode="numeric"
-            >
-
-
-            <div class="divider">
-                OR ENTER MANUALLY
-            </div>
-
-
-            <label for="calories">
-                Calories
-            </label>
-
-
-            <input
-                type="number"
-                id="calories"
-                placeholder="0"
-                min="0"
-                inputmode="decimal"
-            >
-
-
-            <label for="protein">
-                Protein (g)
-            </label>
-
-
-            <input
-                type="number"
-                id="protein"
-                placeholder="0"
-                min="0"
-                step="0.1"
-                inputmode="decimal"
-            >
-
-
-            <button
-                class="add-button"
-                onclick="addFood()"
-            >
-                + Add Food
-            </button>
-
+            <button class="primary-button" onclick="addFood()">+ Add Food</button>
         </div>
 
 
-        <!-- TODAY -->
-
+        <!-- TODAY'S TOTAL -->
         <div class="card">
 
-            <div class="card-title">
-                Today's Total
+            <h2>Today's Total</h2>
+
+            <div class="stat-row">
+
+                <div class="stat-box">
+                    <div class="stat-title">Calories</div>
+                    <div class="stat-value">
+                        <span id="todayCalories">0</span> / 2,400
+                    </div>
+                </div>
+
+                <div class="stat-box">
+                    <div class="stat-title">Protein</div>
+                    <div class="stat-value">
+                        <span id="todayProtein">0</span> / 160g
+                    </div>
+                </div>
+
             </div>
 
 
-            <div class="totals">
+            <!-- CALORIE PROGRESS -->
+            <div class="progress-container">
 
-
-                <div class="total-box">
-
-                    <div class="total-label">
-                        Calories
-                    </div>
-
-                    <div
-                        class="total-number"
-                        id="totalCalories"
-                    >
-                        0
-                    </div>
-
-                    <span class="total-unit">
-                        kcal
-                    </span>
-
+                <div class="progress-header">
+                    <span>Calories</span>
+                    <span id="caloriePercent">0%</span>
                 </div>
 
-
-                <div class="total-box">
-
-                    <div class="total-label">
-                        Protein
-                    </div>
-
+                <div class="progress">
                     <div
-                        class="total-number protein-number"
-                        id="totalProtein"
-                    >
-                        0
+                        id="calorieProgress"
+                        class="progress-bar"
+                        style="width: 0%">
                     </div>
-
-                    <span class="total-unit">
-                        g
-                    </span>
-
                 </div>
 
+            </div>
+
+
+            <!-- PROTEIN PROGRESS -->
+            <div class="progress-container">
+
+                <div class="progress-header">
+                    <span>Protein</span>
+                    <span id="proteinPercent">0%</span>
+                </div>
+
+                <div class="progress">
+                    <div
+                        id="proteinProgress"
+                        class="progress-bar"
+                        style="width: 0%">
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- REMAINING -->
+            <div class="remaining">
+
+                <div class="remaining-title">
+                    Remaining Today
+                </div>
+
+                <div class="stat-row" style="margin-top:0">
+
+                    <div class="stat-box">
+
+                        <div class="stat-title">
+                            Calories Left
+                        </div>
+
+                        <div
+                            class="remaining-number"
+                            id="caloriesLeft">
+                            2,400 kcal
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-box">
+
+                        <div class="stat-title">
+                            Protein Left
+                        </div>
+
+                        <div
+                            class="remaining-number"
+                            id="proteinLeft">
+                            160g
+                        </div>
+
+                    </div>
+
+                </div>
 
             </div>
 
 
             <button
-                class="week-button"
-                id="addWeekButton"
-                onclick="addTodayToWeek()"
-            >
-                + Add Today to Week
-            </button>
-
-
-            <button
-                class="reset-button"
-                onclick="resetDay()"
-            >
+                class="secondary-button"
+                onclick="resetDay()">
                 Reset Today
             </button>
 
@@ -778,300 +530,192 @@
 
 
         <!-- WEEK -->
-
         <div class="card">
 
-            <div class="card-title">
-                This Week
-            </div>
+            <h2>This Week</h2>
 
+            <div class="week-row">
 
-            <div class="week-target">
-                Weekly target: 16,800 kcal • 1,120g protein
-            </div>
-
-
-            <div class="week-total">
-
-                <div class="week-row">
-
-                    <span class="week-label">
-                        Calories
+                <div class="week-header">
+                    <span>Calories</span>
+                    <span>
+                        <span id="weekCalories">0</span> / 16,800
                     </span>
-
-                    <span
-                        class="week-value"
-                        id="weekCalories"
-                    >
-                        0 / 16,800
-                    </span>
-
                 </div>
-
 
                 <div class="week-progress">
-
                     <div
+                        id="weekCalorieProgress"
                         class="week-progress-bar"
-                        id="calorieBar"
-                    ></div>
+                        style="width:0%">
+                    </div>
+                </div>
 
+                <div
+                    class="week-remaining"
+                    id="weekCaloriesRemaining">
+                    16,800 calories remaining
                 </div>
 
             </div>
 
 
-            <div class="week-total">
+            <div class="week-row">
 
-                <div class="week-row">
-
-                    <span class="week-label">
-                        Protein
+                <div class="week-header">
+                    <span>Protein</span>
+                    <span>
+                        <span id="weekProtein">0</span> / 1,120g
                     </span>
-
-                    <span
-                        class="week-value"
-                        id="weekProtein"
-                    >
-                        0 / 1,120 g
-                    </span>
-
                 </div>
-
 
                 <div class="week-progress">
-
                     <div
+                        id="weekProteinProgress"
                         class="week-progress-bar"
-                        id="proteinBar"
-                    ></div>
+                        style="width:0%">
+                    </div>
+                </div>
 
+                <div
+                    class="week-remaining"
+                    id="weekProteinRemaining">
+                    1,120g protein remaining
                 </div>
 
             </div>
-
-
-            <div
-                class="remaining"
-                id="remaining"
-            ></div>
 
 
             <button
-                class="reset-button"
-                onclick="resetWeek()"
-            >
+                id="addWeekButton"
+                class="primary-button"
+                onclick="addTodayToWeek()">
+                + Add Today to Week
+            </button>
+
+            <button
+                class="secondary-button"
+                onclick="resetWeek()">
                 Reset Week
             </button>
 
         </div>
 
-
-        <div class="footer">
-            Stay consistent. 💪
-        </div>
-
-
     </div>
 
 
-    <!-- ========================= -->
-    <!-- GRAPHS PAGE               -->
-    <!-- ========================= -->
+    <!-- ================= GRAPHS ================= -->
 
-    <div
-        id="graphsPage"
-        class="page"
-    >
-
+    <div id="graphs" class="page">
 
         <!-- CALORIE GRAPH -->
+        <div class="graph-card">
 
-        <div class="card">
+            <h2>Weekly Calories</h2>
 
-            <div class="card-title">
-                Weekly Calories
-            </div>
+            <div class="chart">
 
+                <div class="y-labels" id="calorieYLabels"></div>
 
-            <div class="graph-card">
-
-                <div class="graph-title">
-                    Calorie Intake
-                </div>
-
-                <div class="graph-subtitle">
-                    Daily target: 2,400 kcal
-                </div>
-
-
-                <div class="chart">
-
-
-                    <div
-                        class="y-labels"
-                        id="calorieYLabels"
-                    >
-                    </div>
-
-
-                    <div class="chart-grid">
-
-                        <div class="grid-line"></div>
-                        <div class="grid-line"></div>
-                        <div class="grid-line"></div>
-                        <div class="grid-line"></div>
-                        <div class="grid-line"></div>
-
-                    </div>
-
+                <div class="chart-area">
 
                     <div
                         class="target-line"
-                        id="calorieTargetLine"
-                    ></div>
+                        id="calorieTargetLine">
+                    </div>
 
+                    <div class="chart-grid" style="top:25%"></div>
+                    <div class="chart-grid" style="top:50%"></div>
+                    <div class="chart-grid" style="top:75%"></div>
 
                     <div
                         class="bars"
-                        id="calorieBars"
-                    ></div>
+                        id="calorieBars">
+                    </div>
 
                 </div>
 
+            </div>
 
-                <div class="graph-legend">
-                    Dashed line = daily target
-                </div>
-
+            <div class="graph-legend">
+                Daily target: 2,400 calories
             </div>
 
         </div>
 
 
         <!-- PROTEIN GRAPH -->
+        <div class="graph-card">
 
-        <div class="card">
+            <h2>Weekly Protein</h2>
 
-            <div class="card-title">
-                Weekly Protein
-            </div>
+            <div class="chart">
 
+                <div class="y-labels" id="proteinYLabels"></div>
 
-            <div class="graph-card">
-
-                <div class="graph-title">
-                    Protein Intake
-                </div>
-
-                <div class="graph-subtitle">
-                    Daily target: 160g
-                </div>
-
-
-                <div class="chart">
-
-
-                    <div
-                        class="y-labels"
-                        id="proteinYLabels"
-                    >
-                    </div>
-
-
-                    <div class="chart-grid">
-
-                        <div class="grid-line"></div>
-                        <div class="grid-line"></div>
-                        <div class="grid-line"></div>
-                        <div class="grid-line"></div>
-                        <div class="grid-line"></div>
-
-                    </div>
-
+                <div class="chart-area">
 
                     <div
                         class="target-line"
-                        id="proteinTargetLine"
-                    ></div>
+                        id="proteinTargetLine">
+                    </div>
 
+                    <div class="chart-grid" style="top:25%"></div>
+                    <div class="chart-grid" style="top:50%"></div>
+                    <div class="chart-grid" style="top:75%"></div>
 
                     <div
                         class="bars"
-                        id="proteinBars"
-                    ></div>
+                        id="proteinBars">
+                    </div>
 
-                </div>
-
-
-                <div class="graph-legend">
-                    Dashed line = daily target
                 </div>
 
             </div>
 
+            <div class="graph-legend">
+                Daily target: 160g protein
+            </div>
+
         </div>
-
-
-        <div class="footer">
-            Keep pushing. 💪
-        </div>
-
 
     </div>
-
 
 </div>
 
 
 <script>
 
-
-/* ========================= */
-/* TARGETS                   */
-/* ========================= */
-
 const WEEK_CALORIE_TARGET = 16800;
-
 const WEEK_PROTEIN_TARGET = 1120;
 
 const DAILY_CALORIE_TARGET = 2400;
-
 const DAILY_PROTEIN_TARGET = 160;
 
 
-/* ========================= */
-/* SAVED MEALS               */
-/* ========================= */
-
 const meals = {
 
-    mcdees: {
-        name: "Mcdees 2x Double Burger",
+    "Mcdees 2x Double Burger": {
         calories: 630,
         protein: 37
     },
 
-    bigmac: {
-        name: "Big Mac Meal",
+    "Big Mac Meal": {
         calories: 650,
         protein: 25
     },
 
-    wimpy: {
-        name: "Wimpy Burger Meal",
+    "Wimpy Burger Meal": {
         calories: 700,
         protein: 30
     },
 
-    usn1: {
-        name: "USN Choc Caramel 1 Scoop",
+    "USN Choc Caramel 1 Scoop": {
         calories: 121,
         protein: 23
     },
 
-    usn2: {
-        name: "USN Choc Caramel 2 Scoop",
+    "USN Choc Caramel 2 Scoop": {
         calories: 242,
         protein: 46
     }
@@ -1079,20 +723,14 @@ const meals = {
 };
 
 
-/* ========================= */
-/* SAVED DRINKS              */
-/* ========================= */
-
 const drinks = {
 
-    vodka: {
-        name: "Single Vodka with Zero Mix",
+    "Single Vodka with Zero Mix": {
         calories: 55,
         protein: 0
     },
 
-    jager: {
-        name: "Jägermeister Shot",
+    "Jägermeister Shot": {
         calories: 55,
         protein: 0
     }
@@ -1100,207 +738,104 @@ const drinks = {
 };
 
 
-/* ========================= */
-/* TAB SWITCHING              */
-/* ========================= */
-
-function showPage(page) {
-
-    const mainPage =
-        document.getElementById("mainPage");
-
-    const graphsPage =
-        document.getElementById("graphsPage");
-
-    const mainTab =
-        document.getElementById("mainTab");
-
-    const graphsTab =
-        document.getElementById("graphsTab");
-
-
-    if (page === "main") {
-
-        mainPage.classList.add("active");
-
-        graphsPage.classList.remove("active");
-
-        mainTab.classList.add("active");
-
-        graphsTab.classList.remove("active");
-
-    } else {
-
-        mainPage.classList.remove("active");
-
-        graphsPage.classList.add("active");
-
-        mainTab.classList.remove("active");
-
-        graphsTab.classList.add("active");
-
-        drawGraphs();
-
-    }
-
-}
-
-
-/* ========================= */
-/* DATE                      */
-/* ========================= */
+/* ================= DATE ================= */
 
 function getToday() {
 
-    const today = new Date();
+    const d = new Date();
 
-    return today.getFullYear() +
-        "-" +
-        (today.getMonth() + 1) +
-        "-" +
-        today.getDate();
+    return d.toISOString().split("T")[0];
 
 }
 
 
-/* ========================= */
-/* WEEK ID                   */
-/* ========================= */
+function displayDate() {
+
+    const d = new Date();
+
+    document.getElementById("date").textContent =
+        d.toLocaleDateString("en-ZA", {
+            weekday: "long",
+            day: "numeric",
+            month: "long",
+            year: "numeric"
+        });
+
+}
+
+
+/* ================= WEEK ================= */
 
 function getWeekID() {
 
-    const today = new Date();
+    const d = new Date();
 
-    const date = new Date(Date.UTC(
-        today.getFullYear(),
-        today.getMonth(),
-        today.getDate()
-    ));
+    const day = d.getDay();
 
-    const day =
-        date.getUTCDay();
+    const diff = day === 0 ? -6 : 1 - day;
 
-    const diff =
-        day === 0
-            ? -6
-            : 1 - day;
+    const monday = new Date(d);
 
+    monday.setDate(d.getDate() + diff);
 
-    date.setUTCDate(
-        date.getUTCDate() + diff
-    );
-
-
-    return date.getUTCFullYear() +
-        "-" +
-        String(
-            date.getUTCMonth() + 1
-        ).padStart(2, "0") +
-        "-" +
-        String(
-            date.getUTCDate()
-        ).padStart(2, "0");
+    return monday.toISOString().split("T")[0];
 
 }
 
 
-/* ========================= */
-/* GET WEEK DATES            */
-/* ========================= */
-
 function getWeekDates() {
 
-    const today = new Date();
+    const d = new Date();
 
-    const day =
-        today.getDay();
+    const day = d.getDay();
 
-    const diff =
-        day === 0
-            ? -6
-            : 1 - day;
+    const diff = day === 0 ? -6 : 1 - day;
 
+    const monday = new Date(d);
 
-    const monday =
-        new Date(today);
-
-    monday.setDate(
-        today.getDate() + diff
-    );
-
+    monday.setDate(d.getDate() + diff);
 
     const dates = [];
 
+    for (let i = 0; i < 7; i++) {
 
-    for (
-        let i = 0;
-        i < 7;
-        i++
-    ) {
+        const date = new Date(monday);
 
-        const date =
-            new Date(monday);
+        date.setDate(monday.getDate() + i);
 
-        date.setDate(
-            monday.getDate() + i
-        );
-
-
-        const id =
-            date.getFullYear() +
-            "-" +
-            (date.getMonth() + 1) +
-            "-" +
-            date.getDate();
-
-
-        dates.push({
-            id: id,
-            label:
-                date.toLocaleDateString(
-                    undefined,
-                    {
-                        weekday: "short"
-                    }
-                )
-        });
+        dates.push(date.toISOString().split("T")[0]);
 
     }
-
 
     return dates;
 
 }
 
 
-/* ========================= */
-/* NEW DAY                   */
-/* ========================= */
+/* ================= DAILY CHECK ================= */
 
 function checkNewDay() {
 
+    const today = getToday();
+
     const savedDate =
-        localStorage.getItem("date");
-
-    const today =
-        getToday();
-
+        localStorage.getItem("savedDate");
 
     if (savedDate !== today) {
 
         localStorage.setItem(
-            "date",
+            "todayCalories",
+            "0"
+        );
+
+        localStorage.setItem(
+            "todayProtein",
+            "0"
+        );
+
+        localStorage.setItem(
+            "savedDate",
             today
-        );
-
-        localStorage.setItem(
-            "calories",
-            "0"
-        );
-
-        localStorage.setItem(
-            "protein",
-            "0"
         );
 
     }
@@ -1308,18 +843,14 @@ function checkNewDay() {
 }
 
 
-/* ========================= */
-/* NEW WEEK                  */
-/* ========================= */
+/* ================= WEEK CHECK ================= */
 
 function checkNewWeek() {
 
-    const currentWeek =
-        getWeekID();
+    const currentWeek = getWeekID();
 
     const savedWeek =
         localStorage.getItem("weekID");
-
 
     if (savedWeek !== currentWeek) {
 
@@ -1340,12 +871,12 @@ function checkNewWeek() {
 
         localStorage.setItem(
             "weekAddedDays",
-            JSON.stringify([])
+            "[]"
         );
 
         localStorage.setItem(
             "dailyHistory",
-            JSON.stringify({})
+            "{}"
         );
 
     }
@@ -1353,197 +884,215 @@ function checkNewWeek() {
 }
 
 
-/* ========================= */
-/* LOAD TOTALS               */
-/* ========================= */
+/* ================= LOAD TOTALS ================= */
 
 function loadTotals() {
 
-    checkNewDay();
-
-    checkNewWeek();
-
-
     const calories =
-        parseFloat(
-            localStorage.getItem(
-                "calories"
-            )
+        Number(
+            localStorage.getItem("todayCalories")
         ) || 0;
-
 
     const protein =
-        parseFloat(
-            localStorage.getItem(
-                "protein"
-            )
+        Number(
+            localStorage.getItem("todayProtein")
         ) || 0;
 
 
     document.getElementById(
-        "totalCalories"
+        "todayCalories"
     ).textContent =
-        calories;
+        Math.round(calories).toLocaleString();
 
 
     document.getElementById(
-        "totalProtein"
+        "todayProtein"
     ).textContent =
-        protein;
+        Math.round(protein);
 
 
-    document.getElementById(
-        "date"
-    ).textContent =
-        new Date().toLocaleDateString(
-            undefined,
-            {
-                weekday: "long",
-                month: "long",
-                day: "numeric"
-            }
+    /* CALORIES LEFT */
+
+    const caloriesRemaining =
+        Math.max(
+            0,
+            DAILY_CALORIE_TARGET - calories
         );
 
 
-    loadWeek();
+    document.getElementById(
+        "caloriesLeft"
+    ).textContent =
+        Math.round(caloriesRemaining).toLocaleString()
+        + " kcal";
+
+
+    /* PROTEIN LEFT */
+
+    const proteinRemaining =
+        Math.max(
+            0,
+            DAILY_PROTEIN_TARGET - protein
+        );
+
+
+    document.getElementById(
+        "proteinLeft"
+    ).textContent =
+        Math.round(proteinRemaining)
+        + "g";
+
+
+    /* PROGRESS */
+
+    const caloriePercent =
+        Math.min(
+            100,
+            (calories / DAILY_CALORIE_TARGET) * 100
+        );
+
+
+    const proteinPercent =
+        Math.min(
+            100,
+            (protein / DAILY_PROTEIN_TARGET) * 100
+        );
+
+
+    document.getElementById(
+        "calorieProgress"
+    ).style.width =
+        caloriePercent + "%";
+
+
+    document.getElementById(
+        "proteinProgress"
+    ).style.width =
+        proteinPercent + "%";
+
+
+    document.getElementById(
+        "caloriePercent"
+    ).textContent =
+        Math.round(
+            (calories / DAILY_CALORIE_TARGET) * 100
+        ) + "%";
+
+
+    document.getElementById(
+        "proteinPercent"
+    ).textContent =
+        Math.round(
+            (protein / DAILY_PROTEIN_TARGET) * 100
+        ) + "%";
+
+
+    /* RED IF OVER TARGET */
+
+    const calorieBar =
+        document.getElementById(
+            "calorieProgress"
+        );
+
+    const proteinBar =
+        document.getElementById(
+            "proteinProgress"
+        );
+
+
+    calorieBar.classList.toggle(
+        "over-target",
+        calories > DAILY_CALORIE_TARGET
+    );
+
+
+    proteinBar.classList.toggle(
+        "over-target",
+        protein > DAILY_PROTEIN_TARGET
+    );
 
 }
 
 
-/* ========================= */
-/* LOAD WEEK                 */
-/* ========================= */
+/* ================= LOAD WEEK ================= */
 
 function loadWeek() {
 
-    checkNewWeek();
-
-
     const calories =
-        parseFloat(
-            localStorage.getItem(
-                "weekCalories"
-            )
+        Number(
+            localStorage.getItem("weekCalories")
         ) || 0;
 
-
     const protein =
-        parseFloat(
-            localStorage.getItem(
-                "weekProtein"
-            )
+        Number(
+            localStorage.getItem("weekProtein")
         ) || 0;
 
 
     document.getElementById(
         "weekCalories"
     ).textContent =
-        calories.toLocaleString() +
-        " / " +
-        WEEK_CALORIE_TARGET.toLocaleString();
+        Math.round(calories).toLocaleString();
 
 
     document.getElementById(
         "weekProtein"
     ).textContent =
-        protein.toLocaleString() +
-        " / " +
-        WEEK_PROTEIN_TARGET.toLocaleString() +
-        " g";
+        Math.round(protein);
 
 
     const caloriePercent =
         Math.min(
-            (
-                calories /
-                WEEK_CALORIE_TARGET
-            ) * 100,
-            100
+            100,
+            (calories / WEEK_CALORIE_TARGET) * 100
         );
-
-
-    document.getElementById(
-        "calorieBar"
-    ).style.width =
-        caloriePercent + "%";
 
 
     const proteinPercent =
         Math.min(
-            (
-                protein /
-                WEEK_PROTEIN_TARGET
-            ) * 100,
-            100
+            100,
+            (protein / WEEK_PROTEIN_TARGET) * 100
         );
 
 
     document.getElementById(
-        "proteinBar"
+        "weekCalorieProgress"
+    ).style.width =
+        caloriePercent + "%";
+
+
+    document.getElementById(
+        "weekProteinProgress"
     ).style.width =
         proteinPercent + "%";
 
 
     const calorieRemaining =
-        WEEK_CALORIE_TARGET -
-        calories;
+        Math.max(
+            0,
+            WEEK_CALORIE_TARGET - calories
+        );
 
 
     const proteinRemaining =
-        WEEK_PROTEIN_TARGET -
-        protein;
-
-
-    let message = "";
-
-
-    if (calorieRemaining >= 0) {
-
-        message +=
-            "Calories remaining: " +
-            calorieRemaining.toLocaleString() +
-            " kcal";
-
-    } else {
-
-        message +=
-            '<span class="over">' +
-            "Calories over: " +
-            Math.abs(
-                calorieRemaining
-            ).toLocaleString() +
-            " kcal</span>";
-
-    }
-
-
-    message += "<br>";
-
-
-    if (proteinRemaining >= 0) {
-
-        message +=
-            "Protein remaining: " +
-            proteinRemaining.toLocaleString() +
-            " g";
-
-    } else {
-
-        message +=
-            '<span class="over">' +
-            "Protein over: " +
-            Math.abs(
-                proteinRemaining
-            ).toLocaleString() +
-            " g</span>";
-
-    }
+        Math.max(
+            0,
+            WEEK_PROTEIN_TARGET - protein
+        );
 
 
     document.getElementById(
-        "remaining"
-    ).innerHTML =
-        message;
+        "weekCaloriesRemaining"
+    ).textContent =
+        calorieRemaining.toLocaleString()
+        + " calories remaining";
+
+
+    document.getElementById(
+        "weekProteinRemaining"
+    ).textContent =
+        proteinRemaining.toLocaleString()
+        + "g protein remaining";
 
 
     updateWeekButton();
@@ -1551,329 +1100,135 @@ function loadWeek() {
 }
 
 
-/* ========================= */
-/* MEAL SELECTED             */
-/* ========================= */
+/* ================= MEAL SELECT ================= */
 
 function mealSelected() {
 
-    const selected =
+    const value =
         document.getElementById(
-            "savedMeal"
+            "mealSelect"
         ).value;
 
+    if (!value) return;
 
-    const info =
-        document.getElementById(
-            "mealInfo"
-        );
-
-
-    if (selected === "") {
-
-        info.style.display =
-            "none";
-
-        info.textContent = "";
-
-        return;
-
-    }
-
-
-    const meal =
-        meals[selected];
-
-
-    info.textContent =
-        meal.calories +
-        " kcal • " +
-        meal.protein +
-        "g protein";
-
-
-    info.style.display =
-        "block";
-
-
-    document.getElementById(
-        "drink"
-    ).value = "";
-
-
-    document.getElementById(
-        "drinkInfo"
-    ).style.display =
-        "none";
-
-
-    document.getElementById(
-        "drinkInfo"
-    ).textContent = "";
-
+    const item = meals[value];
 
     document.getElementById(
         "calories"
-    ).value = "";
-
+    ).value =
+        item.calories;
 
     document.getElementById(
         "protein"
-    ).value = "";
+    ).value =
+        item.protein;
 
 }
 
 
-/* ========================= */
-/* DRINK SELECTED            */
-/* ========================= */
+/* ================= DRINK SELECT ================= */
 
 function drinkSelected() {
 
-    const selected =
+    const value =
         document.getElementById(
-            "drink"
+            "drinkSelect"
         ).value;
 
+    if (!value) return;
 
-    const info =
-        document.getElementById(
-            "drinkInfo"
-        );
-
-
-    if (selected === "") {
-
-        info.style.display =
-            "none";
-
-        info.textContent = "";
-
-        return;
-
-    }
-
-
-    const drink =
-        drinks[selected];
-
-
-    info.textContent =
-        drink.calories +
-        " kcal • " +
-        drink.protein +
-        "g protein";
-
-
-    info.style.display =
-        "block";
-
-
-    document.getElementById(
-        "savedMeal"
-    ).value = "";
-
-
-    document.getElementById(
-        "mealInfo"
-    ).style.display =
-        "none";
-
-
-    document.getElementById(
-        "mealInfo"
-    ).textContent = "";
-
+    const item = drinks[value];
 
     document.getElementById(
         "calories"
-    ).value = "";
-
+    ).value =
+        item.calories;
 
     document.getElementById(
         "protein"
-    ).value = "";
+    ).value =
+        item.protein;
 
 }
 
 
-/* ========================= */
-/* ADD FOOD                  */
-/* ========================= */
+/* ================= ADD FOOD ================= */
 
 function addFood() {
 
-    checkNewDay();
+    const calories =
+        Number(
+            document.getElementById(
+                "calories"
+            ).value
+        ) || 0;
 
-
-    const selectedMeal =
-        document.getElementById(
-            "savedMeal"
-        ).value;
-
-
-    const selectedDrink =
-        document.getElementById(
-            "drink"
-        ).value;
-
-
-    let calories = 0;
-
-    let protein = 0;
-
+    const protein =
+        Number(
+            document.getElementById(
+                "protein"
+            ).value
+        ) || 0;
 
     const quantity =
-        parseInt(
+        Number(
             document.getElementById(
                 "quantity"
             ).value
         ) || 1;
 
 
-    if (selectedMeal !== "") {
+    const totalCalories =
+        calories * quantity;
 
-        const meal =
-            meals[selectedMeal];
-
-
-        calories =
-            meal.calories *
-            quantity;
+    const totalProtein =
+        protein * quantity;
 
 
-        protein =
-            meal.protein *
-            quantity;
-
-
-    } else if (selectedDrink !== "") {
-
-        const drink =
-            drinks[selectedDrink];
-
-
-        calories =
-            drink.calories *
-            quantity;
-
-
-        protein =
-            drink.protein *
-            quantity;
-
-
-    } else {
-
-        calories =
-            parseFloat(
-                document.getElementById(
-                    "calories"
-                ).value
-            ) || 0;
-
-
-        protein =
-            parseFloat(
-                document.getElementById(
-                    "protein"
-                ).value
-            ) || 0;
-
-    }
-
-
-    if (
-        calories === 0 &&
-        protein === 0
-    ) {
-
-        alert(
-            "Please choose a meal, choose a drink, or enter calories and protein."
-        );
-
-        return;
-
-    }
-
-
-    let totalCalories =
-        parseFloat(
+    const currentCalories =
+        Number(
             localStorage.getItem(
-                "calories"
+                "todayCalories"
+            )
+        ) || 0;
+
+    const currentProtein =
+        Number(
+            localStorage.getItem(
+                "todayProtein"
             )
         ) || 0;
 
 
-    let totalProtein =
-        parseFloat(
-            localStorage.getItem(
-                "protein"
-            )
-        ) || 0;
-
-
-    totalCalories +=
-        calories;
-
-
-    totalProtein +=
-        protein;
-
-
     localStorage.setItem(
-        "calories",
-        totalCalories
+        "todayCalories",
+        currentCalories + totalCalories
     );
 
 
     localStorage.setItem(
-        "protein",
-        totalProtein
+        "todayProtein",
+        currentProtein + totalProtein
     );
 
 
+    /* CLEAR */
+
     document.getElementById(
-        "savedMeal"
+        "mealSelect"
     ).value = "";
 
-
     document.getElementById(
-        "drink"
+        "drinkSelect"
     ).value = "";
-
-
-    document.getElementById(
-        "mealInfo"
-    ).style.display =
-        "none";
-
-
-    document.getElementById(
-        "drinkInfo"
-    ).style.display =
-        "none";
-
-
-    document.getElementById(
-        "mealInfo"
-    ).textContent = "";
-
-
-    document.getElementById(
-        "drinkInfo"
-    ).textContent = "";
-
 
     document.getElementById(
         "quantity"
-    ).value = "1";
-
+    ).value = 1;
 
     document.getElementById(
         "calories"
     ).value = "";
-
 
     document.getElementById(
         "protein"
@@ -1885,20 +1240,11 @@ function addFood() {
 }
 
 
-/* ========================= */
-/* ADD TODAY TO WEEK         */
-/* ========================= */
+/* ================= ADD TODAY TO WEEK ================= */
 
 function addTodayToWeek() {
 
-    checkNewDay();
-
-    checkNewWeek();
-
-
-    const today =
-        getToday();
-
+    const today = getToday();
 
     let addedDays =
         JSON.parse(
@@ -1908,13 +1254,7 @@ function addTodayToWeek() {
         ) || [];
 
 
-    if (
-        addedDays.includes(today)
-    ) {
-
-        alert(
-            "Today has already been added to your week."
-        );
+    if (addedDays.includes(today)) {
 
         return;
 
@@ -1922,58 +1262,57 @@ function addTodayToWeek() {
 
 
     const todayCalories =
-        parseFloat(
+        Number(
             localStorage.getItem(
-                "calories"
+                "todayCalories"
             )
         ) || 0;
-
 
     const todayProtein =
-        parseFloat(
+        Number(
             localStorage.getItem(
-                "protein"
+                "todayProtein"
             )
         ) || 0;
 
 
-    let weekCalories =
-        parseFloat(
+    const weekCalories =
+        Number(
             localStorage.getItem(
                 "weekCalories"
             )
         ) || 0;
 
-
-    let weekProtein =
-        parseFloat(
+    const weekProtein =
+        Number(
             localStorage.getItem(
                 "weekProtein"
             )
         ) || 0;
 
 
-    weekCalories +=
-        todayCalories;
-
-
-    weekProtein +=
-        todayProtein;
-
-
     localStorage.setItem(
         "weekCalories",
-        weekCalories
+        weekCalories + todayCalories
     );
 
 
     localStorage.setItem(
         "weekProtein",
-        weekProtein
+        weekProtein + todayProtein
     );
 
 
-    /* SAVE INDIVIDUAL DAY */
+    addedDays.push(today);
+
+
+    localStorage.setItem(
+        "weekAddedDays",
+        JSON.stringify(addedDays)
+    );
+
+
+    /* SAVE DAILY HISTORY */
 
     let history =
         JSON.parse(
@@ -1985,11 +1324,9 @@ function addTodayToWeek() {
 
     history[today] = {
 
-        calories:
-            todayCalories,
+        calories: todayCalories,
 
-        protein:
-            todayProtein
+        protein: todayProtein
 
     };
 
@@ -2000,16 +1337,112 @@ function addTodayToWeek() {
     );
 
 
-    /* MARK DAY AS ADDED */
+    loadWeek();
 
-    addedDays.push(today);
+    drawGraphs();
+
+}
+
+
+/* ================= WEEK BUTTON ================= */
+
+function updateWeekButton() {
+
+    const today = getToday();
+
+    const addedDays =
+        JSON.parse(
+            localStorage.getItem(
+                "weekAddedDays"
+            )
+        ) || [];
+
+
+    const button =
+        document.getElementById(
+            "addWeekButton"
+        );
+
+
+    if (addedDays.includes(today)) {
+
+        button.disabled = true;
+
+        button.textContent =
+            "✓ Today Added to Week";
+
+    } else {
+
+        button.disabled = false;
+
+        button.textContent =
+            "+ Add Today to Week";
+
+    }
+
+}
+
+
+/* ================= RESET DAY ================= */
+
+function resetDay() {
+
+    if (
+        !confirm(
+            "Reset today's calories and protein?"
+        )
+    ) {
+        return;
+    }
 
 
     localStorage.setItem(
-        "weekAddedDays",
-        JSON.stringify(
-            addedDays
+        "todayCalories",
+        "0"
+    );
+
+    localStorage.setItem(
+        "todayProtein",
+        "0"
+    );
+
+
+    loadTotals();
+
+}
+
+
+/* ================= RESET WEEK ================= */
+
+function resetWeek() {
+
+    if (
+        !confirm(
+            "Reset this week's totals?"
         )
+    ) {
+        return;
+    }
+
+
+    localStorage.setItem(
+        "weekCalories",
+        "0"
+    );
+
+    localStorage.setItem(
+        "weekProtein",
+        "0"
+    );
+
+    localStorage.setItem(
+        "weekAddedDays",
+        "[]"
+    );
+
+    localStorage.setItem(
+        "dailyHistory",
+        "{}"
     );
 
 
@@ -2020,115 +1453,33 @@ function addTodayToWeek() {
 }
 
 
-/* ========================= */
-/* WEEK BUTTON               */
-/* ========================= */
+/* ================= TABS ================= */
 
-function updateWeekButton() {
+function showPage(page, button) {
 
-    const button =
-        document.getElementById(
-            "addWeekButton"
-        );
-
-
-    const today =
-        getToday();
+    document.querySelectorAll(
+        ".page"
+    ).forEach(
+        p => p.classList.remove("active")
+    );
 
 
-    const addedDays =
-        JSON.parse(
-            localStorage.getItem(
-                "weekAddedDays"
-            )
-        ) || [];
+    document.getElementById(
+        page
+    ).classList.add("active");
 
 
-    if (
-        addedDays.includes(today)
-    ) {
-
-        button.textContent =
-            "✓ Today Added to Week";
-
-        button.disabled = true;
-
-    } else {
-
-        button.textContent =
-            "+ Add Today to Week";
-
-        button.disabled = false;
-
-    }
-
-}
+    document.querySelectorAll(
+        ".tab-button"
+    ).forEach(
+        b => b.classList.remove("active")
+    );
 
 
-/* ========================= */
-/* RESET DAY                 */
-/* ========================= */
-
-function resetDay() {
-
-    if (
-        confirm(
-            "Reset today's calories and protein?"
-        )
-    ) {
-
-        localStorage.setItem(
-            "calories",
-            "0"
-        );
-
-        localStorage.setItem(
-            "protein",
-            "0"
-        );
+    button.classList.add("active");
 
 
-        loadTotals();
-
-    }
-
-}
-
-
-/* ========================= */
-/* RESET WEEK                */
-/* ========================= */
-
-function resetWeek() {
-
-    if (
-        confirm(
-            "Reset your entire weekly total?"
-        )
-    ) {
-
-        localStorage.setItem(
-            "weekCalories",
-            "0"
-        );
-
-        localStorage.setItem(
-            "weekProtein",
-            "0"
-        );
-
-        localStorage.setItem(
-            "weekAddedDays",
-            JSON.stringify([])
-        );
-
-        localStorage.setItem(
-            "dailyHistory",
-            JSON.stringify({})
-        );
-
-
-        loadWeek();
+    if (page === "graphs") {
 
         drawGraphs();
 
@@ -2137,9 +1488,7 @@ function resetWeek() {
 }
 
 
-/* ========================= */
-/* DRAW GRAPHS               */
-/* ========================= */
+/* ================= GRAPHS ================= */
 
 function drawGraphs() {
 
@@ -2154,18 +1503,35 @@ function drawGraphs() {
         ) || {};
 
 
-    const weekDates =
+    const dates =
         getWeekDates();
+
+
+    const calories =
+        dates.map(
+            date =>
+                history[date]
+                    ? history[date].calories
+                    : 0
+        );
+
+
+    const protein =
+        dates.map(
+            date =>
+                history[date]
+                    ? history[date].protein
+                    : 0
+        );
 
 
     drawBarGraph(
         "calorieBars",
         "calorieYLabels",
         "calorieTargetLine",
-        weekDates,
-        history,
-        "calories",
-        DAILY_CALORIE_TARGET
+        calories,
+        DAILY_CALORIE_TARGET,
+        500
     );
 
 
@@ -2173,44 +1539,33 @@ function drawGraphs() {
         "proteinBars",
         "proteinYLabels",
         "proteinTargetLine",
-        weekDates,
-        history,
-        "protein",
-        DAILY_PROTEIN_TARGET
+        protein,
+        DAILY_PROTEIN_TARGET,
+        40
     );
 
 }
 
 
-/* ========================= */
-/* BAR GRAPH                 */
-/* ========================= */
+/* ================= BAR GRAPH ================= */
 
 function drawBarGraph(
-    barsId,
-    labelsId,
-    targetId,
-    weekDates,
-    history,
-    property,
-    target
+    barsID,
+    labelsID,
+    targetID,
+    values,
+    target,
+    roundAmount
 ) {
 
     const bars =
         document.getElementById(
-            barsId
+            barsID
         );
-
 
     const labels =
         document.getElementById(
-            labelsId
-        );
-
-
-    const targetLine =
-        document.getElementById(
-            targetId
+            labelsID
         );
 
 
@@ -2220,71 +1575,34 @@ function drawBarGraph(
 
 
     let maxValue =
-        target;
+        Math.max(
+            target,
+            ...values
+        );
 
 
-    weekDates.forEach(
-        day => {
-
-            const value =
-                history[day.id]
-                    ? Number(
-                        history[day.id][property]
-                    )
-                    : 0;
+    maxValue =
+        Math.ceil(
+            maxValue / roundAmount
+        ) * roundAmount;
 
 
-            if (
-                value > maxValue
-            ) {
-
-                maxValue =
-                    value;
-
-            }
-
-        }
-    );
-
-
-    /* ROUND GRAPH MAX */
-
-    if (property === "calories") {
-
-        maxValue =
-            Math.ceil(
-                maxValue / 500
-            ) * 500;
-
-    } else {
-
-        maxValue =
-            Math.ceil(
-                maxValue / 40
-            ) * 40;
-
+    if (maxValue === 0) {
+        maxValue = roundAmount;
     }
 
 
-    /* Y AXIS */
-
-    const steps = 4;
-
+    /* Y LABELS */
 
     for (
-        let i = 0;
-        i <= steps;
-        i++
+        let i = 4;
+        i >= 0;
+        i--
     ) {
 
         const value =
             Math.round(
-                maxValue -
-                (
-                    maxValue *
-                    i /
-                    steps
-                )
+                maxValue * (i / 4)
             );
 
 
@@ -2295,44 +1613,43 @@ function drawBarGraph(
 
 
         label.textContent =
-            value;
+            value.toLocaleString();
 
 
-        labels.appendChild(
-            label
-        );
+        labels.appendChild(label);
 
     }
 
 
     /* TARGET LINE */
 
-    const targetPercent =
-        100 -
-        (
-            target /
-            maxValue
-        ) * 100;
+    const targetLine =
+        document.getElementById(
+            targetID
+        );
 
 
     targetLine.style.top =
-        "calc(" +
-        targetPercent +
-        "% + 10px)";
+        (100 -
+            (target / maxValue * 100))
+        + "%";
 
 
     /* BARS */
 
-    weekDates.forEach(
-        day => {
+    const days = [
+        "Mon",
+        "Tue",
+        "Wed",
+        "Thu",
+        "Fri",
+        "Sat",
+        "Sun"
+    ];
 
-            const value =
-                history[day.id]
-                    ? Number(
-                        history[day.id][property]
-                    )
-                    : 0;
 
+    values.forEach(
+        (value, index) => {
 
             const column =
                 document.createElement(
@@ -2342,22 +1659,6 @@ function drawBarGraph(
 
             column.className =
                 "bar-column";
-
-
-            const valueLabel =
-                document.createElement(
-                    "div"
-                );
-
-
-            valueLabel.className =
-                "bar-value";
-
-
-            valueLabel.textContent =
-                value > 0
-                    ? value
-                    : "";
 
 
             const bar =
@@ -2371,14 +1672,8 @@ function drawBarGraph(
 
 
             const height =
-                value > 0
-                    ? Math.max(
-                        (
-                            value /
-                            maxValue
-                        ) * 100,
-                        2
-                    )
+                maxValue > 0
+                    ? (value / maxValue) * 100
                     : 0;
 
 
@@ -2386,38 +1681,29 @@ function drawBarGraph(
                 height + "%";
 
 
-            const dayLabel =
+            bar.title =
+                value.toLocaleString();
+
+
+            const day =
                 document.createElement(
                     "div"
                 );
 
 
-            dayLabel.className =
+            day.className =
                 "day-label";
 
 
-            dayLabel.textContent =
-                day.label;
+            day.textContent =
+                days[index];
 
 
-            column.appendChild(
-                valueLabel
-            );
+            column.appendChild(bar);
 
+            column.appendChild(day);
 
-            column.appendChild(
-                bar
-            );
-
-
-            column.appendChild(
-                dayLabel
-            );
-
-
-            bars.appendChild(
-                column
-            );
+            bars.appendChild(column);
 
         }
     );
@@ -2425,11 +1711,17 @@ function drawBarGraph(
 }
 
 
-/* ========================= */
-/* START APP                 */
-/* ========================= */
+/* ================= START APP ================= */
+
+checkNewDay();
+
+checkNewWeek();
+
+displayDate();
 
 loadTotals();
+
+loadWeek();
 
 drawGraphs();
 
