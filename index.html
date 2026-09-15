@@ -108,6 +108,18 @@
             display: none;
         }
 
+        .drink-info {
+            background: #1a1222;
+            border: 1px solid #39204d;
+            border-radius: 12px;
+            padding: 12px;
+            margin-top: -5px;
+            margin-bottom: 16px;
+            color: #c084fc;
+            font-size: 14px;
+            display: none;
+        }
+
         .divider {
             display: flex;
             align-items: center;
@@ -215,16 +227,52 @@
         <div class="card-title">Add Food</div>
 
         <!-- SAVED MEALS -->
+
         <label for="savedMeal">Saved Meal</label>
 
         <select id="savedMeal" onchange="mealSelected()">
+
             <option value="">Choose a meal...</option>
-            <option value="mcdees">Mcdees 2x Double Burger</option>
-            <option value="bigmac">Big Mac Meal</option>
-            <option value="wimpy">Wimpy Burger Meal</option>
+
+            <option value="mcdees">
+                Mcdees 2x Double Burger
+            </option>
+
+            <option value="bigmac">
+                Big Mac Meal
+            </option>
+
+            <option value="wimpy">
+                Wimpy Burger Meal
+            </option>
+
         </select>
 
         <div class="meal-info" id="mealInfo"></div>
+
+
+        <!-- DRINKS -->
+
+        <label for="drink">Drinks</label>
+
+        <select id="drink" onchange="drinkSelected()">
+
+            <option value="">Choose a drink...</option>
+
+            <option value="vodka">
+                Single Vodka with Zero Mix
+            </option>
+
+            <option value="jager">
+                Jägermeister Shot
+            </option>
+
+        </select>
+
+        <div class="drink-info" id="drinkInfo"></div>
+
+
+        <!-- QUANTITY -->
 
         <label for="quantity">Quantity</label>
 
@@ -237,10 +285,17 @@
             inputmode="numeric"
         >
 
-        <div class="divider">OR ENTER MANUALLY</div>
+
+        <div class="divider">
+            OR ENTER MANUALLY
+        </div>
+
 
         <!-- MANUAL ENTRY -->
-        <label for="calories">Calories</label>
+
+        <label for="calories">
+            Calories
+        </label>
 
         <input
             type="number"
@@ -250,7 +305,9 @@
             inputmode="decimal"
         >
 
-        <label for="protein">Protein (g)</label>
+        <label for="protein">
+            Protein (g)
+        </label>
 
         <input
             type="number"
@@ -261,46 +318,75 @@
             inputmode="decimal"
         >
 
+
         <button class="add-button" onclick="addFood()">
             + Add Food
         </button>
 
     </div>
 
+
     <!-- TOTALS -->
+
     <div class="card">
 
-        <div class="card-title">Today's Total</div>
+        <div class="card-title">
+            Today's Total
+        </div>
 
         <div class="totals">
 
             <div class="total-box">
-                <div class="total-label">Calories</div>
 
-                <div class="total-number" id="totalCalories">
+                <div class="total-label">
+                    Calories
+                </div>
+
+                <div
+                    class="total-number"
+                    id="totalCalories"
+                >
                     0
                 </div>
 
-                <span class="total-unit">kcal</span>
+                <span class="total-unit">
+                    kcal
+                </span>
+
             </div>
 
-            <div class="total-box">
-                <div class="total-label">Protein</div>
 
-                <div class="total-number protein-number" id="totalProtein">
+            <div class="total-box">
+
+                <div class="total-label">
+                    Protein
+                </div>
+
+                <div
+                    class="total-number protein-number"
+                    id="totalProtein"
+                >
                     0
                 </div>
 
-                <span class="total-unit">g</span>
+                <span class="total-unit">
+                    g
+                </span>
+
             </div>
 
         </div>
 
-        <button class="reset-button" onclick="resetDay()">
+
+        <button
+            class="reset-button"
+            onclick="resetDay()"
+        >
             Reset Today
         </button>
 
     </div>
+
 
     <div class="footer">
         Stay consistent. 💪
@@ -308,271 +394,490 @@
 
 </div>
 
+
 <script>
 
-    /* =========================
-       SAVED MEALS
-       ========================= */
 
-    const meals = {
+/* =========================
+   SAVED MEALS
+   ========================= */
 
-        mcdees: {
-            name: "Mcdees 2x Double Burger",
-            calories: 630,
-            protein: 37
-        },
+const meals = {
 
-        bigmac: {
-            name: "Big Mac Meal",
-            calories: 650,
-            protein: 25
-        },
+    mcdees: {
+        name: "Mcdees 2x Double Burger",
+        calories: 630,
+        protein: 37
+    },
 
-        wimpy: {
-            name: "Wimpy Burger Meal",
-            calories: 700,
-            protein: 30
-        }
+    bigmac: {
+        name: "Big Mac Meal",
+        calories: 650,
+        protein: 25
+    },
 
-    };
-
-
-    /* =========================
-       DATE
-       ========================= */
-
-    function getToday() {
-
-        const today = new Date();
-
-        return today.getFullYear() + "-" +
-            (today.getMonth() + 1) + "-" +
-            today.getDate();
+    wimpy: {
+        name: "Wimpy Burger Meal",
+        calories: 700,
+        protein: 30
     }
 
+};
 
-    /* =========================
-       NEW DAY CHECK
-       ========================= */
 
-    function checkNewDay() {
+/* =========================
+   DRINKS
+   ========================= */
 
-        const savedDate = localStorage.getItem("date");
-        const today = getToday();
+const drinks = {
 
-        if (savedDate !== today) {
+    vodka: {
+        name: "Single Vodka with Zero Mix",
+        calories: 55,
+        protein: 0
+    },
 
-            localStorage.setItem("date", today);
-            localStorage.setItem("calories", "0");
-            localStorage.setItem("protein", "0");
-
-        }
+    jager: {
+        name: "Jägermeister Shot",
+        calories: 55,
+        protein: 0
     }
 
-
-    /* =========================
-       DISPLAY TOTALS
-       ========================= */
-
-    function loadTotals() {
-
-        checkNewDay();
-
-        const calories =
-            parseFloat(localStorage.getItem("calories")) || 0;
-
-        const protein =
-            parseFloat(localStorage.getItem("protein")) || 0;
-
-        document.getElementById("totalCalories").textContent =
-            calories;
-
-        document.getElementById("totalProtein").textContent =
-            protein;
-
-        document.getElementById("date").textContent =
-            new Date().toLocaleDateString(undefined, {
-                weekday: "long",
-                month: "long",
-                day: "numeric"
-            });
-    }
+};
 
 
-    /* =========================
-       SAVED MEAL SELECTED
-       ========================= */
+/* =========================
+   DATE
+   ========================= */
 
-    function mealSelected() {
+function getToday() {
 
-        const selected =
-            document.getElementById("savedMeal").value;
+    const today = new Date();
 
-        const info =
-            document.getElementById("mealInfo");
+    return today.getFullYear() + "-" +
+        (today.getMonth() + 1) + "-" +
+        today.getDate();
 
-        if (selected === "") {
-
-            info.style.display = "none";
-            info.textContent = "";
-
-            return;
-        }
-
-        const meal = meals[selected];
-
-        info.textContent =
-            meal.calories + " kcal • " +
-            meal.protein + "g protein";
-
-        info.style.display = "block";
-
-        /* Clear manual fields so we don't accidentally
-           combine saved meal + manual entry */
-
-        document.getElementById("calories").value = "";
-        document.getElementById("protein").value = "";
-    }
+}
 
 
-    /* =========================
-       ADD FOOD
-       ========================= */
+/* =========================
+   NEW DAY CHECK
+   ========================= */
 
-    function addFood() {
+function checkNewDay() {
 
-        checkNewDay();
+    const savedDate =
+        localStorage.getItem("date");
 
-        const selected =
-            document.getElementById("savedMeal").value;
+    const today = getToday();
 
-        let calories = 0;
-        let protein = 0;
+    if (savedDate !== today) {
 
-        const quantity =
-            parseInt(document.getElementById("quantity").value) || 1;
-
-
-        /* SAVED MEAL */
-
-        if (selected !== "") {
-
-            const meal = meals[selected];
-
-            calories = meal.calories * quantity;
-            protein = meal.protein * quantity;
-
-        }
-
-
-        /* MANUAL ENTRY */
-
-        else {
-
-            calories =
-                parseFloat(
-                    document.getElementById("calories").value
-                ) || 0;
-
-            protein =
-                parseFloat(
-                    document.getElementById("protein").value
-                ) || 0;
-
-        }
-
-
-        /* Don't add nothing */
-
-        if (calories === 0 && protein === 0) {
-
-            alert("Please choose a meal or enter calories and protein.");
-
-            return;
-        }
-
-
-        /* CURRENT TOTALS */
-
-        let totalCalories =
-            parseFloat(localStorage.getItem("calories")) || 0;
-
-        let totalProtein =
-            parseFloat(localStorage.getItem("protein")) || 0;
-
-
-        /* ADD */
-
-        totalCalories += calories;
-        totalProtein += protein;
-
-
-        /* SAVE */
+        localStorage.setItem(
+            "date",
+            today
+        );
 
         localStorage.setItem(
             "calories",
-            totalCalories
+            "0"
         );
 
         localStorage.setItem(
             "protein",
-            totalProtein
+            "0"
         );
 
+    }
 
-        /* CLEAR */
-
-        document.getElementById("savedMeal").value = "";
-
-        document.getElementById("mealInfo").style.display = "none";
-
-        document.getElementById("mealInfo").textContent = "";
-
-        document.getElementById("quantity").value = "1";
-
-        document.getElementById("calories").value = "";
-
-        document.getElementById("protein").value = "";
+}
 
 
-        /* UPDATE SCREEN */
+/* =========================
+   DISPLAY TOTALS
+   ========================= */
 
-        loadTotals();
+function loadTotals() {
+
+    checkNewDay();
+
+    const calories =
+        parseFloat(
+            localStorage.getItem("calories")
+        ) || 0;
+
+    const protein =
+        parseFloat(
+            localStorage.getItem("protein")
+        ) || 0;
+
+    document.getElementById(
+        "totalCalories"
+    ).textContent = calories;
+
+    document.getElementById(
+        "totalProtein"
+    ).textContent = protein;
+
+    document.getElementById(
+        "date"
+    ).textContent =
+        new Date().toLocaleDateString(
+            undefined,
+            {
+                weekday: "long",
+                month: "long",
+                day: "numeric"
+            }
+        );
+
+}
+
+
+/* =========================
+   MEAL SELECTED
+   ========================= */
+
+function mealSelected() {
+
+    const selected =
+        document.getElementById(
+            "savedMeal"
+        ).value;
+
+    const info =
+        document.getElementById(
+            "mealInfo"
+        );
+
+    if (selected === "") {
+
+        info.style.display = "none";
+
+        info.textContent = "";
+
+        return;
+    }
+
+    const meal = meals[selected];
+
+    info.textContent =
+        meal.calories +
+        " kcal • " +
+        meal.protein +
+        "g protein";
+
+    info.style.display = "block";
+
+
+    /* Clear drink */
+
+    document.getElementById(
+        "drink"
+    ).value = "";
+
+    document.getElementById(
+        "drinkInfo"
+    ).style.display = "none";
+
+    document.getElementById(
+        "drinkInfo"
+    ).textContent = "";
+
+
+    /* Clear manual */
+
+    document.getElementById(
+        "calories"
+    ).value = "";
+
+    document.getElementById(
+        "protein"
+    ).value = "";
+
+}
+
+
+/* =========================
+   DRINK SELECTED
+   ========================= */
+
+function drinkSelected() {
+
+    const selected =
+        document.getElementById(
+            "drink"
+        ).value;
+
+    const info =
+        document.getElementById(
+            "drinkInfo"
+        );
+
+    if (selected === "") {
+
+        info.style.display = "none";
+
+        info.textContent = "";
+
+        return;
+    }
+
+    const drink = drinks[selected];
+
+    info.textContent =
+        drink.calories +
+        " kcal • " +
+        drink.protein +
+        "g protein";
+
+    info.style.display = "block";
+
+
+    /* Clear meal */
+
+    document.getElementById(
+        "savedMeal"
+    ).value = "";
+
+    document.getElementById(
+        "mealInfo"
+    ).style.display = "none";
+
+    document.getElementById(
+        "mealInfo"
+    ).textContent = "";
+
+
+    /* Clear manual */
+
+    document.getElementById(
+        "calories"
+    ).value = "";
+
+    document.getElementById(
+        "protein"
+    ).value = "";
+
+}
+
+
+/* =========================
+   ADD FOOD / DRINK
+   ========================= */
+
+function addFood() {
+
+    checkNewDay();
+
+    const selectedMeal =
+        document.getElementById(
+            "savedMeal"
+        ).value;
+
+    const selectedDrink =
+        document.getElementById(
+            "drink"
+        ).value;
+
+    let calories = 0;
+
+    let protein = 0;
+
+    const quantity =
+        parseInt(
+            document.getElementById(
+                "quantity"
+            ).value
+        ) || 1;
+
+
+    /* SAVED MEAL */
+
+    if (selectedMeal !== "") {
+
+        const meal =
+            meals[selectedMeal];
+
+        calories =
+            meal.calories * quantity;
+
+        protein =
+            meal.protein * quantity;
+
     }
 
 
-    /* =========================
-       RESET
-       ========================= */
+    /* DRINK */
 
-    function resetDay() {
+    else if (selectedDrink !== "") {
 
-        if (
-            confirm(
-                "Reset today's calories and protein?"
+        const drink =
+            drinks[selectedDrink];
+
+        calories =
+            drink.calories * quantity;
+
+        protein =
+            drink.protein * quantity;
+
+    }
+
+
+    /* MANUAL */
+
+    else {
+
+        calories =
+            parseFloat(
+                document.getElementById(
+                    "calories"
+                ).value
+            ) || 0;
+
+        protein =
+            parseFloat(
+                document.getElementById(
+                    "protein"
+                ).value
+            ) || 0;
+
+    }
+
+
+    /* NOTHING ENTERED */
+
+    if (
+        calories === 0 &&
+        protein === 0
+    ) {
+
+        alert(
+            "Please choose a meal, choose a drink, or enter calories and protein."
+        );
+
+        return;
+    }
+
+
+    /* CURRENT TOTALS */
+
+    let totalCalories =
+        parseFloat(
+            localStorage.getItem(
+                "calories"
             )
-        ) {
+        ) || 0;
 
-            localStorage.setItem(
-                "calories",
-                "0"
-            );
-
-            localStorage.setItem(
-                "protein",
-                "0"
-            );
-
-            loadTotals();
-        }
-    }
+    let totalProtein =
+        parseFloat(
+            localStorage.getItem(
+                "protein"
+            )
+        ) || 0;
 
 
-    /* =========================
-       START APP
-       ========================= */
+    /* ADD */
+
+    totalCalories += calories;
+
+    totalProtein += protein;
+
+
+    /* SAVE */
+
+    localStorage.setItem(
+        "calories",
+        totalCalories
+    );
+
+    localStorage.setItem(
+        "protein",
+        totalProtein
+    );
+
+
+    /* CLEAR */
+
+    document.getElementById(
+        "savedMeal"
+    ).value = "";
+
+    document.getElementById(
+        "drink"
+    ).value = "";
+
+    document.getElementById(
+        "mealInfo"
+    ).style.display = "none";
+
+    document.getElementById(
+        "drinkInfo"
+    ).style.display = "none";
+
+    document.getElementById(
+        "mealInfo"
+    ).textContent = "";
+
+    document.getElementById(
+        "drinkInfo"
+    ).textContent = "";
+
+    document.getElementById(
+        "quantity"
+    ).value = "1";
+
+    document.getElementById(
+        "calories"
+    ).value = "";
+
+    document.getElementById(
+        "protein"
+    ).value = "";
+
+
+    /* UPDATE */
 
     loadTotals();
+
+}
+
+
+/* =========================
+   RESET
+   ========================= */
+
+function resetDay() {
+
+    if (
+        confirm(
+            "Reset today's calories and protein?"
+        )
+    ) {
+
+        localStorage.setItem(
+            "calories",
+            "0"
+        );
+
+        localStorage.setItem(
+            "protein",
+            "0"
+        );
+
+        loadTotals();
+
+    }
+
+}
+
+
+/* =========================
+   START
+   ========================= */
+
+loadTotals();
 
 </script>
 
