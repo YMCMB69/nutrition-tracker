@@ -96,18 +96,7 @@
             color: #555;
         }
 
-        .meal-info {
-            background: #1a1222;
-            border: 1px solid #39204d;
-            border-radius: 12px;
-            padding: 12px;
-            margin-top: -5px;
-            margin-bottom: 16px;
-            color: #c084fc;
-            font-size: 14px;
-            display: none;
-        }
-
+        .meal-info,
         .drink-info {
             background: #1a1222;
             border: 1px solid #39204d;
@@ -217,22 +206,42 @@
 
 <div class="app">
 
+    <!-- HEADER -->
+
     <div class="header">
-        <h1>Dyl's <span class="purple">Six Pack</span> Tracker</h1>
+
+        <h1>
+            Dyl's <span class="purple">Six Pack</span> Tracker
+        </h1>
+
         <div class="date" id="date"></div>
+
     </div>
+
+
+    <!-- ADD FOOD -->
 
     <div class="card">
 
-        <div class="card-title">Add Food</div>
+        <div class="card-title">
+            Add Food
+        </div>
 
-        <!-- SAVED MEALS -->
 
-        <label for="savedMeal">Saved Meal</label>
+        <!-- MEALS -->
 
-        <select id="savedMeal" onchange="mealSelected()">
+        <label for="savedMeal">
+            Meals
+        </label>
 
-            <option value="">Choose a meal...</option>
+        <select
+            id="savedMeal"
+            onchange="mealSelected()"
+        >
+
+            <option value="">
+                Choose a meal...
+            </option>
 
             <option value="mcdees">
                 Mcdees 2x Double Burger
@@ -246,18 +255,37 @@
                 Wimpy Burger Meal
             </option>
 
+            <option value="usn1">
+                USN Choc Caramel 1 Scoop
+            </option>
+
+            <option value="usn2">
+                USN Choc Caramel 2 Scoop
+            </option>
+
         </select>
 
-        <div class="meal-info" id="mealInfo"></div>
+
+        <div
+            class="meal-info"
+            id="mealInfo"
+        ></div>
 
 
         <!-- DRINKS -->
 
-        <label for="drink">Drinks</label>
+        <label for="drink">
+            Drinks
+        </label>
 
-        <select id="drink" onchange="drinkSelected()">
+        <select
+            id="drink"
+            onchange="drinkSelected()"
+        >
 
-            <option value="">Choose a drink...</option>
+            <option value="">
+                Choose a drink...
+            </option>
 
             <option value="vodka">
                 Single Vodka with Zero Mix
@@ -269,12 +297,18 @@
 
         </select>
 
-        <div class="drink-info" id="drinkInfo"></div>
+
+        <div
+            class="drink-info"
+            id="drinkInfo"
+        ></div>
 
 
         <!-- QUANTITY -->
 
-        <label for="quantity">Quantity</label>
+        <label for="quantity">
+            Quantity
+        </label>
 
         <input
             type="number"
@@ -286,12 +320,14 @@
         >
 
 
+        <!-- DIVIDER -->
+
         <div class="divider">
             OR ENTER MANUALLY
         </div>
 
 
-        <!-- MANUAL ENTRY -->
+        <!-- MANUAL CALORIES -->
 
         <label for="calories">
             Calories
@@ -304,6 +340,9 @@
             min="0"
             inputmode="decimal"
         >
+
+
+        <!-- MANUAL PROTEIN -->
 
         <label for="protein">
             Protein (g)
@@ -319,7 +358,12 @@
         >
 
 
-        <button class="add-button" onclick="addFood()">
+        <!-- ADD BUTTON -->
+
+        <button
+            class="add-button"
+            onclick="addFood()"
+        >
             + Add Food
         </button>
 
@@ -334,7 +378,11 @@
             Today's Total
         </div>
 
+
         <div class="totals">
+
+
+            <!-- CALORIES -->
 
             <div class="total-box">
 
@@ -355,6 +403,8 @@
 
             </div>
 
+
+            <!-- PROTEIN -->
 
             <div class="total-box">
 
@@ -378,6 +428,8 @@
         </div>
 
 
+        <!-- RESET -->
+
         <button
             class="reset-button"
             onclick="resetDay()"
@@ -398,9 +450,9 @@
 <script>
 
 
-/* =========================
+/* =========================================
    SAVED MEALS
-   ========================= */
+   ========================================= */
 
 const meals = {
 
@@ -420,14 +472,26 @@ const meals = {
         name: "Wimpy Burger Meal",
         calories: 700,
         protein: 30
+    },
+
+    usn1: {
+        name: "USN Choc Caramel 1 Scoop",
+        calories: 121,
+        protein: 23
+    },
+
+    usn2: {
+        name: "USN Choc Caramel 2 Scoop",
+        calories: 242,
+        protein: 46
     }
 
 };
 
 
-/* =========================
+/* =========================================
    DRINKS
-   ========================= */
+   ========================================= */
 
 const drinks = {
 
@@ -446,9 +510,9 @@ const drinks = {
 };
 
 
-/* =========================
-   DATE
-   ========================= */
+/* =========================================
+   GET TODAY
+   ========================================= */
 
 function getToday() {
 
@@ -461,16 +525,18 @@ function getToday() {
 }
 
 
-/* =========================
-   NEW DAY CHECK
-   ========================= */
+/* =========================================
+   CHECK FOR NEW DAY
+   ========================================= */
 
 function checkNewDay() {
 
     const savedDate =
         localStorage.getItem("date");
 
-    const today = getToday();
+    const today =
+        getToday();
+
 
     if (savedDate !== today) {
 
@@ -494,31 +560,36 @@ function checkNewDay() {
 }
 
 
-/* =========================
-   DISPLAY TOTALS
-   ========================= */
+/* =========================================
+   LOAD TOTALS
+   ========================================= */
 
 function loadTotals() {
 
     checkNewDay();
+
 
     const calories =
         parseFloat(
             localStorage.getItem("calories")
         ) || 0;
 
+
     const protein =
         parseFloat(
             localStorage.getItem("protein")
         ) || 0;
 
+
     document.getElementById(
         "totalCalories"
     ).textContent = calories;
 
+
     document.getElementById(
         "totalProtein"
     ).textContent = protein;
+
 
     document.getElementById(
         "date"
@@ -535,9 +606,9 @@ function loadTotals() {
 }
 
 
-/* =========================
+/* =========================================
    MEAL SELECTED
-   ========================= */
+   ========================================= */
 
 function mealSelected() {
 
@@ -546,10 +617,12 @@ function mealSelected() {
             "savedMeal"
         ).value;
 
+
     const info =
         document.getElementById(
             "mealInfo"
         );
+
 
     if (selected === "") {
 
@@ -558,9 +631,13 @@ function mealSelected() {
         info.textContent = "";
 
         return;
+
     }
 
-    const meal = meals[selected];
+
+    const meal =
+        meals[selected];
+
 
     info.textContent =
         meal.calories +
@@ -568,7 +645,9 @@ function mealSelected() {
         meal.protein +
         "g protein";
 
-    info.style.display = "block";
+
+    info.style.display =
+        "block";
 
 
     /* Clear drink */
@@ -577,20 +656,23 @@ function mealSelected() {
         "drink"
     ).value = "";
 
+
     document.getElementById(
         "drinkInfo"
     ).style.display = "none";
+
 
     document.getElementById(
         "drinkInfo"
     ).textContent = "";
 
 
-    /* Clear manual */
+    /* Clear manual entry */
 
     document.getElementById(
         "calories"
     ).value = "";
+
 
     document.getElementById(
         "protein"
@@ -599,9 +681,9 @@ function mealSelected() {
 }
 
 
-/* =========================
+/* =========================================
    DRINK SELECTED
-   ========================= */
+   ========================================= */
 
 function drinkSelected() {
 
@@ -610,10 +692,12 @@ function drinkSelected() {
             "drink"
         ).value;
 
+
     const info =
         document.getElementById(
             "drinkInfo"
         );
+
 
     if (selected === "") {
 
@@ -622,9 +706,13 @@ function drinkSelected() {
         info.textContent = "";
 
         return;
+
     }
 
-    const drink = drinks[selected];
+
+    const drink =
+        drinks[selected];
+
 
     info.textContent =
         drink.calories +
@@ -632,7 +720,9 @@ function drinkSelected() {
         drink.protein +
         "g protein";
 
-    info.style.display = "block";
+
+    info.style.display =
+        "block";
 
 
     /* Clear meal */
@@ -641,20 +731,23 @@ function drinkSelected() {
         "savedMeal"
     ).value = "";
 
+
     document.getElementById(
         "mealInfo"
     ).style.display = "none";
+
 
     document.getElementById(
         "mealInfo"
     ).textContent = "";
 
 
-    /* Clear manual */
+    /* Clear manual entry */
 
     document.getElementById(
         "calories"
     ).value = "";
+
 
     document.getElementById(
         "protein"
@@ -663,27 +756,31 @@ function drinkSelected() {
 }
 
 
-/* =========================
-   ADD FOOD / DRINK
-   ========================= */
+/* =========================================
+   ADD FOOD
+   ========================================= */
 
 function addFood() {
 
     checkNewDay();
+
 
     const selectedMeal =
         document.getElementById(
             "savedMeal"
         ).value;
 
+
     const selectedDrink =
         document.getElementById(
             "drink"
         ).value;
 
+
     let calories = 0;
 
     let protein = 0;
+
 
     const quantity =
         parseInt(
@@ -693,15 +790,19 @@ function addFood() {
         ) || 1;
 
 
-    /* SAVED MEAL */
+    /* =====================================
+       SAVED MEAL
+       ===================================== */
 
     if (selectedMeal !== "") {
 
         const meal =
             meals[selectedMeal];
 
+
         calories =
             meal.calories * quantity;
+
 
         protein =
             meal.protein * quantity;
@@ -709,15 +810,19 @@ function addFood() {
     }
 
 
-    /* DRINK */
+    /* =====================================
+       DRINK
+       ===================================== */
 
     else if (selectedDrink !== "") {
 
         const drink =
             drinks[selectedDrink];
 
+
         calories =
             drink.calories * quantity;
+
 
         protein =
             drink.protein * quantity;
@@ -725,7 +830,9 @@ function addFood() {
     }
 
 
-    /* MANUAL */
+    /* =====================================
+       MANUAL ENTRY
+       ===================================== */
 
     else {
 
@@ -735,6 +842,7 @@ function addFood() {
                     "calories"
                 ).value
             ) || 0;
+
 
         protein =
             parseFloat(
@@ -746,7 +854,9 @@ function addFood() {
     }
 
 
-    /* NOTHING ENTERED */
+    /* =====================================
+       NOTHING ENTERED
+       ===================================== */
 
     if (
         calories === 0 &&
@@ -758,10 +868,13 @@ function addFood() {
         );
 
         return;
+
     }
 
 
-    /* CURRENT TOTALS */
+    /* =====================================
+       GET CURRENT TOTALS
+       ===================================== */
 
     let totalCalories =
         parseFloat(
@@ -769,6 +882,7 @@ function addFood() {
                 "calories"
             )
         ) || 0;
+
 
     let totalProtein =
         parseFloat(
@@ -778,19 +892,24 @@ function addFood() {
         ) || 0;
 
 
-    /* ADD */
+    /* =====================================
+       ADD
+       ===================================== */
 
     totalCalories += calories;
 
     totalProtein += protein;
 
 
-    /* SAVE */
+    /* =====================================
+       SAVE
+       ===================================== */
 
     localStorage.setItem(
         "calories",
         totalCalories
     );
+
 
     localStorage.setItem(
         "protein",
@@ -798,55 +917,67 @@ function addFood() {
     );
 
 
-    /* CLEAR */
+    /* =====================================
+       CLEAR FORM
+       ===================================== */
 
     document.getElementById(
         "savedMeal"
     ).value = "";
 
+
     document.getElementById(
         "drink"
     ).value = "";
 
+
     document.getElementById(
         "mealInfo"
     ).style.display = "none";
+
 
     document.getElementById(
         "drinkInfo"
     ).style.display = "none";
 
+
     document.getElementById(
         "mealInfo"
     ).textContent = "";
 
+
     document.getElementById(
         "drinkInfo"
     ).textContent = "";
+
 
     document.getElementById(
         "quantity"
     ).value = "1";
 
+
     document.getElementById(
         "calories"
     ).value = "";
+
 
     document.getElementById(
         "protein"
     ).value = "";
 
 
-    /* UPDATE */
+    /* =====================================
+       UPDATE SCREEN
+       ===================================== */
 
     loadTotals();
 
 }
 
 
-/* =========================
-   RESET
-   ========================= */
+/* =========================================
+   RESET TODAY
+   ========================================= */
 
 function resetDay() {
 
@@ -861,10 +992,12 @@ function resetDay() {
             "0"
         );
 
+
         localStorage.setItem(
             "protein",
             "0"
         );
+
 
         loadTotals();
 
@@ -873,9 +1006,9 @@ function resetDay() {
 }
 
 
-/* =========================
-   START
-   ========================= */
+/* =========================================
+   START APP
+   ========================================= */
 
 loadTotals();
 
