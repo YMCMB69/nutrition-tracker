@@ -6,9 +6,11 @@
     <meta name="theme-color" content="#08080c">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
     <title>Dyl's Six Pack Tracker</title>
 
     <style>
+
         * {
             box-sizing: border-box;
         }
@@ -50,7 +52,10 @@
             font-size: 15px;
         }
 
-        /* TOP NAVIGATION */
+
+        /* ========================= */
+        /* TOP TABS                  */
+        /* ========================= */
 
         .tabs {
             display: grid;
@@ -91,6 +96,11 @@
             display: block;
         }
 
+
+        /* ========================= */
+        /* CARDS                     */
+        /* ========================= */
+
         .card {
             background: #121218;
             border: 1px solid #24242d;
@@ -104,6 +114,11 @@
             font-weight: 700;
             margin: 0 0 20px;
         }
+
+
+        /* ========================= */
+        /* INPUTS                    */
+        /* ========================= */
 
         label {
             display: block;
@@ -136,6 +151,11 @@
             color: #555;
         }
 
+
+        /* ========================= */
+        /* MEAL INFO                 */
+        /* ========================= */
+
         .meal-info,
         .drink-info {
             background: #1a1222;
@@ -148,6 +168,11 @@
             font-size: 14px;
             display: none;
         }
+
+
+        /* ========================= */
+        /* DIVIDER                   */
+        /* ========================= */
 
         .divider {
             display: flex;
@@ -165,6 +190,11 @@
             height: 1px;
             background: #292930;
         }
+
+
+        /* ========================= */
+        /* BUTTONS                   */
+        /* ========================= */
 
         .add-button {
             width: 100%;
@@ -220,6 +250,11 @@
             background: #18181f;
         }
 
+
+        /* ========================= */
+        /* TODAY TOTALS              */
+        /* ========================= */
+
         .totals {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -254,6 +289,11 @@
         .protein-number {
             color: #c084fc;
         }
+
+
+        /* ========================= */
+        /* WEEK TOTAL                */
+        /* ========================= */
 
         .week-target {
             text-align: center;
@@ -323,6 +363,133 @@
             font-weight: 700;
         }
 
+
+        /* ========================= */
+        /* GRAPH CARDS               */
+        /* ========================= */
+
+        .graph-card {
+            background: #08080c;
+            border: 1px solid #24242d;
+            border-radius: 16px;
+            padding: 18px;
+            margin-bottom: 18px;
+        }
+
+        .graph-title {
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .graph-subtitle {
+            color: #777;
+            font-size: 13px;
+            margin-bottom: 18px;
+        }
+
+        .chart {
+            width: 100%;
+            height: 230px;
+            position: relative;
+        }
+
+        .chart-grid {
+            position: absolute;
+            left: 42px;
+            right: 5px;
+            top: 10px;
+            bottom: 35px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .grid-line {
+            width: 100%;
+            height: 1px;
+            background: #24242d;
+        }
+
+        .bars {
+            position: absolute;
+            left: 42px;
+            right: 5px;
+            top: 10px;
+            bottom: 35px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            gap: 5px;
+        }
+
+        .bar-column {
+            height: 100%;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .bar-value {
+            color: #aaa;
+            font-size: 10px;
+            margin-bottom: 4px;
+            min-height: 12px;
+        }
+
+        .bar {
+            width: 70%;
+            max-width: 30px;
+            min-height: 2px;
+            background: #a855f7;
+            border-radius: 5px 5px 2px 2px;
+            transition: height 0.4s ease;
+        }
+
+        .day-label {
+            color: #777;
+            font-size: 10px;
+            margin-top: 8px;
+        }
+
+        .y-labels {
+            position: absolute;
+            left: 0;
+            top: 5px;
+            bottom: 35px;
+            width: 36px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: #555;
+            font-size: 10px;
+            text-align: right;
+        }
+
+        .target-line {
+            position: absolute;
+            left: 42px;
+            right: 5px;
+            height: 1px;
+            border-top: 1px dashed #6b21a8;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .graph-legend {
+            text-align: center;
+            color: #777;
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+
+        /* ========================= */
+        /* FOOTER                    */
+        /* ========================= */
+
         .footer {
             text-align: center;
             color: #444;
@@ -330,31 +497,38 @@
             margin-top: 25px;
         }
 
-        /* GRAPHS PLACEHOLDER */
-
-        .graphs-placeholder {
-            min-height: 300px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #444;
-            font-size: 15px;
-            text-align: center;
-        }
     </style>
 </head>
+
 
 <body>
 
 <div class="app">
 
+
+    <!-- ========================= -->
+    <!-- HEADER                    -->
+    <!-- ========================= -->
+
     <div class="header">
-        <h1>Dyl's <span class="purple">Six Pack</span> Tracker</h1>
-        <div class="date" id="date"></div>
+
+        <h1>
+            Dyl's
+            <span class="purple">Six Pack</span>
+            Tracker
+        </h1>
+
+        <div
+            class="date"
+            id="date"
+        ></div>
+
     </div>
 
 
-    <!-- TOP TABS -->
+    <!-- ========================= -->
+    <!-- TABS                      -->
+    <!-- ========================= -->
 
     <div class="tabs">
 
@@ -378,11 +552,16 @@
 
 
     <!-- ========================= -->
-    <!-- MAIN PAGE                  -->
+    <!-- MAIN PAGE                 -->
     <!-- ========================= -->
 
-    <div id="mainPage" class="page active">
+    <div
+        id="mainPage"
+        class="page active"
+    >
 
+
+        <!-- ADD FOOD -->
 
         <div class="card">
 
@@ -524,7 +703,7 @@
         </div>
 
 
-        <!-- TODAY'S TOTAL -->
+        <!-- TODAY -->
 
         <div class="card">
 
@@ -534,6 +713,7 @@
 
 
             <div class="totals">
+
 
                 <div class="total-box">
 
@@ -573,6 +753,7 @@
                     </span>
 
                 </div>
+
 
             </div>
 
@@ -690,11 +871,12 @@
             Stay consistent. 💪
         </div>
 
+
     </div>
 
 
     <!-- ========================= -->
-    <!-- GRAPHS PAGE                -->
+    <!-- GRAPHS PAGE               -->
     <!-- ========================= -->
 
     <div
@@ -702,24 +884,165 @@
         class="page"
     >
 
+
+        <!-- CALORIE GRAPH -->
+
         <div class="card">
 
-            <div class="graphs-placeholder">
-                Graphs coming soon...
+            <div class="card-title">
+                Weekly Calories
+            </div>
+
+
+            <div class="graph-card">
+
+                <div class="graph-title">
+                    Calorie Intake
+                </div>
+
+                <div class="graph-subtitle">
+                    Daily target: 2,400 kcal
+                </div>
+
+
+                <div class="chart">
+
+
+                    <div
+                        class="y-labels"
+                        id="calorieYLabels"
+                    >
+                    </div>
+
+
+                    <div class="chart-grid">
+
+                        <div class="grid-line"></div>
+                        <div class="grid-line"></div>
+                        <div class="grid-line"></div>
+                        <div class="grid-line"></div>
+                        <div class="grid-line"></div>
+
+                    </div>
+
+
+                    <div
+                        class="target-line"
+                        id="calorieTargetLine"
+                    ></div>
+
+
+                    <div
+                        class="bars"
+                        id="calorieBars"
+                    ></div>
+
+                </div>
+
+
+                <div class="graph-legend">
+                    Dashed line = daily target
+                </div>
+
             </div>
 
         </div>
 
+
+        <!-- PROTEIN GRAPH -->
+
+        <div class="card">
+
+            <div class="card-title">
+                Weekly Protein
+            </div>
+
+
+            <div class="graph-card">
+
+                <div class="graph-title">
+                    Protein Intake
+                </div>
+
+                <div class="graph-subtitle">
+                    Daily target: 160g
+                </div>
+
+
+                <div class="chart">
+
+
+                    <div
+                        class="y-labels"
+                        id="proteinYLabels"
+                    >
+                    </div>
+
+
+                    <div class="chart-grid">
+
+                        <div class="grid-line"></div>
+                        <div class="grid-line"></div>
+                        <div class="grid-line"></div>
+                        <div class="grid-line"></div>
+                        <div class="grid-line"></div>
+
+                    </div>
+
+
+                    <div
+                        class="target-line"
+                        id="proteinTargetLine"
+                    ></div>
+
+
+                    <div
+                        class="bars"
+                        id="proteinBars"
+                    ></div>
+
+                </div>
+
+
+                <div class="graph-legend">
+                    Dashed line = daily target
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer">
+            Keep pushing. 💪
+        </div>
+
+
     </div>
+
 
 </div>
 
 
 <script>
 
+
+/* ========================= */
+/* TARGETS                   */
+/* ========================= */
+
 const WEEK_CALORIE_TARGET = 16800;
+
 const WEEK_PROTEIN_TARGET = 1120;
 
+const DAILY_CALORIE_TARGET = 2400;
+
+const DAILY_PROTEIN_TARGET = 160;
+
+
+/* ========================= */
+/* SAVED MEALS               */
+/* ========================= */
 
 const meals = {
 
@@ -755,6 +1078,10 @@ const meals = {
 
 };
 
+
+/* ========================= */
+/* SAVED DRINKS              */
+/* ========================= */
 
 const drinks = {
 
@@ -795,18 +1122,24 @@ function showPage(page) {
     if (page === "main") {
 
         mainPage.classList.add("active");
+
         graphsPage.classList.remove("active");
 
         mainTab.classList.add("active");
+
         graphsTab.classList.remove("active");
 
     } else {
 
         mainPage.classList.remove("active");
+
         graphsPage.classList.add("active");
 
         mainTab.classList.remove("active");
+
         graphsTab.classList.add("active");
+
+        drawGraphs();
 
     }
 
@@ -814,19 +1147,25 @@ function showPage(page) {
 
 
 /* ========================= */
-/* DATE / WEEK               */
+/* DATE                      */
 /* ========================= */
 
 function getToday() {
 
     const today = new Date();
 
-    return today.getFullYear() + "-" +
-        (today.getMonth() + 1) + "-" +
+    return today.getFullYear() +
+        "-" +
+        (today.getMonth() + 1) +
+        "-" +
         today.getDate();
 
 }
 
+
+/* ========================= */
+/* WEEK ID                   */
+/* ========================= */
 
 function getWeekID() {
 
@@ -838,27 +1177,105 @@ function getWeekID() {
         today.getDate()
     ));
 
-    const day = date.getUTCDay();
+    const day =
+        date.getUTCDay();
 
     const diff =
         day === 0
             ? -6
             : 1 - day;
 
+
     date.setUTCDate(
         date.getUTCDate() + diff
     );
 
-    return date.getUTCFullYear() + "-" +
+
+    return date.getUTCFullYear() +
+        "-" +
         String(
             date.getUTCMonth() + 1
-        ).padStart(2, "0") + "-" +
+        ).padStart(2, "0") +
+        "-" +
         String(
             date.getUTCDate()
         ).padStart(2, "0");
 
 }
 
+
+/* ========================= */
+/* GET WEEK DATES            */
+/* ========================= */
+
+function getWeekDates() {
+
+    const today = new Date();
+
+    const day =
+        today.getDay();
+
+    const diff =
+        day === 0
+            ? -6
+            : 1 - day;
+
+
+    const monday =
+        new Date(today);
+
+    monday.setDate(
+        today.getDate() + diff
+    );
+
+
+    const dates = [];
+
+
+    for (
+        let i = 0;
+        i < 7;
+        i++
+    ) {
+
+        const date =
+            new Date(monday);
+
+        date.setDate(
+            monday.getDate() + i
+        );
+
+
+        const id =
+            date.getFullYear() +
+            "-" +
+            (date.getMonth() + 1) +
+            "-" +
+            date.getDate();
+
+
+        dates.push({
+            id: id,
+            label:
+                date.toLocaleDateString(
+                    undefined,
+                    {
+                        weekday: "short"
+                    }
+                )
+        });
+
+    }
+
+
+    return dates;
+
+}
+
+
+/* ========================= */
+/* NEW DAY                   */
+/* ========================= */
 
 function checkNewDay() {
 
@@ -891,6 +1308,10 @@ function checkNewDay() {
 }
 
 
+/* ========================= */
+/* NEW WEEK                  */
+/* ========================= */
+
 function checkNewWeek() {
 
     const currentWeek =
@@ -922,6 +1343,11 @@ function checkNewWeek() {
             JSON.stringify([])
         );
 
+        localStorage.setItem(
+            "dailyHistory",
+            JSON.stringify({})
+        );
+
     }
 
 }
@@ -934,6 +1360,7 @@ function checkNewWeek() {
 function loadTotals() {
 
     checkNewDay();
+
     checkNewWeek();
 
 
@@ -955,12 +1382,14 @@ function loadTotals() {
 
     document.getElementById(
         "totalCalories"
-    ).textContent = calories;
+    ).textContent =
+        calories;
 
 
     document.getElementById(
         "totalProtein"
-    ).textContent = protein;
+    ).textContent =
+        protein;
 
 
     document.getElementById(
@@ -982,7 +1411,7 @@ function loadTotals() {
 
 
 /* ========================= */
-/* WEEK                      */
+/* LOAD WEEK                 */
 /* ========================= */
 
 function loadWeek() {
@@ -1083,8 +1512,7 @@ function loadWeek() {
             Math.abs(
                 calorieRemaining
             ).toLocaleString() +
-            " kcal" +
-            "</span>";
+            " kcal</span>";
 
     }
 
@@ -1107,15 +1535,15 @@ function loadWeek() {
             Math.abs(
                 proteinRemaining
             ).toLocaleString() +
-            " g" +
-            "</span>";
+            " g</span>";
 
     }
 
 
     document.getElementById(
         "remaining"
-    ).innerHTML = message;
+    ).innerHTML =
+        message;
 
 
     updateWeekButton();
@@ -1124,7 +1552,7 @@ function loadWeek() {
 
 
 /* ========================= */
-/* MEAL SELECTION             */
+/* MEAL SELECTED             */
 /* ========================= */
 
 function mealSelected() {
@@ -1143,7 +1571,9 @@ function mealSelected() {
 
     if (selected === "") {
 
-        info.style.display = "none";
+        info.style.display =
+            "none";
+
         info.textContent = "";
 
         return;
@@ -1195,7 +1625,7 @@ function mealSelected() {
 
 
 /* ========================= */
-/* DRINK SELECTION            */
+/* DRINK SELECTED            */
 /* ========================= */
 
 function drinkSelected() {
@@ -1214,7 +1644,9 @@ function drinkSelected() {
 
     if (selected === "") {
 
-        info.style.display = "none";
+        info.style.display =
+            "none";
+
         info.textContent = "";
 
         return;
@@ -1287,6 +1719,7 @@ function addFood() {
 
 
     let calories = 0;
+
     let protein = 0;
 
 
@@ -1380,8 +1813,12 @@ function addFood() {
         ) || 0;
 
 
-    totalCalories += calories;
-    totalProtein += protein;
+    totalCalories +=
+        calories;
+
+
+    totalProtein +=
+        protein;
 
 
     localStorage.setItem(
@@ -1408,12 +1845,14 @@ function addFood() {
 
     document.getElementById(
         "mealInfo"
-    ).style.display = "none";
+    ).style.display =
+        "none";
 
 
     document.getElementById(
         "drinkInfo"
-    ).style.display = "none";
+    ).style.display =
+        "none";
 
 
     document.getElementById(
@@ -1453,6 +1892,7 @@ function addFood() {
 function addTodayToWeek() {
 
     checkNewDay();
+
     checkNewWeek();
 
 
@@ -1533,6 +1973,35 @@ function addTodayToWeek() {
     );
 
 
+    /* SAVE INDIVIDUAL DAY */
+
+    let history =
+        JSON.parse(
+            localStorage.getItem(
+                "dailyHistory"
+            )
+        ) || {};
+
+
+    history[today] = {
+
+        calories:
+            todayCalories,
+
+        protein:
+            todayProtein
+
+    };
+
+
+    localStorage.setItem(
+        "dailyHistory",
+        JSON.stringify(history)
+    );
+
+
+    /* MARK DAY AS ADDED */
+
     addedDays.push(today);
 
 
@@ -1545,6 +2014,8 @@ function addTodayToWeek() {
 
 
     loadWeek();
+
+    drawGraphs();
 
 }
 
@@ -1595,7 +2066,7 @@ function updateWeekButton() {
 
 
 /* ========================= */
-/* RESET TODAY               */
+/* RESET DAY                 */
 /* ========================= */
 
 function resetDay() {
@@ -1615,6 +2086,7 @@ function resetDay() {
             "protein",
             "0"
         );
+
 
         loadTotals();
 
@@ -1650,9 +2122,305 @@ function resetWeek() {
             JSON.stringify([])
         );
 
+        localStorage.setItem(
+            "dailyHistory",
+            JSON.stringify({})
+        );
+
+
         loadWeek();
 
+        drawGraphs();
+
     }
+
+}
+
+
+/* ========================= */
+/* DRAW GRAPHS               */
+/* ========================= */
+
+function drawGraphs() {
+
+    checkNewWeek();
+
+
+    const history =
+        JSON.parse(
+            localStorage.getItem(
+                "dailyHistory"
+            )
+        ) || {};
+
+
+    const weekDates =
+        getWeekDates();
+
+
+    drawBarGraph(
+        "calorieBars",
+        "calorieYLabels",
+        "calorieTargetLine",
+        weekDates,
+        history,
+        "calories",
+        DAILY_CALORIE_TARGET
+    );
+
+
+    drawBarGraph(
+        "proteinBars",
+        "proteinYLabels",
+        "proteinTargetLine",
+        weekDates,
+        history,
+        "protein",
+        DAILY_PROTEIN_TARGET
+    );
+
+}
+
+
+/* ========================= */
+/* BAR GRAPH                 */
+/* ========================= */
+
+function drawBarGraph(
+    barsId,
+    labelsId,
+    targetId,
+    weekDates,
+    history,
+    property,
+    target
+) {
+
+    const bars =
+        document.getElementById(
+            barsId
+        );
+
+
+    const labels =
+        document.getElementById(
+            labelsId
+        );
+
+
+    const targetLine =
+        document.getElementById(
+            targetId
+        );
+
+
+    bars.innerHTML = "";
+
+    labels.innerHTML = "";
+
+
+    let maxValue =
+        target;
+
+
+    weekDates.forEach(
+        day => {
+
+            const value =
+                history[day.id]
+                    ? Number(
+                        history[day.id][property]
+                    )
+                    : 0;
+
+
+            if (
+                value > maxValue
+            ) {
+
+                maxValue =
+                    value;
+
+            }
+
+        }
+    );
+
+
+    /* ROUND GRAPH MAX */
+
+    if (property === "calories") {
+
+        maxValue =
+            Math.ceil(
+                maxValue / 500
+            ) * 500;
+
+    } else {
+
+        maxValue =
+            Math.ceil(
+                maxValue / 40
+            ) * 40;
+
+    }
+
+
+    /* Y AXIS */
+
+    const steps = 4;
+
+
+    for (
+        let i = 0;
+        i <= steps;
+        i++
+    ) {
+
+        const value =
+            Math.round(
+                maxValue -
+                (
+                    maxValue *
+                    i /
+                    steps
+                )
+            );
+
+
+        const label =
+            document.createElement(
+                "div"
+            );
+
+
+        label.textContent =
+            value;
+
+
+        labels.appendChild(
+            label
+        );
+
+    }
+
+
+    /* TARGET LINE */
+
+    const targetPercent =
+        100 -
+        (
+            target /
+            maxValue
+        ) * 100;
+
+
+    targetLine.style.top =
+        "calc(" +
+        targetPercent +
+        "% + 10px)";
+
+
+    /* BARS */
+
+    weekDates.forEach(
+        day => {
+
+            const value =
+                history[day.id]
+                    ? Number(
+                        history[day.id][property]
+                    )
+                    : 0;
+
+
+            const column =
+                document.createElement(
+                    "div"
+                );
+
+
+            column.className =
+                "bar-column";
+
+
+            const valueLabel =
+                document.createElement(
+                    "div"
+                );
+
+
+            valueLabel.className =
+                "bar-value";
+
+
+            valueLabel.textContent =
+                value > 0
+                    ? value
+                    : "";
+
+
+            const bar =
+                document.createElement(
+                    "div"
+                );
+
+
+            bar.className =
+                "bar";
+
+
+            const height =
+                value > 0
+                    ? Math.max(
+                        (
+                            value /
+                            maxValue
+                        ) * 100,
+                        2
+                    )
+                    : 0;
+
+
+            bar.style.height =
+                height + "%";
+
+
+            const dayLabel =
+                document.createElement(
+                    "div"
+                );
+
+
+            dayLabel.className =
+                "day-label";
+
+
+            dayLabel.textContent =
+                day.label;
+
+
+            column.appendChild(
+                valueLabel
+            );
+
+
+            column.appendChild(
+                bar
+            );
+
+
+            column.appendChild(
+                dayLabel
+            );
+
+
+            bars.appendChild(
+                column
+            );
+
+        }
+    );
 
 }
 
@@ -1662,6 +2430,8 @@ function resetWeek() {
 /* ========================= */
 
 loadTotals();
+
+drawGraphs();
 
 </script>
 
