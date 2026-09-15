@@ -6,9 +6,11 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Six Pack Tracker">
+
 <title>Dyl's Six Pack Tracker</title>
 
 <style>
+
 * {
     box-sizing: border-box;
 }
@@ -38,18 +40,36 @@ h1 {
     margin-bottom: 20px;
 }
 
-.card {
+
+/* ================= GOAL SELECTOR ================= */
+
+.goal-card {
     background: #151515;
     border: 1px solid #292929;
     border-radius: 16px;
-    padding: 20px;
+    padding: 16px;
     margin-bottom: 18px;
 }
 
-.card h2 {
-    margin-top: 0;
-    font-size: 21px;
+.goal-title {
+    color: #aaa;
+    font-size: 14px;
+    margin-bottom: 8px;
 }
+
+.goal-select {
+    width: 100%;
+    padding: 14px;
+    border-radius: 11px;
+    border: 1px solid #333;
+    background: #0d0d0d;
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+
+/* ================= TABS ================= */
 
 .tabs {
     display: flex;
@@ -75,6 +95,9 @@ h1 {
     border-color: #7b2cff;
 }
 
+
+/* ================= PAGES ================= */
+
 .page {
     display: none;
 }
@@ -82,6 +105,25 @@ h1 {
 .page.active {
     display: block;
 }
+
+
+/* ================= CARDS ================= */
+
+.card {
+    background: #151515;
+    border: 1px solid #292929;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 18px;
+}
+
+.card h2 {
+    margin-top: 0;
+    font-size: 21px;
+}
+
+
+/* ================= INPUTS ================= */
 
 label {
     display: block;
@@ -100,6 +142,9 @@ input {
     color: white;
     font-size: 16px;
 }
+
+
+/* ================= BUTTONS ================= */
 
 button {
     cursor: pointer;
@@ -133,35 +178,36 @@ button {
     font-size: 15px;
 }
 
-.total-number {
-    font-size: 32px;
-    font-weight: bold;
-    margin: 5px 0;
+
+/* ================= STATS ================= */
+
+.stat-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 15px;
 }
 
-.total-label {
-    color: #999;
-    font-size: 14px;
-}
-
-.remaining {
-    margin-top: 20px;
-    padding: 14px;
+.stat-box {
+    flex: 1;
     background: #101010;
-    border-radius: 12px;
     border: 1px solid #292929;
+    border-radius: 12px;
+    padding: 14px;
 }
 
-.remaining-title {
+.stat-title {
     color: #999;
-    font-size: 14px;
-    margin-bottom: 8px;
+    font-size: 13px;
+    margin-bottom: 5px;
 }
 
-.remaining-number {
-    font-size: 24px;
+.stat-value {
+    font-size: 22px;
     font-weight: bold;
 }
+
+
+/* ================= PROGRESS ================= */
 
 .progress-container {
     margin-top: 15px;
@@ -194,30 +240,30 @@ button {
     background: #e53935;
 }
 
-.stat-row {
-    display: flex;
-    gap: 12px;
-    margin-top: 15px;
-}
 
-.stat-box {
-    flex: 1;
-    background: #101010;
-    border: 1px solid #292929;
-    border-radius: 12px;
+/* ================= REMAINING ================= */
+
+.remaining {
+    margin-top: 20px;
     padding: 14px;
+    background: #101010;
+    border-radius: 12px;
+    border: 1px solid #292929;
 }
 
-.stat-title {
+.remaining-title {
     color: #999;
-    font-size: 13px;
-    margin-bottom: 5px;
+    font-size: 14px;
+    margin-bottom: 8px;
 }
 
-.stat-value {
-    font-size: 22px;
+.remaining-number {
+    font-size: 24px;
     font-weight: bold;
 }
+
+
+/* ================= WEEK ================= */
 
 .week-row {
     margin-bottom: 18px;
@@ -255,6 +301,9 @@ button {
     font-size: 13px;
     margin-top: 5px;
 }
+
+
+/* ================= GRAPHS ================= */
 
 .graph-card {
     background: #151515;
@@ -354,26 +403,65 @@ button {
     text-align: center;
 }
 
-.saved-note {
-    color: #777;
-    font-size: 12px;
-    margin-top: 10px;
-    text-align: center;
-}
 </style>
 </head>
+
 
 <body>
 
 <div class="container">
 
     <h1>Dyl's Six Pack Tracker</h1>
+
     <div class="date" id="date"></div>
 
-    <!-- TABS -->
+
+    <!-- ================= GOAL ================= -->
+
+    <div class="goal-card">
+
+        <div class="goal-title">
+            Current Goal
+        </div>
+
+        <select
+            id="goalSelect"
+            class="goal-select"
+            onchange="changeGoal()">
+
+            <option value="cut">
+                🥗 Cut — 1,900 kcal
+            </option>
+
+            <option value="maintenance">
+                ⚖️ Maintenance — 2,400 kcal
+            </option>
+
+            <option value="bulk">
+                💪 Bulk — 2,700 kcal
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <!-- ================= TABS ================= -->
+
     <div class="tabs">
-        <button class="tab-button active" onclick="showPage('main', this)">Main</button>
-        <button class="tab-button" onclick="showPage('graphs', this)">Graphs</button>
+
+        <button
+            class="tab-button active"
+            onclick="showPage('main', this)">
+            Main
+        </button>
+
+        <button
+            class="tab-button"
+            onclick="showPage('graphs', this)">
+            Graphs
+        </button>
+
     </div>
 
 
@@ -381,110 +469,227 @@ button {
 
     <div id="main" class="page active">
 
+
         <!-- ADD FOOD -->
+
         <div class="card">
+
             <h2>Add Food</h2>
 
             <label>Meal</label>
-            <select id="mealSelect" onchange="mealSelected()">
-                <option value="">Select a meal</option>
-                <option value="Mcdees 2x Double Burger">Mcdees 2x Double Burger</option>
-                <option value="Big Mac Meal">Big Mac Meal</option>
-                <option value="Wimpy Burger Meal">Wimpy Burger Meal</option>
-                <option value="USN Choc Caramel 1 Scoop">USN Choc Caramel 1 Scoop</option>
-                <option value="USN Choc Caramel 2 Scoop">USN Choc Caramel 2 Scoop</option>
+
+            <select
+                id="mealSelect"
+                onchange="mealSelected()">
+
+                <option value="">
+                    Select a meal
+                </option>
+
+                <option value="Mcdees 2x Double Burger">
+                    Mcdees 2x Double Burger
+                </option>
+
+                <option value="Big Mac Meal">
+                    Big Mac Meal
+                </option>
+
+                <option value="Wimpy Burger Meal">
+                    Wimpy Burger Meal
+                </option>
+
+                <option value="USN Choc Caramel 1 Scoop">
+                    USN Choc Caramel 1 Scoop
+                </option>
+
+                <option value="USN Choc Caramel 2 Scoop">
+                    USN Choc Caramel 2 Scoop
+                </option>
+
             </select>
+
 
             <label>Drink</label>
-            <select id="drinkSelect" onchange="drinkSelected()">
-                <option value="">Select a drink</option>
-                <option value="Single Vodka with Zero Mix">Single Vodka with Zero Mix</option>
-                <option value="Jägermeister Shot">Jägermeister Shot</option>
+
+            <select
+                id="drinkSelect"
+                onchange="drinkSelected()">
+
+                <option value="">
+                    Select a drink
+                </option>
+
+                <option value="Single Vodka with Zero Mix">
+                    Single Vodka with Zero Mix
+                </option>
+
+                <option value="Jägermeister Shot">
+                    Jägermeister Shot
+                </option>
+
             </select>
 
+
             <label>Quantity</label>
-            <input type="number" id="quantity" value="1" min="1">
+
+            <input
+                type="number"
+                id="quantity"
+                value="1"
+                min="1">
+
 
             <label>Calories</label>
-            <input type="number" id="calories" placeholder="Enter calories">
+
+            <input
+                type="number"
+                id="calories"
+                placeholder="Enter calories">
+
 
             <label>Protein (g)</label>
-            <input type="number" id="protein" placeholder="Enter protein">
 
-            <button class="primary-button" onclick="addFood()">+ Add Food</button>
+            <input
+                type="number"
+                id="protein"
+                placeholder="Enter protein">
+
+
+            <button
+                class="primary-button"
+                onclick="addFood()">
+
+                + Add Food
+
+            </button>
+
         </div>
 
 
-        <!-- TODAY'S TOTAL -->
+        <!-- ================= TODAY'S TOTAL ================= -->
+
         <div class="card">
 
             <h2>Today's Total</h2>
 
+
             <div class="stat-row">
 
                 <div class="stat-box">
-                    <div class="stat-title">Calories</div>
-                    <div class="stat-value">
-                        <span id="todayCalories">0</span> / 2,400
+
+                    <div class="stat-title">
+                        Calories
                     </div>
+
+                    <div class="stat-value">
+
+                        <span id="todayCalories">
+                            0
+                        </span>
+
+                        /
+
+                        <span id="dailyCalorieTarget">
+                            1,900
+                        </span>
+
+                    </div>
+
                 </div>
 
+
                 <div class="stat-box">
-                    <div class="stat-title">Protein</div>
-                    <div class="stat-value">
-                        <span id="todayProtein">0</span> / 160g
+
+                    <div class="stat-title">
+                        Protein
                     </div>
+
+                    <div class="stat-value">
+
+                        <span id="todayProtein">
+                            0
+                        </span>
+
+                        / 160g
+
+                    </div>
+
                 </div>
 
             </div>
 
 
             <!-- CALORIE PROGRESS -->
+
             <div class="progress-container">
 
                 <div class="progress-header">
-                    <span>Calories</span>
-                    <span id="caloriePercent">0%</span>
+
+                    <span>
+                        Calories
+                    </span>
+
+                    <span id="caloriePercent">
+                        0%
+                    </span>
+
                 </div>
 
                 <div class="progress">
+
                     <div
                         id="calorieProgress"
                         class="progress-bar"
-                        style="width: 0%">
+                        style="width:0%">
                     </div>
+
                 </div>
 
             </div>
 
 
             <!-- PROTEIN PROGRESS -->
+
             <div class="progress-container">
 
                 <div class="progress-header">
-                    <span>Protein</span>
-                    <span id="proteinPercent">0%</span>
+
+                    <span>
+                        Protein
+                    </span>
+
+                    <span id="proteinPercent">
+                        0%
+                    </span>
+
                 </div>
 
                 <div class="progress">
+
                     <div
                         id="proteinProgress"
                         class="progress-bar"
-                        style="width: 0%">
+                        style="width:0%">
                     </div>
+
                 </div>
 
             </div>
 
 
             <!-- REMAINING -->
+
             <div class="remaining">
 
                 <div class="remaining-title">
                     Remaining Today
                 </div>
 
-                <div class="stat-row" style="margin-top:0">
+
+                <div
+                    class="stat-row"
+                    style="margin-top:0">
+
 
                     <div class="stat-box">
 
@@ -495,7 +700,9 @@ button {
                         <div
                             class="remaining-number"
                             id="caloriesLeft">
-                            2,400 kcal
+
+                            1,900 kcal
+
                         </div>
 
                     </div>
@@ -510,10 +717,13 @@ button {
                         <div
                             class="remaining-number"
                             id="proteinLeft">
+
                             160g
+
                         </div>
 
                     </div>
+
 
                 </div>
 
@@ -523,38 +733,63 @@ button {
             <button
                 class="secondary-button"
                 onclick="resetDay()">
+
                 Reset Today
+
             </button>
 
         </div>
 
 
-        <!-- WEEK -->
+        <!-- ================= WEEK ================= -->
+
         <div class="card">
 
             <h2>This Week</h2>
 
+
             <div class="week-row">
 
                 <div class="week-header">
-                    <span>Calories</span>
+
                     <span>
-                        <span id="weekCalories">0</span> / 16,800
+                        Calories
                     </span>
+
+                    <span>
+
+                        <span id="weekCalories">
+                            0
+                        </span>
+
+                        /
+
+                        <span id="weeklyCalorieTarget">
+                            13,300
+                        </span>
+
+                    </span>
+
                 </div>
 
+
                 <div class="week-progress">
+
                     <div
                         id="weekCalorieProgress"
                         class="week-progress-bar"
                         style="width:0%">
                     </div>
+
                 </div>
+
 
                 <div
                     class="week-remaining"
                     id="weekCaloriesRemaining">
-                    16,800 calories remaining
+
+                    13,300 calories remaining
+
                 </div>
 
             </div>
@@ -563,24 +798,41 @@ button {
             <div class="week-row">
 
                 <div class="week-header">
-                    <span>Protein</span>
+
                     <span>
-                        <span id="weekProtein">0</span> / 1,120g
+                        Protein
                     </span>
+
+                    <span>
+
+                        <span id="weekProtein">
+                            0
+                        </span>
+
+                        / 1,120g
+
+                    </span>
+
                 </div>
 
+
                 <div class="week-progress">
+
                     <div
                         id="weekProteinProgress"
                         class="week-progress-bar"
                         style="width:0%">
                     </div>
+
                 </div>
+
 
                 <div
                     class="week-remaining"
                     id="weekProteinRemaining">
+
                     1,120g protein remaining
+
                 </div>
 
             </div>
@@ -590,13 +842,18 @@ button {
                 id="addWeekButton"
                 class="primary-button"
                 onclick="addTodayToWeek()">
+
                 + Add Today to Week
+
             </button>
+
 
             <button
                 class="secondary-button"
                 onclick="resetWeek()">
+
                 Reset Week
+
             </button>
 
         </div>
@@ -608,14 +865,23 @@ button {
 
     <div id="graphs" class="page">
 
-        <!-- CALORIE GRAPH -->
+
+        <!-- CALORIES -->
+
         <div class="graph-card">
 
-            <h2>Weekly Calories</h2>
+            <h2>
+                Weekly Calories
+            </h2>
+
 
             <div class="chart">
 
-                <div class="y-labels" id="calorieYLabels"></div>
+                <div
+                    class="y-labels"
+                    id="calorieYLabels">
+                </div>
+
 
                 <div class="chart-area">
 
@@ -624,9 +890,22 @@ button {
                         id="calorieTargetLine">
                     </div>
 
-                    <div class="chart-grid" style="top:25%"></div>
-                    <div class="chart-grid" style="top:50%"></div>
-                    <div class="chart-grid" style="top:75%"></div>
+
+                    <div
+                        class="chart-grid"
+                        style="top:25%">
+                    </div>
+
+                    <div
+                        class="chart-grid"
+                        style="top:50%">
+                    </div>
+
+                    <div
+                        class="chart-grid"
+                        style="top:75%">
+                    </div>
+
 
                     <div
                         class="bars"
@@ -637,21 +916,34 @@ button {
 
             </div>
 
-            <div class="graph-legend">
-                Daily target: 2,400 calories
+
+            <div
+                class="graph-legend"
+                id="calorieGraphLegend">
+
+                Daily target: 1,900 calories
+
             </div>
 
         </div>
 
 
-        <!-- PROTEIN GRAPH -->
+        <!-- PROTEIN -->
+
         <div class="graph-card">
 
-            <h2>Weekly Protein</h2>
+            <h2>
+                Weekly Protein
+            </h2>
+
 
             <div class="chart">
 
-                <div class="y-labels" id="proteinYLabels"></div>
+                <div
+                    class="y-labels"
+                    id="proteinYLabels">
+                </div>
+
 
                 <div class="chart-area">
 
@@ -660,9 +952,22 @@ button {
                         id="proteinTargetLine">
                     </div>
 
-                    <div class="chart-grid" style="top:25%"></div>
-                    <div class="chart-grid" style="top:50%"></div>
-                    <div class="chart-grid" style="top:75%"></div>
+
+                    <div
+                        class="chart-grid"
+                        style="top:25%">
+                    </div>
+
+                    <div
+                        class="chart-grid"
+                        style="top:50%">
+                    </div>
+
+                    <div
+                        class="chart-grid"
+                        style="top:75%">
+                    </div>
+
 
                     <div
                         class="bars"
@@ -673,8 +978,11 @@ button {
 
             </div>
 
+
             <div class="graph-legend">
+
                 Daily target: 160g protein
+
             </div>
 
         </div>
@@ -686,12 +994,141 @@ button {
 
 <script>
 
-const WEEK_CALORIE_TARGET = 16800;
-const WEEK_PROTEIN_TARGET = 1120;
 
-const DAILY_CALORIE_TARGET = 2400;
+/* ================= GOALS ================= */
+
+const GOALS = {
+
+    cut: {
+
+        name: "Cut",
+
+        dailyCalories: 1900,
+
+        weeklyCalories: 13300
+
+    },
+
+
+    maintenance: {
+
+        name: "Maintenance",
+
+        dailyCalories: 2400,
+
+        weeklyCalories: 16800
+
+    },
+
+
+    bulk: {
+
+        name: "Bulk",
+
+        dailyCalories: 2700,
+
+        weeklyCalories: 18900
+
+    }
+
+};
+
+
 const DAILY_PROTEIN_TARGET = 160;
 
+const WEEKLY_PROTEIN_TARGET = 1120;
+
+
+/* ================= CURRENT GOAL ================= */
+
+function getCurrentGoal() {
+
+    return (
+        localStorage.getItem("currentGoal")
+        || "cut"
+    );
+
+}
+
+
+function getGoalData() {
+
+    return GOALS[getCurrentGoal()];
+
+}
+
+
+/* ================= CHANGE GOAL ================= */
+
+function changeGoal() {
+
+    const selectedGoal =
+        document.getElementById(
+            "goalSelect"
+        ).value;
+
+
+    localStorage.setItem(
+        "currentGoal",
+        selectedGoal
+    );
+
+
+    updateTargets();
+
+}
+
+
+/* ================= UPDATE TARGETS ================= */
+
+function updateTargets() {
+
+    const goal =
+        getGoalData();
+
+
+    document.getElementById(
+        "goalSelect"
+    ).value =
+        getCurrentGoal();
+
+
+    /* DAILY CALORIE TARGET */
+
+    document.getElementById(
+        "dailyCalorieTarget"
+    ).textContent =
+        goal.dailyCalories.toLocaleString();
+
+
+    /* WEEKLY CALORIE TARGET */
+
+    document.getElementById(
+        "weeklyCalorieTarget"
+    ).textContent =
+        goal.weeklyCalories.toLocaleString();
+
+
+    /* GRAPH LEGEND */
+
+    document.getElementById(
+        "calorieGraphLegend"
+    ).textContent =
+        "Daily target: "
+        + goal.dailyCalories.toLocaleString()
+        + " calories";
+
+
+    loadTotals();
+
+    loadWeek();
+
+    drawGraphs();
+
+}
+
+
+/* ================= MEALS ================= */
 
 const meals = {
 
@@ -753,18 +1190,23 @@ function displayDate() {
 
     const d = new Date();
 
-    document.getElementById("date").textContent =
-        d.toLocaleDateString("en-ZA", {
-            weekday: "long",
-            day: "numeric",
-            month: "long",
-            year: "numeric"
-        });
+    document.getElementById(
+        "date"
+    ).textContent =
+        d.toLocaleDateString(
+            "en-ZA",
+            {
+                weekday: "long",
+                day: "numeric",
+                month: "long",
+                year: "numeric"
+            }
+        );
 
 }
 
 
-/* ================= WEEK ================= */
+/* ================= WEEK ID ================= */
 
 function getWeekID() {
 
@@ -772,16 +1214,29 @@ function getWeekID() {
 
     const day = d.getDay();
 
-    const diff = day === 0 ? -6 : 1 - day;
+    const diff =
+        day === 0
+            ? -6
+            : 1 - day;
 
-    const monday = new Date(d);
 
-    monday.setDate(d.getDate() + diff);
+    const monday =
+        new Date(d);
 
-    return monday.toISOString().split("T")[0];
+
+    monday.setDate(
+        d.getDate() + diff
+    );
+
+
+    return monday
+        .toISOString()
+        .split("T")[0];
 
 }
 
+
+/* ================= WEEK DATES ================= */
 
 function getWeekDates() {
 
@@ -789,39 +1244,70 @@ function getWeekDates() {
 
     const day = d.getDay();
 
-    const diff = day === 0 ? -6 : 1 - day;
+    const diff =
+        day === 0
+            ? -6
+            : 1 - day;
 
-    const monday = new Date(d);
 
-    monday.setDate(d.getDate() + diff);
+    const monday =
+        new Date(d);
+
+
+    monday.setDate(
+        d.getDate() + diff
+    );
+
 
     const dates = [];
 
-    for (let i = 0; i < 7; i++) {
 
-        const date = new Date(monday);
+    for (
+        let i = 0;
+        i < 7;
+        i++
+    ) {
 
-        date.setDate(monday.getDate() + i);
+        const date =
+            new Date(monday);
 
-        dates.push(date.toISOString().split("T")[0]);
+
+        date.setDate(
+            monday.getDate() + i
+        );
+
+
+        dates.push(
+            date
+                .toISOString()
+                .split("T")[0]
+        );
 
     }
+
 
     return dates;
 
 }
 
 
-/* ================= DAILY CHECK ================= */
+/* ================= NEW DAY ================= */
 
 function checkNewDay() {
 
-    const today = getToday();
+    const today =
+        getToday();
+
 
     const savedDate =
-        localStorage.getItem("savedDate");
+        localStorage.getItem(
+            "savedDate"
+        );
 
-    if (savedDate !== today) {
+
+    if (
+        savedDate !== today
+    ) {
 
         localStorage.setItem(
             "todayCalories",
@@ -843,36 +1329,47 @@ function checkNewDay() {
 }
 
 
-/* ================= WEEK CHECK ================= */
+/* ================= NEW WEEK ================= */
 
 function checkNewWeek() {
 
-    const currentWeek = getWeekID();
+    const currentWeek =
+        getWeekID();
+
 
     const savedWeek =
-        localStorage.getItem("weekID");
+        localStorage.getItem(
+            "weekID"
+        );
 
-    if (savedWeek !== currentWeek) {
+
+    if (
+        savedWeek !== currentWeek
+    ) {
 
         localStorage.setItem(
             "weekID",
             currentWeek
         );
 
+
         localStorage.setItem(
             "weekCalories",
             "0"
         );
+
 
         localStorage.setItem(
             "weekProtein",
             "0"
         );
 
+
         localStorage.setItem(
             "weekAddedDays",
             "[]"
         );
+
 
         localStorage.setItem(
             "dailyHistory",
@@ -884,31 +1381,44 @@ function checkNewWeek() {
 }
 
 
-/* ================= LOAD TOTALS ================= */
+/* ================= LOAD TODAY ================= */
 
 function loadTotals() {
 
+    const goal =
+        getGoalData();
+
+
     const calories =
         Number(
-            localStorage.getItem("todayCalories")
+            localStorage.getItem(
+                "todayCalories"
+            )
         ) || 0;
+
 
     const protein =
         Number(
-            localStorage.getItem("todayProtein")
+            localStorage.getItem(
+                "todayProtein"
+            )
         ) || 0;
 
 
     document.getElementById(
         "todayCalories"
     ).textContent =
-        Math.round(calories).toLocaleString();
+        Math.round(
+            calories
+        ).toLocaleString();
 
 
     document.getElementById(
         "todayProtein"
     ).textContent =
-        Math.round(protein);
+        Math.round(
+            protein
+        );
 
 
     /* CALORIES LEFT */
@@ -916,14 +1426,16 @@ function loadTotals() {
     const caloriesRemaining =
         Math.max(
             0,
-            DAILY_CALORIE_TARGET - calories
+            goal.dailyCalories - calories
         );
 
 
     document.getElementById(
         "caloriesLeft"
     ).textContent =
-        Math.round(caloriesRemaining).toLocaleString()
+        Math.round(
+            caloriesRemaining
+        ).toLocaleString()
         + " kcal";
 
 
@@ -939,8 +1451,9 @@ function loadTotals() {
     document.getElementById(
         "proteinLeft"
     ).textContent =
-        Math.round(proteinRemaining)
-        + "g";
+        Math.round(
+            proteinRemaining
+        ) + "g";
 
 
     /* PROGRESS */
@@ -948,14 +1461,18 @@ function loadTotals() {
     const caloriePercent =
         Math.min(
             100,
-            (calories / DAILY_CALORIE_TARGET) * 100
+            (calories /
+                goal.dailyCalories) *
+            100
         );
 
 
     const proteinPercent =
         Math.min(
             100,
-            (protein / DAILY_PROTEIN_TARGET) * 100
+            (protein /
+                DAILY_PROTEIN_TARGET) *
+            100
         );
 
 
@@ -975,7 +1492,9 @@ function loadTotals() {
         "caloriePercent"
     ).textContent =
         Math.round(
-            (calories / DAILY_CALORIE_TARGET) * 100
+            (calories /
+                goal.dailyCalories) *
+            100
         ) + "%";
 
 
@@ -983,32 +1502,29 @@ function loadTotals() {
         "proteinPercent"
     ).textContent =
         Math.round(
-            (protein / DAILY_PROTEIN_TARGET) * 100
+            (protein /
+                DAILY_PROTEIN_TARGET) *
+            100
         ) + "%";
 
 
-    /* RED IF OVER TARGET */
+    /* RED IF OVER */
 
-    const calorieBar =
-        document.getElementById(
-            "calorieProgress"
-        );
-
-    const proteinBar =
-        document.getElementById(
-            "proteinProgress"
-        );
-
-
-    calorieBar.classList.toggle(
+    document.getElementById(
+        "calorieProgress"
+    ).classList.toggle(
         "over-target",
-        calories > DAILY_CALORIE_TARGET
+        calories >
+        goal.dailyCalories
     );
 
 
-    proteinBar.classList.toggle(
+    document.getElementById(
+        "proteinProgress"
+    ).classList.toggle(
         "over-target",
-        protein > DAILY_PROTEIN_TARGET
+        protein >
+        DAILY_PROTEIN_TARGET
     );
 
 }
@@ -1018,40 +1534,57 @@ function loadTotals() {
 
 function loadWeek() {
 
+    const goal =
+        getGoalData();
+
+
     const calories =
         Number(
-            localStorage.getItem("weekCalories")
+            localStorage.getItem(
+                "weekCalories"
+            )
         ) || 0;
+
 
     const protein =
         Number(
-            localStorage.getItem("weekProtein")
+            localStorage.getItem(
+                "weekProtein"
+            )
         ) || 0;
 
 
     document.getElementById(
         "weekCalories"
     ).textContent =
-        Math.round(calories).toLocaleString();
+        Math.round(
+            calories
+        ).toLocaleString();
 
 
     document.getElementById(
         "weekProtein"
     ).textContent =
-        Math.round(protein);
+        Math.round(
+            protein
+        );
 
 
     const caloriePercent =
         Math.min(
             100,
-            (calories / WEEK_CALORIE_TARGET) * 100
+            (calories /
+                goal.weeklyCalories) *
+            100
         );
 
 
     const proteinPercent =
         Math.min(
             100,
-            (protein / WEEK_PROTEIN_TARGET) * 100
+            (protein /
+                WEEKLY_PROTEIN_TARGET) *
+            100
         );
 
 
@@ -1070,28 +1603,32 @@ function loadWeek() {
     const calorieRemaining =
         Math.max(
             0,
-            WEEK_CALORIE_TARGET - calories
+            goal.weeklyCalories -
+            calories
         );
 
 
     const proteinRemaining =
         Math.max(
             0,
-            WEEK_PROTEIN_TARGET - protein
+            WEEKLY_PROTEIN_TARGET -
+            protein
         );
 
 
     document.getElementById(
         "weekCaloriesRemaining"
     ).textContent =
-        calorieRemaining.toLocaleString()
+        calorieRemaining
+            .toLocaleString()
         + " calories remaining";
 
 
     document.getElementById(
         "weekProteinRemaining"
     ).textContent =
-        proteinRemaining.toLocaleString()
+        proteinRemaining
+            .toLocaleString()
         + "g protein remaining";
 
 
@@ -1109,14 +1646,19 @@ function mealSelected() {
             "mealSelect"
         ).value;
 
+
     if (!value) return;
 
-    const item = meals[value];
+
+    const item =
+        meals[value];
+
 
     document.getElementById(
         "calories"
     ).value =
         item.calories;
+
 
     document.getElementById(
         "protein"
@@ -1135,14 +1677,19 @@ function drinkSelected() {
             "drinkSelect"
         ).value;
 
+
     if (!value) return;
 
-    const item = drinks[value];
+
+    const item =
+        drinks[value];
+
 
     document.getElementById(
         "calories"
     ).value =
         item.calories;
+
 
     document.getElementById(
         "protein"
@@ -1163,12 +1710,14 @@ function addFood() {
             ).value
         ) || 0;
 
+
     const protein =
         Number(
             document.getElementById(
                 "protein"
             ).value
         ) || 0;
+
 
     const quantity =
         Number(
@@ -1181,6 +1730,7 @@ function addFood() {
     const totalCalories =
         calories * quantity;
 
+
     const totalProtein =
         protein * quantity;
 
@@ -1192,6 +1742,7 @@ function addFood() {
             )
         ) || 0;
 
+
     const currentProtein =
         Number(
             localStorage.getItem(
@@ -1202,33 +1753,37 @@ function addFood() {
 
     localStorage.setItem(
         "todayCalories",
-        currentCalories + totalCalories
+        currentCalories +
+        totalCalories
     );
 
 
     localStorage.setItem(
         "todayProtein",
-        currentProtein + totalProtein
+        currentProtein +
+        totalProtein
     );
 
-
-    /* CLEAR */
 
     document.getElementById(
         "mealSelect"
     ).value = "";
 
+
     document.getElementById(
         "drinkSelect"
     ).value = "";
+
 
     document.getElementById(
         "quantity"
     ).value = 1;
 
+
     document.getElementById(
         "calories"
     ).value = "";
+
 
     document.getElementById(
         "protein"
@@ -1244,7 +1799,9 @@ function addFood() {
 
 function addTodayToWeek() {
 
-    const today = getToday();
+    const today =
+        getToday();
+
 
     let addedDays =
         JSON.parse(
@@ -1254,7 +1811,9 @@ function addTodayToWeek() {
         ) || [];
 
 
-    if (addedDays.includes(today)) {
+    if (
+        addedDays.includes(today)
+    ) {
 
         return;
 
@@ -1267,6 +1826,7 @@ function addTodayToWeek() {
                 "todayCalories"
             )
         ) || 0;
+
 
     const todayProtein =
         Number(
@@ -1283,6 +1843,7 @@ function addTodayToWeek() {
             )
         ) || 0;
 
+
     const weekProtein =
         Number(
             localStorage.getItem(
@@ -1293,13 +1854,15 @@ function addTodayToWeek() {
 
     localStorage.setItem(
         "weekCalories",
-        weekCalories + todayCalories
+        weekCalories +
+        todayCalories
     );
 
 
     localStorage.setItem(
         "weekProtein",
-        weekProtein + todayProtein
+        weekProtein +
+        todayProtein
     );
 
 
@@ -1308,11 +1871,13 @@ function addTodayToWeek() {
 
     localStorage.setItem(
         "weekAddedDays",
-        JSON.stringify(addedDays)
+        JSON.stringify(
+            addedDays
+        )
     );
 
 
-    /* SAVE DAILY HISTORY */
+    /* DAILY HISTORY */
 
     let history =
         JSON.parse(
@@ -1324,16 +1889,20 @@ function addTodayToWeek() {
 
     history[today] = {
 
-        calories: todayCalories,
+        calories:
+            todayCalories,
 
-        protein: todayProtein
+        protein:
+            todayProtein
 
     };
 
 
     localStorage.setItem(
         "dailyHistory",
-        JSON.stringify(history)
+        JSON.stringify(
+            history
+        )
     );
 
 
@@ -1348,7 +1917,9 @@ function addTodayToWeek() {
 
 function updateWeekButton() {
 
-    const today = getToday();
+    const today =
+        getToday();
+
 
     const addedDays =
         JSON.parse(
@@ -1364,7 +1935,9 @@ function updateWeekButton() {
         );
 
 
-    if (addedDays.includes(today)) {
+    if (
+        addedDays.includes(today)
+    ) {
 
         button.disabled = true;
 
@@ -1392,7 +1965,9 @@ function resetDay() {
             "Reset today's calories and protein?"
         )
     ) {
+
         return;
+
     }
 
 
@@ -1400,6 +1975,7 @@ function resetDay() {
         "todayCalories",
         "0"
     );
+
 
     localStorage.setItem(
         "todayProtein",
@@ -1421,7 +1997,9 @@ function resetWeek() {
             "Reset this week's totals?"
         )
     ) {
+
         return;
+
     }
 
 
@@ -1430,15 +2008,18 @@ function resetWeek() {
         "0"
     );
 
+
     localStorage.setItem(
         "weekProtein",
         "0"
     );
 
+
     localStorage.setItem(
         "weekAddedDays",
         "[]"
     );
+
 
     localStorage.setItem(
         "dailyHistory",
@@ -1455,31 +2036,46 @@ function resetWeek() {
 
 /* ================= TABS ================= */
 
-function showPage(page, button) {
+function showPage(
+    page,
+    button
+) {
 
     document.querySelectorAll(
         ".page"
     ).forEach(
-        p => p.classList.remove("active")
+        p =>
+            p.classList.remove(
+                "active"
+            )
     );
 
 
     document.getElementById(
         page
-    ).classList.add("active");
+    ).classList.add(
+        "active"
+    );
 
 
     document.querySelectorAll(
         ".tab-button"
     ).forEach(
-        b => b.classList.remove("active")
+        b =>
+            b.classList.remove(
+                "active"
+            )
     );
 
 
-    button.classList.add("active");
+    button.classList.add(
+        "active"
+    );
 
 
-    if (page === "graphs") {
+    if (
+        page === "graphs"
+    ) {
 
         drawGraphs();
 
@@ -1488,11 +2084,12 @@ function showPage(page, button) {
 }
 
 
-/* ================= GRAPHS ================= */
+/* ================= DRAW GRAPHS ================= */
 
 function drawGraphs() {
 
-    checkNewWeek();
+    const goal =
+        getGoalData();
 
 
     const history =
@@ -1530,7 +2127,7 @@ function drawGraphs() {
         "calorieYLabels",
         "calorieTargetLine",
         calories,
-        DAILY_CALORIE_TARGET,
+        goal.dailyCalories,
         500
     );
 
@@ -1563,6 +2160,7 @@ function drawBarGraph(
             barsID
         );
 
+
     const labels =
         document.getElementById(
             labelsID
@@ -1583,12 +2181,19 @@ function drawBarGraph(
 
     maxValue =
         Math.ceil(
-            maxValue / roundAmount
-        ) * roundAmount;
+            maxValue /
+            roundAmount
+        ) *
+        roundAmount;
 
 
-    if (maxValue === 0) {
-        maxValue = roundAmount;
+    if (
+        maxValue === 0
+    ) {
+
+        maxValue =
+            roundAmount;
+
     }
 
 
@@ -1602,7 +2207,8 @@ function drawBarGraph(
 
         const value =
             Math.round(
-                maxValue * (i / 4)
+                maxValue *
+                (i / 4)
             );
 
 
@@ -1616,7 +2222,9 @@ function drawBarGraph(
             value.toLocaleString();
 
 
-        labels.appendChild(label);
+        labels.appendChild(
+            label
+        );
 
     }
 
@@ -1630,9 +2238,14 @@ function drawBarGraph(
 
 
     targetLine.style.top =
-        (100 -
-            (target / maxValue * 100))
-        + "%";
+        (
+            100 -
+            (
+                target /
+                maxValue *
+                100
+            )
+        ) + "%";
 
 
     /* BARS */
@@ -1649,7 +2262,10 @@ function drawBarGraph(
 
 
     values.forEach(
-        (value, index) => {
+        (
+            value,
+            index
+        ) => {
 
             const column =
                 document.createElement(
@@ -1673,7 +2289,11 @@ function drawBarGraph(
 
             const height =
                 maxValue > 0
-                    ? (value / maxValue) * 100
+                    ? (
+                        value /
+                        maxValue *
+                        100
+                    )
                     : 0;
 
 
@@ -1699,11 +2319,19 @@ function drawBarGraph(
                 days[index];
 
 
-            column.appendChild(bar);
+            column.appendChild(
+                bar
+            );
 
-            column.appendChild(day);
 
-            bars.appendChild(column);
+            column.appendChild(
+                day
+            );
+
+
+            bars.appendChild(
+                column
+            );
 
         }
     );
@@ -1711,13 +2339,15 @@ function drawBarGraph(
 }
 
 
-/* ================= START APP ================= */
+/* ================= START ================= */
 
 checkNewDay();
 
 checkNewWeek();
 
 displayDate();
+
+updateTargets();
 
 loadTotals();
 
