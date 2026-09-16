@@ -2615,7 +2615,8 @@ function prepareSetupFromProfile() {
         trainingDays: Number(profile.trainingDays || 0),
         trainingDuration: Number(profile.trainingDuration || 0),
         goal: profile.goal || "cut",
-        intensity: profile.intensity || "moderate"
+        intensity: profile.intensity || "moderate",
+        weightGoal: Number(profile.weightGoal || localStorage.getItem("weightGoal") || 0)
 
     };
 
@@ -2636,6 +2637,21 @@ function prepareSetupFromProfile() {
 
     document.getElementById("setupTrainingDuration").value =
         setupData.trainingDuration;
+
+    const setupCurrentWeightGoal =
+        document.getElementById("setupCurrentWeightGoal");
+    const setupGoalWeight =
+        document.getElementById("setupGoalWeight");
+
+    if (setupCurrentWeightGoal) {
+        setupCurrentWeightGoal.value = setupData.weight || "";
+    }
+
+    if (setupGoalWeight) {
+        setupGoalWeight.value = setupData.weightGoal || "";
+    }
+
+    updateSetupWeightGoalSuggestion();
 
     document
         .querySelectorAll("#setup1 .option")
@@ -2694,49 +2710,45 @@ function prepareSetupFromProfile() {
 
 function redoSetup() {
 
-    if (!profile) return;
+    // Re-open the setup wizard from the Profile screen.
+    // Keep all existing tracking data; only the questionnaire is restarted.
+    if (!profile) {
+        startApp();
+        return;
+    }
 
-    let confirmed =
-        confirm(
-            "Redo your setup questions?\n\n" +
-            "Your food totals, weekly totals, graphs and weight history will stay. " +
-            "You'll simply answer the profile questions again."
-        );
+    const confirmed = confirm(
+        "Redo your setup questions?\n\n" +
+        "Your food totals, weekly totals, graphs and weight history will stay. " +
+        "You'll simply answer the profile questions again."
+    );
 
     if (!confirmed) return;
 
     prepareSetupFromProfile();
 
-    document.getElementById(
-        "mainApp"
-    ).style.display =
-        "none";
+    const mainApp = document.getElementById("mainApp");
+    const setupScreen = document.getElementById("setupScreen");
 
-    document.getElementById(
-        "setupScreen"
-    ).style.display =
-        "block";
+    if (mainApp) mainApp.style.display = "none";
+    if (setupScreen) setupScreen.style.display = "block";
 
     document
         .querySelectorAll(".setup-step")
-        .forEach(el =>
-            el.classList.remove("active")
-        );
+        .forEach(el => el.classList.remove("active"));
 
-    document
-        .getElementById("setup1")
-        .classList.add("active");
+    const firstStep = document.getElementById("setup1");
+    if (firstStep) firstStep.classList.add("active");
 
-    document.getElementById(
-        "setupStepText"
-    ).innerText =
-        "STEP 1 OF 8";
+    const stepText = document.getElementById("setupStepText");
+    if (stepText) stepText.innerText = "STEP 1 OF 8";
 
     window.scrollTo({
         top: 0,
         behavior: "smooth"
     });
 }
+
 
 
 /*
@@ -2805,6 +2817,15 @@ function finishSetup() {
         "mainApp"
     ).style.display =
         "block";
+
+    // Make absolutely sure the dashboard's Current Goal shows the
+    // goal selected during setup, including a goal chosen via WG suggestion.
+    const finalGoalSelect =
+        document.getElementById("goalSelect");
+
+    if (finalGoalSelect) {
+        finalGoalSelect.value = profile.goal;
+    }
 
     updateTheme();
     updateTargets();
@@ -3058,6 +3079,14 @@ function saveProfile() {
 function changeGoal(goal) {
 
     if (!profile) return;
+
+    // Keep the Current Goal selector in sync with the goal that was chosen.
+    const goalSelect =
+        document.getElementById("goalSelect");
+
+    if (goalSelect) {
+        goalSelect.value = goal;
+    }
 
     profile.goal =
         goal;
