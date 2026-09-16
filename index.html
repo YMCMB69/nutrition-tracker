@@ -12,7 +12,6 @@
     --glow: rgba(57,255,20,.45);
     --bg: #000;
     --card: #111;
-    --card2: #181818;
     --text: #fff;
     --muted: #999;
     --danger: #ff1744;
@@ -153,7 +152,7 @@ button {
     display: block;
 }
 
-/* ================= GOAL SELECTOR ================= */
+/* ================= GOAL ================= */
 
 .goal-card {
     background: var(--card);
@@ -409,16 +408,12 @@ button.danger {
     border-bottom: none;
 }
 
-.locked {
-    opacity: .45;
-}
-
 .status {
     color: #aaa;
     font-size: 13px;
 }
 
-/* ================= PROFILE ================= */
+/* ================= SETUP ================= */
 
 .setup-screen {
     min-height: calc(100vh - 30px);
@@ -440,7 +435,7 @@ button.danger {
     font-size: 28px;
 }
 
-.setup-card .intro {
+.intro {
     color: #aaa;
     line-height: 1.5;
 }
@@ -475,6 +470,11 @@ button.danger {
     font-weight: bold;
 }
 
+.option small {
+    color: #888;
+    font-weight: normal;
+}
+
 .option.selected {
     border-color: var(--accent);
     color: var(--accent);
@@ -493,7 +493,7 @@ button.danger {
 
 .profile-result {
     text-align: center;
-    padding: 15px 0;
+    padding: 10px 0;
 }
 
 .result-calories {
@@ -514,7 +514,7 @@ button.danger {
     line-height: 1.5;
 }
 
-/* ================= WORKOUT PLACEHOLDER ================= */
+/* ================= WORKOUT ================= */
 
 .workout-placeholder {
     text-align: center;
@@ -574,9 +574,8 @@ button.danger {
     font-size: 28px;
 }
 
-/* ================= MOBILE ================= */
-
 @media(max-width:420px) {
+
     .top-header h1 {
         font-size: 21px;
     }
@@ -594,183 +593,461 @@ button.danger {
 
 <body>
 
-<!-- ================= SETUP ================= -->
+<!-- =====================================================
+     PERSONAL SETUP
+===================================================== -->
 
 <div id="setupScreen" class="app">
+
     <div class="setup-screen">
+
         <div class="setup-card">
 
             <div class="step-indicator" id="setupStepText">
-                STEP 1 OF 5
+                STEP 1 OF 7
             </div>
 
+            <!-- STEP 1 -->
+
             <div class="setup-step active" id="setup1">
+
                 <h1>Let's set you up 💪</h1>
+
                 <p class="intro">
-                    We'll use a few details about you to calculate personalised
-                    calorie and protein targets.
+                    We'll use your body, movement and training information
+                    to create a personalised calorie and protein target.
                 </p>
 
                 <h3>What's your sex?</h3>
 
                 <div class="option-grid">
-                    <button class="option" onclick="selectSetupOption(this,'sex','male')">
+
+                    <button class="option"
+                            onclick="selectSetupOption(this,'sex','male')">
                         Male
                     </button>
 
-                    <button class="option" onclick="selectSetupOption(this,'sex','female')">
+                    <button class="option"
+                            onclick="selectSetupOption(this,'sex','female')">
                         Female
                     </button>
+
                 </div>
 
                 <div class="setup-buttons">
-                    <button class="primary" onclick="nextSetupStep(2)">
+
+                    <button class="primary"
+                            onclick="nextSetupStep(2)">
                         Continue
                     </button>
+
                 </div>
+
             </div>
 
+            <!-- STEP 2 -->
+
             <div class="setup-step" id="setup2">
+
                 <h1>Your body</h1>
 
                 <label>Age</label>
-                <input id="setupAge" type="number" min="13" max="100" placeholder="e.g. 28">
+
+                <input id="setupAge"
+                       type="number"
+                       min="13"
+                       max="100"
+                       placeholder="e.g. 28">
 
                 <label>Height (cm)</label>
-                <input id="setupHeight" type="number" min="100" max="250" placeholder="e.g. 177">
+
+                <input id="setupHeight"
+                       type="number"
+                       min="100"
+                       max="250"
+                       placeholder="e.g. 177">
 
                 <label>Current weight (kg)</label>
-                <input id="setupWeight" type="number" min="30" max="300" step="0.1" placeholder="e.g. 72">
+
+                <input id="setupWeight"
+                       type="number"
+                       min="30"
+                       max="300"
+                       step="0.1"
+                       placeholder="e.g. 68">
 
                 <div class="setup-buttons">
-                    <button class="secondary" onclick="nextSetupStep(1)">Back</button>
-                    <button class="primary" onclick="validateBodyStep()">Continue</button>
+
+                    <button class="secondary"
+                            onclick="nextSetupStep(1)">
+                        Back
+                    </button>
+
+                    <button class="primary"
+                            onclick="validateBodyStep()">
+                        Continue
+                    </button>
+
                 </div>
+
             </div>
+
+            <!-- STEP 3 -->
 
             <div class="setup-step" id="setup3">
-                <h1>How active are you?</h1>
 
-                <div class="option-grid" style="grid-template-columns:1fr">
+                <h1>Daily movement 🚶</h1>
 
-                    <button class="option" onclick="selectSetupOption(this,'activity','sedentary')">
-                        🛋️ Sedentary
-                        <br><small>Little exercise</small>
-                    </button>
-
-                    <button class="option" onclick="selectSetupOption(this,'activity','light')">
-                        🚶 Lightly Active
-                        <br><small>Exercise 1–3 days/week</small>
-                    </button>
-
-                    <button class="option" onclick="selectSetupOption(this,'activity','moderate')">
-                        🏃 Moderately Active
-                        <br><small>Exercise 3–5 days/week</small>
-                    </button>
-
-                    <button class="option" onclick="selectSetupOption(this,'activity','very')">
-                        🏋️ Very Active
-                        <br><small>Hard exercise 6–7 days/week</small>
-                    </button>
-
-                    <button class="option" onclick="selectSetupOption(this,'activity','extreme')">
-                        🔥 Extremely Active
-                        <br><small>Very hard training / physical job</small>
-                    </button>
-
-                </div>
-
-                <div class="setup-buttons">
-                    <button class="secondary" onclick="nextSetupStep(2)">Back</button>
-                    <button class="primary" onclick="nextSetupStep(4)">Continue</button>
-                </div>
-            </div>
-
-            <div class="setup-step" id="setup4">
-                <h1>What's your goal?</h1>
-
-                <div class="option-grid" style="grid-template-columns:1fr">
-
-                    <button class="option" onclick="selectSetupOption(this,'goal','cut')">
-                        🔥 Lose Fat
-                        <br><small>Reduce body fat while protecting muscle</small>
-                    </button>
-
-                    <button class="option" onclick="selectSetupOption(this,'goal','maintenance')">
-                        ⚖️ Maintain
-                        <br><small>Maintain your current weight</small>
-                    </button>
-
-                    <button class="option" onclick="selectSetupOption(this,'goal','bulk')">
-                        💪 Build Muscle
-                        <br><small>Gain muscle with controlled weight gain</small>
-                    </button>
-
-                </div>
-
-                <div class="setup-buttons">
-                    <button class="secondary" onclick="nextSetupStep(3)">Back</button>
-                    <button class="primary" onclick="nextSetupStep(5)">Continue</button>
-                </div>
-            </div>
-
-            <div class="setup-step" id="setup5">
-                <h1>How aggressive? 🎯</h1>
-
-                <p class="intro" id="intensityDescription">
-                    Choose how quickly you want to reach your goal.
+                <p class="intro">
+                    Roughly how many steps do you average per day?
+                    Your phone/watch can usually show this.
                 </p>
 
-                <div class="option-grid" style="grid-template-columns:1fr">
+                <label>Average steps per day</label>
 
-                    <button class="option" onclick="selectSetupOption(this,'intensity','slow')">
-                        🐢 Slow & Steady
-                        <br><small>Smaller calorie adjustment</small>
+                <input id="setupSteps"
+                       type="number"
+                       min="0"
+                       max="50000"
+                       step="500"
+                       placeholder="e.g. 10000">
+
+                <div class="option-grid"
+                     style="grid-template-columns:1fr">
+
+                    <button class="option"
+                            onclick="selectSetupOption(this,'job','sedentary')">
+                        🪑 Mostly Sitting
+                        <br>
+                        <small>Desk/office/mostly seated</small>
                     </button>
 
-                    <button class="option" onclick="selectSetupOption(this,'intensity','moderate')">
-                        ⚡ Moderate
-                        <br><small>Balanced approach</small>
+                    <button class="option"
+                            onclick="selectSetupOption(this,'job','standing')">
+                        🧍 Mostly Standing
+                        <br>
+                        <small>Standing/walking during work</small>
                     </button>
 
-                    <button class="option" onclick="selectSetupOption(this,'intensity','aggressive')">
-                        🔥 Aggressive
-                        <br><small>Larger calorie adjustment</small>
+                    <button class="option"
+                            onclick="selectSetupOption(this,'job','physical')">
+                        🔨 Physical Job
+                        <br>
+                        <small>Manual labour / physically demanding</small>
                     </button>
 
                 </div>
 
                 <div class="setup-buttons">
-                    <button class="secondary" onclick="nextSetupStep(4)">Back</button>
-                    <button class="primary" onclick="finishSetup()">Calculate My Targets</button>
+
+                    <button class="secondary"
+                            onclick="nextSetupStep(2)">
+                        Back
+                    </button>
+
+                    <button class="primary"
+                            onclick="validateMovementStep()">
+                        Continue
+                    </button>
+
                 </div>
+
+            </div>
+
+            <!-- STEP 4 -->
+
+            <div class="setup-step" id="setup4">
+
+                <h1>Training 🏋️</h1>
+
+                <label>Gym / training days per week</label>
+
+                <select id="setupTrainingDays">
+
+                    <option value="0">0 days</option>
+                    <option value="1">1 day</option>
+                    <option value="2">2 days</option>
+                    <option value="3">3 days</option>
+                    <option value="4">4 days</option>
+                    <option value="5">5 days</option>
+                    <option value="6">6 days</option>
+                    <option value="7">7 days</option>
+
+                </select>
+
+                <label>Average workout length</label>
+
+                <select id="setupTrainingDuration">
+
+                    <option value="0">No training</option>
+                    <option value="30">30 minutes</option>
+                    <option value="45">45 minutes</option>
+                    <option value="60">60 minutes</option>
+                    <option value="75">75 minutes</option>
+                    <option value="90">90 minutes</option>
+                    <option value="120">120 minutes</option>
+                    <option value="150">150+ minutes</option>
+
+                </select>
+
+                <div class="setup-buttons">
+
+                    <button class="secondary"
+                            onclick="nextSetupStep(3)">
+                        Back
+                    </button>
+
+                    <button class="primary"
+                            onclick="nextSetupStep(5)">
+                        Continue
+                    </button>
+
+                </div>
+
+            </div>
+
+            <!-- STEP 5 -->
+
+            <div class="setup-step" id="setup5">
+
+                <h1>What's your goal? 🎯</h1>
+
+                <div class="option-grid"
+                     style="grid-template-columns:1fr">
+
+                    <button class="option"
+                            onclick="selectSetupOption(this,'goal','cut')">
+
+                        🔥 Lose Fat
+
+                        <br>
+
+                        <small>
+                            Lose body fat while preserving muscle
+                        </small>
+
+                    </button>
+
+                    <button class="option"
+                            onclick="selectSetupOption(this,'goal','maintenance')">
+
+                        ⚖️ Maintain
+
+                        <br>
+
+                        <small>
+                            Maintain your current weight
+                        </small>
+
+                    </button>
+
+                    <button class="option"
+                            onclick="selectSetupOption(this,'goal','bulk')">
+
+                        💪 Build Muscle
+
+                        <br>
+
+                        <small>
+                            Gain muscle with controlled weight gain
+                        </small>
+
+                    </button>
+
+                </div>
+
+                <div class="setup-buttons">
+
+                    <button class="secondary"
+                            onclick="nextSetupStep(4)">
+                        Back
+                    </button>
+
+                    <button class="primary"
+                            onclick="nextSetupStep(6)">
+                        Continue
+                    </button>
+
+                </div>
+
+            </div>
+
+            <!-- STEP 6 -->
+
+            <div class="setup-step" id="setup6">
+
+                <h1>How aggressive? ⚡</h1>
+
+                <p class="intro"
+                   id="intensityDescription">
+                    Choose the pace you'd like to use.
+                </p>
+
+                <div class="option-grid"
+                     style="grid-template-columns:1fr">
+
+                    <button class="option"
+                            onclick="selectSetupOption(this,'intensity','slow')">
+
+                        🐢 Slow & Steady
+
+                        <br>
+
+                        <small>
+                            Smaller calorie adjustment
+                        </small>
+
+                    </button>
+
+                    <button class="option"
+                            onclick="selectSetupOption(this,'intensity','moderate')">
+
+                        ⚡ Moderate
+
+                        <br>
+
+                        <small>
+                            Balanced approach
+                        </small>
+
+                    </button>
+
+                    <button class="option"
+                            onclick="selectSetupOption(this,'intensity','aggressive')">
+
+                        🔥 Aggressive
+
+                        <br>
+
+                        <small>
+                            Larger calorie adjustment
+                        </small>
+
+                    </button>
+
+                </div>
+
+                <div class="setup-buttons">
+
+                    <button class="secondary"
+                            onclick="nextSetupStep(5)">
+                        Back
+                    </button>
+
+                    <button class="primary"
+                            onclick="nextSetupStep(7)">
+                        Continue
+                    </button>
+
+                </div>
+
+            </div>
+
+            <!-- STEP 7 -->
+
+            <div class="setup-step" id="setup7">
+
+                <h1>Your targets are ready 🔥</h1>
+
+                <p class="intro">
+                    We've calculated your starting targets from the
+                    information you entered.
+                </p>
+
+                <div class="profile-result">
+
+                    <div class="result-calories"
+                         id="setupResultCalories">
+                        0
+                    </div>
+
+                    <div style="color:#888">
+                        kcal/day
+                    </div>
+
+                    <div class="result-protein"
+                         id="setupResultProtein">
+                        0g protein
+                    </div>
+
+                </div>
+
+                <div class="card"
+                     style="margin-top:15px;margin-bottom:10px">
+
+                    <div style="display:flex;justify-content:space-between">
+                        <span style="color:#888">Estimated BMR</span>
+                        <strong id="setupResultBMR">0</strong>
+                    </div>
+
+                    <br>
+
+                    <div style="display:flex;justify-content:space-between">
+                        <span style="color:#888">Estimated maintenance</span>
+                        <strong id="setupResultTDEE">0</strong>
+                    </div>
+
+                </div>
+
+                <p class="small-note">
+                    Your maintenance calorie number is an estimate, not
+                    a measurement. Your weight trend over time is more
+                    useful for finding your personal real-world maintenance.
+                </p>
+
+                <div class="setup-buttons">
+
+                    <button class="secondary"
+                            onclick="nextSetupStep(6)">
+                        Back
+                    </button>
+
+                    <button class="primary"
+                            onclick="finishSetup()">
+                        Start Tracking
+                    </button>
+
+                </div>
+
             </div>
 
         </div>
+
     </div>
+
 </div>
 
-<!-- ================= MAIN APP ================= -->
+<!-- =====================================================
+     MAIN APP
+===================================================== -->
 
-<div id="mainApp" class="app" style="display:none">
+<div id="mainApp"
+     class="app"
+     style="display:none">
 
     <div class="top-header">
+
         <h1>Dyl's Six Pack Tracker</h1>
 
         <button class="menu-button"
                 onclick="toggleMenu()"
                 aria-label="Open navigation menu">
+
             <span></span>
             <span></span>
             <span></span>
+
         </button>
+
     </div>
 
-    <!-- MENU -->
+    <div id="menuOverlay"
+         class="menu-overlay"
+         onclick="closeMenu()">
+    </div>
 
-    <div id="menuOverlay" class="menu-overlay" onclick="closeMenu()"></div>
-
-    <div id="sideMenu" class="side-menu">
+    <div id="sideMenu"
+         class="side-menu">
 
         <h2>Menu</h2>
 
@@ -794,24 +1071,39 @@ button.danger {
 
     </div>
 
-    <!-- ================= DASHBOARD ================= -->
+    <!-- =================================================
+         DASHBOARD
+    ================================================= -->
 
-    <div id="dashboardScreen" class="app-screen active">
+    <div id="dashboardScreen"
+         class="app-screen active">
 
         <div class="goal-card">
+
             <label>Current Goal</label>
 
             <select id="goalSelect"
                     class="goal-select"
                     onchange="changeGoal(this.value)">
-                <option value="cut">🥗 Cut</option>
-                <option value="maintenance">⚖️ Maintenance</option>
-                <option value="bulk">💪 Bulk</option>
+
+                <option value="cut">
+                    🥗 Cut
+                </option>
+
+                <option value="maintenance">
+                    ⚖️ Maintenance
+                </option>
+
+                <option value="bulk">
+                    💪 Bulk
+                </option>
+
             </select>
 
             <div id="goalInfo"
                  style="margin-top:10px;color:#888;font-size:12px">
             </div>
+
         </div>
 
         <div class="tabs">
@@ -833,7 +1125,7 @@ button.danger {
 
         </div>
 
-        <!-- MAIN TAB -->
+        <!-- MAIN -->
 
         <div id="mainPage">
 
@@ -842,35 +1134,63 @@ button.danger {
                 <h2>Today's Total</h2>
 
                 <div>
-                    <span class="big-number" id="todayCalories">0</span>
-                    <span class="sub-number">/ <span id="dailyCalorieTarget">0</span> kcal</span>
+
+                    <span class="big-number"
+                          id="todayCalories">
+                        0
+                    </span>
+
+                    <span class="sub-number">
+                        /
+                        <span id="dailyCalorieTarget">0</span>
+                        kcal
+                    </span>
+
                 </div>
 
                 <div class="progress-container">
+
                     <div class="progress-label">
                         <span>Calories</span>
                         <span id="caloriePercent">0%</span>
                     </div>
 
                     <div class="progress">
-                        <div id="calorieBar" class="progress-bar"></div>
+                        <div id="calorieBar"
+                             class="progress-bar">
+                        </div>
                     </div>
+
                 </div>
 
                 <div>
-                    <span class="big-number" id="todayProtein">0</span>
-                    <span class="sub-number">/ <span id="dailyProteinTarget">0</span> g protein</span>
+
+                    <span class="big-number"
+                          id="todayProtein">
+                        0
+                    </span>
+
+                    <span class="sub-number">
+                        /
+                        <span id="dailyProteinTarget">0</span>
+                        g protein
+                    </span>
+
                 </div>
 
                 <div class="progress-container">
+
                     <div class="progress-label">
                         <span>Protein</span>
                         <span id="proteinPercent">0%</span>
                     </div>
 
                     <div class="progress">
-                        <div id="proteinBar" class="progress-bar"></div>
+                        <div id="proteinBar"
+                             class="progress-bar">
+                        </div>
                     </div>
+
                 </div>
 
                 <hr style="border-color:#222">
@@ -879,17 +1199,19 @@ button.danger {
                     <strong>Remaining Today</strong>
                 </p>
 
-                <div id="remainingCalories" class="remaining">
+                <div id="remainingCalories"
+                     class="remaining">
                     Calories Left: 0
                 </div>
 
-                <div id="remainingProtein" class="remaining">
+                <div id="remainingProtein"
+                     class="remaining">
                     Protein Left: 0g
                 </div>
 
             </div>
 
-            <!-- ADD FOOD -->
+            <!-- FOOD -->
 
             <div class="card">
 
@@ -899,7 +1221,9 @@ button.danger {
 
                     <select id="foodSelect">
 
-                        <option value="">Select saved food</option>
+                        <option value="">
+                            Select saved food
+                        </option>
 
                         <option value="630,37">
                             Mcdees 2x Double Burger — 630 kcal / 37g
@@ -948,7 +1272,9 @@ button.danger {
 
                     <select id="drinkSelect">
 
-                        <option value="">Select drink</option>
+                        <option value="">
+                            Select drink
+                        </option>
 
                         <option value="55,0">
                             Single Vodka with Zero Mix — 55 kcal
@@ -1017,10 +1343,18 @@ button.danger {
                 <h2>This Week</h2>
 
                 <div>
-                    <span class="big-number" id="weekCalories">0</span>
-                    <span class="sub-number">
-                        / <span id="weeklyCalorieTarget">0</span> kcal
+
+                    <span class="big-number"
+                          id="weekCalories">
+                        0
                     </span>
+
+                    <span class="sub-number">
+                        /
+                        <span id="weeklyCalorieTarget">0</span>
+                        kcal
+                    </span>
+
                 </div>
 
                 <div class="progress-container">
@@ -1032,16 +1366,25 @@ button.danger {
 
                     <div class="progress">
                         <div id="weekCalorieBar"
-                             class="progress-bar"></div>
+                             class="progress-bar">
+                        </div>
                     </div>
 
                 </div>
 
                 <div>
-                    <span class="big-number" id="weekProtein">0</span>
-                    <span class="sub-number">
-                        / <span id="weeklyProteinTarget">0</span> g
+
+                    <span class="big-number"
+                          id="weekProtein">
+                        0
                     </span>
+
+                    <span class="sub-number">
+                        /
+                        <span id="weeklyProteinTarget">0</span>
+                        g
+                    </span>
+
                 </div>
 
                 <div class="progress-container">
@@ -1053,7 +1396,8 @@ button.danger {
 
                     <div class="progress">
                         <div id="weekProteinBar"
-                             class="progress-bar"></div>
+                             class="progress-bar">
+                        </div>
                     </div>
 
                 </div>
@@ -1077,7 +1421,8 @@ button.danger {
 
         <!-- GRAPHS -->
 
-        <div id="graphsPage" style="display:none">
+        <div id="graphsPage"
+             style="display:none">
 
             <div class="card">
 
@@ -1098,7 +1443,9 @@ button.danger {
                 </div>
 
                 <div class="target-line">
-                    Target: <span id="graphTarget">0</span> kcal/day
+                    Target:
+                    <span id="graphTarget">0</span>
+                    kcal/day
                 </div>
 
             </div>
@@ -1122,7 +1469,9 @@ button.danger {
                 </div>
 
                 <div class="target-line">
-                    Target: <span id="proteinGraphTarget">0</span>g/day
+                    Target:
+                    <span id="proteinGraphTarget">0</span>
+                    g/day
                 </div>
 
             </div>
@@ -1131,26 +1480,36 @@ button.danger {
 
         <!-- WEIGHT -->
 
-        <div id="weightPage" style="display:none">
+        <div id="weightPage"
+             style="display:none">
 
             <div class="card">
 
                 <h2>Weight Goal</h2>
 
                 <div class="weight-big">
-                    <span id="currentWeightDisplay">0</span>
-                    <span class="weight-unit">kg</span>
+
+                    <span id="currentWeightDisplay">
+                        0
+                    </span>
+
+                    <span class="weight-unit">
+                        kg
+                    </span>
+
                 </div>
 
                 <br>
 
                 <label>Current Weight</label>
+
                 <input id="currentWeightInput"
                        type="number"
                        step=".1"
                        placeholder="Current weight">
 
                 <label>Goal Weight</label>
+
                 <input id="goalWeightInput"
                        type="number"
                        step=".1"
@@ -1212,13 +1571,16 @@ button.danger {
 
     </div>
 
-    <!-- ================= WORKOUTS ================= -->
+    <!-- WORKOUTS -->
 
-    <div id="workoutsScreen" class="app-screen">
+    <div id="workoutsScreen"
+         class="app-screen">
 
         <div class="card workout-placeholder">
 
-            <div class="emoji">🏋️</div>
+            <div class="emoji">
+                🏋️
+            </div>
 
             <h2>Workouts</h2>
 
@@ -1227,8 +1589,9 @@ button.danger {
             </p>
 
             <p>
-                You'll be able to choose your goal, muscle group,
-                equipment, experience level and available time.
+                We'll use your profile to recommend workouts based on
+                your goal, experience, equipment, muscle groups and
+                available time.
             </p>
 
             <button class="primary"
@@ -1240,54 +1603,101 @@ button.danger {
 
     </div>
 
-    <!-- ================= PROFILE ================= -->
+    <!-- PROFILE -->
 
-    <div id="profileScreen" class="app-screen">
+    <div id="profileScreen"
+         class="app-screen">
 
         <div class="card">
 
             <h2>My Profile 👤</h2>
 
-            <p style="color:#999">
-                These details are used to calculate your personalised
-                nutrition targets.
+            <p class="intro">
+                Your profile controls the calorie and protein
+                calculations used by the app.
             </p>
 
             <label>Sex</label>
 
             <select id="profileSex">
-                <option value="male">Male</option>
-                <option value="female">Female</option>
+
+                <option value="male">
+                    Male
+                </option>
+
+                <option value="female">
+                    Female
+                </option>
+
             </select>
 
             <label>Age</label>
+
             <input id="profileAge"
-                   type="number"
-                   min="13"
-                   max="100">
+                   type="number">
 
             <label>Height (cm)</label>
+
             <input id="profileHeight"
-                   type="number"
-                   min="100"
-                   max="250">
+                   type="number">
 
             <label>Current Weight (kg)</label>
+
             <input id="profileWeight"
                    type="number"
-                   min="30"
-                   max="300"
                    step=".1">
 
-            <label>Activity Level</label>
+            <label>Average Daily Steps</label>
 
-            <select id="profileActivity">
+            <input id="profileSteps"
+                   type="number"
+                   step="500">
 
-                <option value="sedentary">Sedentary</option>
-                <option value="light">Lightly Active</option>
-                <option value="moderate">Moderately Active</option>
-                <option value="very">Very Active</option>
-                <option value="extreme">Extremely Active</option>
+            <label>Training Days Per Week</label>
+
+            <select id="profileTrainingDays">
+
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+
+            </select>
+
+            <label>Workout Duration</label>
+
+            <select id="profileTrainingDuration">
+
+                <option value="0">None</option>
+                <option value="30">30 minutes</option>
+                <option value="45">45 minutes</option>
+                <option value="60">60 minutes</option>
+                <option value="75">75 minutes</option>
+                <option value="90">90 minutes</option>
+                <option value="120">120 minutes</option>
+                <option value="150">150+ minutes</option>
+
+            </select>
+
+            <label>Job Activity</label>
+
+            <select id="profileJob">
+
+                <option value="sedentary">
+                    Mostly Sitting
+                </option>
+
+                <option value="standing">
+                    Mostly Standing
+                </option>
+
+                <option value="physical">
+                    Physical Job
+                </option>
 
             </select>
 
@@ -1298,7 +1708,8 @@ button.danger {
 
             <br><br>
 
-            <div class="card" style="margin-bottom:0">
+            <div class="card"
+                 style="margin-bottom:0">
 
                 <h3>Your Estimated Targets</h3>
 
@@ -1320,10 +1731,22 @@ button.danger {
 
                 </div>
 
+                <hr style="border-color:#222">
+
+                <div style="display:flex;justify-content:space-between;margin:10px 0">
+                    <span style="color:#888">BMR</span>
+                    <strong id="profileBMR">0</strong>
+                </div>
+
+                <div style="display:flex;justify-content:space-between;margin:10px 0">
+                    <span style="color:#888">Maintenance</span>
+                    <strong id="profileTDEE">0</strong>
+                </div>
+
                 <p class="small-note">
-                    These are estimates based on your entered information.
-                    Real-world calorie needs can vary, so your weight trend
-                    and progress should be used to fine-tune your targets.
+                    These numbers are starting estimates. Your actual
+                    weight trend and calorie intake over time can be used
+                    to fine-tune your personal maintenance level.
                 </p>
 
             </div>
@@ -1334,7 +1757,7 @@ button.danger {
 
 </div>
 
-<!-- ================= EASTER EGG ================= -->
+<!-- EASTER EGG -->
 
 <div id="easterEgg"
      class="easter-egg">
@@ -1356,108 +1779,258 @@ button.danger {
 <script>
 
 /* =========================================================
-   PERSONAL PROFILE
+   PROFILE / CALCULATOR
 ========================================================= */
 
-let profile = JSON.parse(localStorage.getItem("userProfile") || "null");
+let profile =
+    JSON.parse(
+        localStorage.getItem("userProfile") || "null"
+    );
 
 let setupData = {
     sex: "",
     age: "",
     height: "",
     weight: "",
-    activity: "",
+    steps: "",
+    job: "",
+    trainingDays: 0,
+    trainingDuration: 0,
     goal: "cut",
     intensity: "moderate"
 };
 
-const activityMultipliers = {
-    sedentary: 1.20,
-    light: 1.375,
-    moderate: 1.55,
-    very: 1.725,
-    extreme: 1.90
+
+/*
+=========================================================
+ACTIVITY CALCULATION
+
+Instead of using:
+
+BMR x 1.2 / 1.375 / 1.55 / 1.725
+
+we build the estimate from separate components.
+
+This helps prevent someone with a normal job who trains 5x/week
+and walks 10k steps from automatically being classified as
+"extremely active."
+=========================================================
+*/
+
+const jobCalories = {
+
+    sedentary: 0,
+
+    standing: 120,
+
+    physical: 250
+
 };
 
-const goalNames = {
-    cut: "Cut",
-    maintenance: "Maintenance",
-    bulk: "Bulk"
-};
 
-function roundToNearest10(number) {
-    return Math.round(number / 10) * 10;
+/*
+Walking estimate.
+
+A rough energy cost is estimated from:
+
+body weight
+x distance walked
+x walking energy cost
+
+10,000 steps is roughly 7-8 km for many adults.
+
+We cap the contribution so unusually high step entries don't
+create absurd calorie targets.
+*/
+
+function calculateWalkingCalories(weight, steps) {
+
+    let estimatedDistanceKm =
+        Number(steps) * 0.00072;
+
+    let calories =
+        Number(weight) *
+        estimatedDistanceKm *
+        0.5;
+
+    return Math.min(
+        Math.max(calories, 0),
+        600
+    );
 }
+
+
+/*
+Resistance / general gym training.
+
+We use a conservative average rather than assuming the person
+burns a huge amount during every gym session.
+
+5 kcal/kg/hour is a reasonable rough starting estimate for
+moderate-to-hard training.
+*/
+
+function calculateTrainingCalories(weight, days, duration) {
+
+    if (!days || !duration) {
+        return 0;
+    }
+
+    let hours =
+        Number(duration) / 60;
+
+    let caloriesPerSession =
+        Number(weight) *
+        5 *
+        hours;
+
+    let weeklyCalories =
+        caloriesPerSession *
+        Number(days);
+
+    return weeklyCalories / 7;
+}
+
+
+/*
+=========================================================
+BMR
+
+Mifflin-St Jeor
+=========================================================
+*/
 
 function calculateBMR(data) {
 
-    let weight = Number(data.weight);
-    let height = Number(data.height);
-    let age = Number(data.age);
+    let weight =
+        Number(data.weight);
+
+    let height =
+        Number(data.height);
+
+    let age =
+        Number(data.age);
 
     if (data.sex === "male") {
-        return (10 * weight) + (6.25 * height) - (5 * age) + 5;
+
+        return (
+            10 * weight +
+            6.25 * height -
+            5 * age +
+            5
+        );
+
     }
 
-    return (10 * weight) + (6.25 * height) - (5 * age) - 161;
+    return (
+        10 * weight +
+        6.25 * height -
+        5 * age -
+        161
+    );
 }
+
+
+/*
+=========================================================
+TDEE
+
+We start with BMR x 1.2.
+
+That represents basic daily living without deliberately
+adding exercise.
+
+Then we separately add:
+
+- walking
+- training
+- job activity
+
+This makes the questionnaire much more informative.
+=========================================================
+*/
 
 function calculateTDEE(data) {
 
-    let bmr = calculateBMR(data);
+    let bmr =
+        calculateBMR(data);
 
-    return bmr * activityMultipliers[data.activity];
+    let base =
+        bmr * 1.2;
+
+    let walking =
+        calculateWalkingCalories(
+            data.weight,
+            data.steps
+        );
+
+    let training =
+        calculateTrainingCalories(
+            data.weight,
+            data.trainingDays,
+            data.trainingDuration
+        );
+
+    let job =
+        jobCalories[data.job] || 0;
+
+    let tdee =
+        base +
+        walking +
+        training +
+        job;
+
+    /*
+       Small thermic effect adjustment.
+
+       Food itself requires energy to digest and process.
+       We use a modest 8% rather than assuming a huge number.
+    */
+
+    tdee *= 1.08;
+
+    return tdee;
 }
 
-function calculateProtein(weight, goal) {
 
-    let multiplier;
+/*
+=========================================================
+GOAL CALORIES
+=========================================================
+*/
 
-    if (goal === "cut") {
-        multiplier = 2.0;
-    }
-    else if (goal === "bulk") {
-        multiplier = 1.8;
-    }
-    else {
-        multiplier = 1.8;
-    }
-
-    return Math.round(weight * multiplier);
-}
-
-function calculateTargets(data) {
-
-    let tdee = calculateTDEE(data);
+function calculateGoalCalories(tdee, goal, intensity) {
 
     let calories;
 
-    if (data.goal === "cut") {
+    if (goal === "cut") {
 
-        if (data.intensity === "slow") {
-            calories = tdee - 250;
+        if (intensity === "slow") {
+            calories = tdee * 0.90;
         }
-        else if (data.intensity === "moderate") {
-            calories = tdee - 400;
+        else if (intensity === "moderate") {
+            calories = tdee * 0.85;
         }
         else {
-            calories = tdee - 550;
+            calories = tdee * 0.80;
         }
 
     }
-    else if (data.goal === "bulk") {
 
-        if (data.intensity === "slow") {
-            calories = tdee + 150;
+    else if (goal === "bulk") {
+
+        if (intensity === "slow") {
+            calories = tdee * 1.05;
         }
-        else if (data.intensity === "moderate") {
-            calories = tdee + 250;
+        else if (intensity === "moderate") {
+            calories = tdee * 1.08;
         }
         else {
-            calories = tdee + 350;
+            calories = tdee * 1.10;
         }
 
     }
+
     else {
 
         calories = tdee;
@@ -1465,27 +2038,102 @@ function calculateTargets(data) {
     }
 
     /*
-       Safety floor so the automatic calculation does not
-       accidentally create an extremely low calorie target.
+       Conservative automatic floors.
+       These prevent an unusual profile from producing
+       an extremely low target.
     */
 
-    let minimumCalories =
-        data.sex === "female" ? 1400 : 1600;
+    let floor =
+        goal === "cut"
+            ? (profile?.sex === "female" ? 1400 : 1600)
+            : 0;
 
-    calories = Math.max(calories, minimumCalories);
+    calories =
+        Math.max(
+            calories,
+            floor
+        );
 
-    calories = roundToNearest10(calories);
+    return Math.round(
+        calories / 10
+    ) * 10;
+}
 
-    let protein = calculateProtein(
-        Number(data.weight),
-        data.goal
+
+/*
+=========================================================
+PROTEIN
+
+Higher during a cut.
+=========================================================
+*/
+
+function calculateProtein(weight, goal) {
+
+    let multiplier;
+
+    if (goal === "cut") {
+
+        multiplier = 2.2;
+
+    }
+    else if (goal === "maintenance") {
+
+        multiplier = 2.0;
+
+    }
+    else {
+
+        multiplier = 2.0;
+
+    }
+
+    return Math.round(
+        Number(weight) * multiplier
     );
+}
+
+
+/*
+=========================================================
+FULL CALCULATION
+=========================================================
+*/
+
+function calculateTargets(data) {
+
+    let bmr =
+        calculateBMR(data);
+
+    let tdee =
+        calculateTDEE(data);
+
+    let calories =
+        calculateGoalCalories(
+            tdee,
+            data.goal,
+            data.intensity
+        );
+
+    let protein =
+        calculateProtein(
+            data.weight,
+            data.goal
+        );
 
     return {
-        bmr: Math.round(calculateBMR(data)),
-        tdee: roundToNearest10(tdee),
-        calories: calories,
-        protein: protein
+
+        bmr: Math.round(bmr),
+
+        tdee:
+            Math.round(
+                tdee / 10
+            ) * 10,
+
+        calories,
+
+        protein
+
     };
 }
 
@@ -1495,10 +2143,14 @@ function calculateTargets(data) {
 
 function selectSetupOption(button, field, value) {
 
-    let parent = button.parentElement;
+    let parent =
+        button.parentElement;
 
-    parent.querySelectorAll(".option")
-        .forEach(option => option.classList.remove("selected"));
+    parent
+        .querySelectorAll(".option")
+        .forEach(option =>
+            option.classList.remove("selected")
+        );
 
     button.classList.add("selected");
 
@@ -1507,94 +2159,283 @@ function selectSetupOption(button, field, value) {
     if (field === "goal") {
 
         let description =
-            document.getElementById("intensityDescription");
+            document.getElementById(
+                "intensityDescription"
+            );
 
         if (value === "cut") {
+
             description.innerText =
-                "Choose how quickly you want to lose weight.";
+                "Choose how quickly you'd like to lose body fat.";
+
         }
         else if (value === "bulk") {
+
             description.innerText =
-                "Choose how quickly you want to gain weight.";
+                "Choose how quickly you'd like to gain weight.";
+
         }
         else {
+
             description.innerText =
-                "Maintenance does not need an aggressive adjustment.";
+                "Maintenance keeps calories around your estimated expenditure.";
+
         }
     }
 }
 
 function nextSetupStep(step) {
 
-    document.querySelectorAll(".setup-step")
-        .forEach(el => el.classList.remove("active"));
+    document
+        .querySelectorAll(".setup-step")
+        .forEach(el =>
+            el.classList.remove("active")
+        );
 
-    document.getElementById("setup" + step)
+    document
+        .getElementById("setup" + step)
         .classList.add("active");
 
-    document.getElementById("setupStepText")
-        .innerText = "STEP " + step + " OF 5";
+    document
+        .getElementById("setupStepText")
+        .innerText =
+        "STEP " + step + " OF 7";
 }
 
 function validateBodyStep() {
 
     let age =
-        Number(document.getElementById("setupAge").value);
+        Number(
+            document.getElementById(
+                "setupAge"
+            ).value
+        );
 
     let height =
-        Number(document.getElementById("setupHeight").value);
+        Number(
+            document.getElementById(
+                "setupHeight"
+            ).value
+        );
 
     let weight =
-        Number(document.getElementById("setupWeight").value);
-
-    if (!age || !height || !weight) {
-        alert("Please enter your age, height and weight.");
-        return;
-    }
+        Number(
+            document.getElementById(
+                "setupWeight"
+            ).value
+        );
 
     if (!setupData.sex) {
-        alert("Please select your sex.");
+
+        alert(
+            "Please select your sex."
+        );
+
         return;
     }
 
-    setupData.age = age;
-    setupData.height = height;
-    setupData.weight = weight;
+    if (
+        !age ||
+        !height ||
+        !weight
+    ) {
+
+        alert(
+            "Please enter your age, height and weight."
+        );
+
+        return;
+    }
+
+    setupData.age =
+        age;
+
+    setupData.height =
+        height;
+
+    setupData.weight =
+        weight;
 
     nextSetupStep(3);
 }
 
-function finishSetup() {
+function validateMovementStep() {
 
-    if (!setupData.sex) {
-        alert("Please select your sex.");
-        nextSetupStep(1);
+    let steps =
+        Number(
+            document.getElementById(
+                "setupSteps"
+            ).value
+        );
+
+    let job =
+        setupData.job;
+
+    if (
+        steps < 0 ||
+        isNaN(steps)
+    ) {
+
+        alert(
+            "Please enter your average daily steps."
+        );
+
         return;
     }
 
-    if (!setupData.activity) {
-        alert("Please select your activity level.");
-        nextSetupStep(3);
+    if (!job) {
+
+        alert(
+            "Please select your job activity."
+        );
+
         return;
     }
+
+    setupData.steps =
+        steps;
+
+    nextSetupStep(4);
+}
+
+
+/*
+Show the calculated result before creating the profile.
+*/
+
+function showSetupResults() {
+
+    let trainingDays =
+        Number(
+            document.getElementById(
+                "setupTrainingDays"
+            ).value
+        );
+
+    let trainingDuration =
+        Number(
+            document.getElementById(
+                "setupTrainingDuration"
+            ).value
+        );
+
+    setupData.trainingDays =
+        trainingDays;
+
+    setupData.trainingDuration =
+        trainingDuration;
 
     if (!setupData.goal) {
-        alert("Please select your goal.");
-        nextSetupStep(4);
+
+        alert(
+            "Please select your goal."
+        );
+
+        nextSetupStep(5);
+
         return;
     }
 
     if (!setupData.intensity) {
-        alert("Please select an intensity.");
+
+        alert(
+            "Please select your goal pace."
+        );
+
+        nextSetupStep(6);
+
         return;
     }
 
-    let targets = calculateTargets(setupData);
+    let targets =
+        calculateTargets(
+            setupData
+        );
+
+    document.getElementById(
+        "setupResultCalories"
+    ).innerText =
+        targets.calories;
+
+    document.getElementById(
+        "setupResultProtein"
+    ).innerText =
+        targets.protein +
+        "g protein";
+
+    document.getElementById(
+        "setupResultBMR"
+    ).innerText =
+        targets.bmr +
+        " kcal";
+
+    document.getElementById(
+        "setupResultTDEE"
+    ).innerText =
+        targets.tdee +
+        " kcal";
+
+    nextSetupStep(7);
+}
+
+
+/*
+Override next step for step 5 -> 6 and 6 -> 7.
+*/
+
+const originalNextSetupStep =
+    nextSetupStep;
+
+
+/*
+Buttons on step 5 and step 6 call nextSetupStep directly,
+so we handle those transitions here by wrapping the function.
+*/
+
+nextSetupStep = function(step) {
+
+    if (step === 6) {
+
+        let goal =
+            setupData.goal;
+
+        if (!goal) {
+
+            alert(
+                "Please select your goal."
+            );
+
+            return;
+        }
+    }
+
+    if (step === 7) {
+
+        showSetupResults();
+
+        return;
+    }
+
+    originalNextSetupStep(step);
+};
+
+
+function finishSetup() {
+
+    let targets =
+        calculateTargets(
+            setupData
+        );
 
     profile = {
+
         ...setupData,
-        targets: targets,
-        createdAt: Date.now()
+
+        targets,
+
+        createdAt:
+            Date.now()
+
     };
 
     localStorage.setItem(
@@ -1602,16 +2443,38 @@ function finishSetup() {
         JSON.stringify(profile)
     );
 
-    applyProfile();
-
-    document.getElementById("setupScreen").style.display = "none";
-    document.getElementById("mainApp").style.display = "block";
-
-    alert(
-        "Your personalised targets are ready!\n\n" +
-        targets.calories + " kcal/day\n" +
-        targets.protein + "g protein/day"
+    localStorage.setItem(
+        "weightCurrent",
+        profile.weight
     );
+
+    document.getElementById(
+        "setupScreen"
+    ).style.display =
+        "none";
+
+    document.getElementById(
+        "mainApp"
+    ).style.display =
+        "block";
+
+    updateTheme();
+    updateTargets();
+
+    checkNewDay();
+    checkNewWeek();
+
+    loadTotals();
+    loadWeek();
+    drawGraphs();
+    loadWeightGoal();
+    updateWeightEntryState();
+    renderWeightHistory();
+    drawWeightGraph();
+
+    window.scrollTo({
+        top: 0
+    });
 }
 
 /* =========================================================
@@ -1622,50 +2485,132 @@ function loadProfileScreen() {
 
     if (!profile) return;
 
-    document.getElementById("profileSex").value =
+    document.getElementById(
+        "profileSex"
+    ).value =
         profile.sex;
 
-    document.getElementById("profileAge").value =
+    document.getElementById(
+        "profileAge"
+    ).value =
         profile.age;
 
-    document.getElementById("profileHeight").value =
+    document.getElementById(
+        "profileHeight"
+    ).value =
         profile.height;
 
-    document.getElementById("profileWeight").value =
+    document.getElementById(
+        "profileWeight"
+    ).value =
         profile.weight;
 
-    document.getElementById("profileActivity").value =
-        profile.activity;
+    document.getElementById(
+        "profileSteps"
+    ).value =
+        profile.steps;
 
-    document.getElementById("profileCalories").innerText =
+    document.getElementById(
+        "profileTrainingDays"
+    ).value =
+        profile.trainingDays;
+
+    document.getElementById(
+        "profileTrainingDuration"
+    ).value =
+        profile.trainingDuration;
+
+    document.getElementById(
+        "profileJob"
+    ).value =
+        profile.job;
+
+    document.getElementById(
+        "profileCalories"
+    ).innerText =
         profile.targets.calories;
 
-    document.getElementById("profileProtein").innerText =
-        profile.targets.protein + "g protein";
+    document.getElementById(
+        "profileProtein"
+    ).innerText =
+        profile.targets.protein +
+        "g protein";
+
+    document.getElementById(
+        "profileBMR"
+    ).innerText =
+        profile.targets.bmr +
+        " kcal";
+
+    document.getElementById(
+        "profileTDEE"
+    ).innerText =
+        profile.targets.tdee +
+        " kcal";
 }
 
 function saveProfile() {
 
     let updated = {
-        sex: document.getElementById("profileSex").value,
 
-        age: Number(
-            document.getElementById("profileAge").value
-        ),
+        sex:
+            document.getElementById(
+                "profileSex"
+            ).value,
 
-        height: Number(
-            document.getElementById("profileHeight").value
-        ),
+        age:
+            Number(
+                document.getElementById(
+                    "profileAge"
+                ).value
+            ),
 
-        weight: Number(
-            document.getElementById("profileWeight").value
-        ),
+        height:
+            Number(
+                document.getElementById(
+                    "profileHeight"
+                ).value
+            ),
 
-        activity:
-            document.getElementById("profileActivity").value,
+        weight:
+            Number(
+                document.getElementById(
+                    "profileWeight"
+                ).value
+            ),
 
-        goal: profile.goal,
-        intensity: profile.intensity
+        steps:
+            Number(
+                document.getElementById(
+                    "profileSteps"
+                ).value
+            ),
+
+        trainingDays:
+            Number(
+                document.getElementById(
+                    "profileTrainingDays"
+                ).value
+            ),
+
+        trainingDuration:
+            Number(
+                document.getElementById(
+                    "profileTrainingDuration"
+                ).value
+            ),
+
+        job:
+            document.getElementById(
+                "profileJob"
+            ).value,
+
+        goal:
+            profile.goal,
+
+        intensity:
+            profile.intensity
+
     };
 
     if (
@@ -1673,16 +2618,27 @@ function saveProfile() {
         !updated.height ||
         !updated.weight
     ) {
-        alert("Please fill in all your details.");
+
+        alert(
+            "Please fill in your body information."
+        );
+
         return;
     }
 
-    let targets = calculateTargets(updated);
+    let targets =
+        calculateTargets(
+            updated
+        );
 
     profile = {
+
         ...profile,
+
         ...updated,
-        targets: targets
+
+        targets
+
     };
 
     localStorage.setItem(
@@ -1690,60 +2646,68 @@ function saveProfile() {
         JSON.stringify(profile)
     );
 
-    /*
-       Also update current weight in the weight tracker.
-    */
-
     localStorage.setItem(
         "weightCurrent",
         updated.weight
     );
 
-    applyProfile();
-
-    document.getElementById("profileCalories").innerText =
-        targets.calories;
-
-    document.getElementById("profileProtein").innerText =
-        targets.protein + "g protein";
-
-    loadWeightGoal();
+    updateTheme();
     updateTargets();
     loadTotals();
     loadWeek();
     drawGraphs();
+    loadWeightGoal();
+
+    document.getElementById(
+        "profileCalories"
+    ).innerText =
+        targets.calories;
+
+    document.getElementById(
+        "profileProtein"
+    ).innerText =
+        targets.protein +
+        "g protein";
+
+    document.getElementById(
+        "profileBMR"
+    ).innerText =
+        targets.bmr +
+        " kcal";
+
+    document.getElementById(
+        "profileTDEE"
+    ).innerText =
+        targets.tdee +
+        " kcal";
 
     alert(
         "Targets updated!\n\n" +
-        targets.calories + " kcal/day\n" +
-        targets.protein + "g protein/day"
+        targets.calories +
+        " kcal/day\n" +
+        targets.protein +
+        "g protein/day"
     );
 }
 
 /* =========================================================
-   GOAL / THEME
+   GOALS / THEME
 ========================================================= */
-
-function applyProfile() {
-
-    if (!profile) return;
-
-    document.getElementById("goalSelect").value =
-        profile.goal;
-
-    updateTheme();
-    updateTargets();
-}
 
 function changeGoal(goal) {
 
     if (!profile) return;
 
-    profile.goal = goal;
+    profile.goal =
+        goal;
 
-    let targets = calculateTargets(profile);
+    let targets =
+        calculateTargets(
+            profile
+        );
 
-    profile.targets = targets;
+    profile.targets =
+        targets;
 
     localStorage.setItem(
         "userProfile",
@@ -1762,37 +2726,58 @@ function updateTheme() {
 
     if (!profile) return;
 
-    let goal = profile.goal;
-
     let accent;
     let glow;
 
-    if (goal === "cut") {
+    if (
+        profile.goal === "cut"
+    ) {
 
-        accent = "#39ff14";
-        glow = "rgba(57,255,20,.45)";
+        accent =
+            "#39ff14";
+
+        glow =
+            "rgba(57,255,20,.45)";
 
     }
-    else if (goal === "maintenance") {
 
-        accent = "#7b2cff";
-        glow = "rgba(123,44,255,.45)";
+    else if (
+        profile.goal === "maintenance"
+    ) {
+
+        accent =
+            "#7b2cff";
+
+        glow =
+            "rgba(123,44,255,.45)";
 
     }
+
     else {
 
-        accent = "#ff1744";
-        glow = "rgba(255,23,68,.45)";
+        accent =
+            "#ff1744";
+
+        glow =
+            "rgba(255,23,68,.45)";
 
     }
 
     document.documentElement.style
-        .setProperty("--accent", accent);
+        .setProperty(
+            "--accent",
+            accent
+        );
 
     document.documentElement.style
-        .setProperty("--glow", glow);
+        .setProperty(
+            "--glow",
+            glow
+        );
 
-    document.getElementById("goalInfo").innerText =
+    document.getElementById(
+        "goalInfo"
+    ).innerText =
         "Personalised target: " +
         profile.targets.calories +
         " kcal / " +
@@ -1804,23 +2789,35 @@ function updateTargets() {
 
     if (!profile) return;
 
-    document.getElementById("dailyCalorieTarget")
-        .innerText = profile.targets.calories;
+    document.getElementById(
+        "dailyCalorieTarget"
+    ).innerText =
+        profile.targets.calories;
 
-    document.getElementById("dailyProteinTarget")
-        .innerText = profile.targets.protein;
+    document.getElementById(
+        "dailyProteinTarget"
+    ).innerText =
+        profile.targets.protein;
 
-    document.getElementById("weeklyCalorieTarget")
-        .innerText = profile.targets.calories * 7;
+    document.getElementById(
+        "weeklyCalorieTarget"
+    ).innerText =
+        profile.targets.calories * 7;
 
-    document.getElementById("weeklyProteinTarget")
-        .innerText = profile.targets.protein * 7;
+    document.getElementById(
+        "weeklyProteinTarget"
+    ).innerText =
+        profile.targets.protein * 7;
 
-    document.getElementById("graphTarget")
-        .innerText = profile.targets.calories;
+    document.getElementById(
+        "graphTarget"
+    ).innerText =
+        profile.targets.calories;
 
-    document.getElementById("proteinGraphTarget")
-        .innerText = profile.targets.protein;
+    document.getElementById(
+        "proteinGraphTarget"
+    ).innerText =
+        profile.targets.protein;
 }
 
 /* =========================================================
@@ -1829,33 +2826,45 @@ function updateTargets() {
 
 function toggleMenu() {
 
-    document.getElementById("sideMenu")
-        .classList.toggle("active");
+    document.getElementById(
+        "sideMenu"
+    ).classList.toggle("active");
 
-    document.getElementById("menuOverlay")
-        .classList.toggle("active");
+    document.getElementById(
+        "menuOverlay"
+    ).classList.toggle("active");
 }
 
 function closeMenu() {
 
-    document.getElementById("sideMenu")
-        .classList.remove("active");
+    document.getElementById(
+        "sideMenu"
+    ).classList.remove("active");
 
-    document.getElementById("menuOverlay")
-        .classList.remove("active");
+    document.getElementById(
+        "menuOverlay"
+    ).classList.remove("active");
 }
 
 function openScreen(screen) {
 
-    document.querySelectorAll(".app-screen")
-        .forEach(el => el.classList.remove("active"));
+    document
+        .querySelectorAll(".app-screen")
+        .forEach(el =>
+            el.classList.remove("active")
+        );
 
-    document.getElementById(
-        screen + "Screen"
-    ).classList.add("active");
+    document
+        .getElementById(
+            screen + "Screen"
+        )
+        .classList.add("active");
 
-    document.querySelectorAll(".menu-item")
-        .forEach(el => el.classList.remove("active"));
+    document
+        .querySelectorAll(".menu-item")
+        .forEach(el =>
+            el.classList.remove("active")
+        );
 
     if (screen === "dashboard") {
 
@@ -1864,6 +2873,7 @@ function openScreen(screen) {
         ).classList.add("active");
 
     }
+
     else if (screen === "workouts") {
 
         document.getElementById(
@@ -1871,6 +2881,7 @@ function openScreen(screen) {
         ).classList.add("active");
 
     }
+
     else if (screen === "profile") {
 
         document.getElementById(
@@ -1878,6 +2889,7 @@ function openScreen(screen) {
         ).classList.add("active");
 
         loadProfileScreen();
+
     }
 
     closeMenu();
@@ -1897,57 +2909,88 @@ let lastTabSwitch = 0;
 
 function showPage(page, button) {
 
-    document.getElementById("mainPage").style.display =
-        page === "main" ? "block" : "none";
+    document.getElementById(
+        "mainPage"
+    ).style.display =
+        page === "main"
+            ? "block"
+            : "none";
 
-    document.getElementById("graphsPage").style.display =
-        page === "graphs" ? "block" : "none";
+    document.getElementById(
+        "graphsPage"
+    ).style.display =
+        page === "graphs"
+            ? "block"
+            : "none";
 
-    document.getElementById("weightPage").style.display =
-        page === "weight" ? "block" : "none";
+    document.getElementById(
+        "weightPage"
+    ).style.display =
+        page === "weight"
+            ? "block"
+            : "none";
 
-    document.querySelectorAll(".tab-button")
-        .forEach(btn => btn.classList.remove("active"));
+    document
+        .querySelectorAll(".tab-button")
+        .forEach(btn =>
+            btn.classList.remove("active")
+        );
 
     button.classList.add("active");
 
     if (page === "graphs") {
+
         drawGraphs();
+
     }
 
     if (page === "weight") {
+
         loadWeightGoal();
         updateWeightEntryState();
         renderWeightHistory();
         drawWeightGraph();
+
     }
 
     checkEasterEgg(page);
 }
 
 /* =========================================================
-   DAILY TRACKING
+   DAILY
 ========================================================= */
 
 function getTodayKey() {
 
-    let d = new Date();
+    let d =
+        new Date();
 
-    return d.getFullYear() +
+    return (
+        d.getFullYear() +
         "-" +
-        String(d.getMonth() + 1).padStart(2, "0") +
+        String(
+            d.getMonth() + 1
+        ).padStart(2,"0") +
         "-" +
-        String(d.getDate()).padStart(2, "0");
+        String(
+            d.getDate()
+        ).padStart(2,"0")
+    );
 }
 
 function checkNewDay() {
 
     let savedDate =
-        localStorage.getItem("trackingDate");
+        localStorage.getItem(
+            "trackingDate"
+        );
 
-    let today = getTodayKey();
+    let today =
+        getTodayKey();
 
-    if (savedDate !== today) {
+    if (
+        savedDate !== today
+    ) {
 
         localStorage.setItem(
             "trackingDate",
@@ -1969,33 +3012,36 @@ function checkNewDay() {
 function getCalories() {
 
     return Number(
-        localStorage.getItem("todayCalories") || 0
+        localStorage.getItem(
+            "todayCalories"
+        ) || 0
     );
 }
 
 function getProtein() {
 
     return Number(
-        localStorage.getItem("todayProtein") || 0
+        localStorage.getItem(
+            "todayProtein"
+        ) || 0
     );
 }
 
-function addNutrition(calories, protein) {
-
-    let newCalories =
-        getCalories() + calories;
-
-    let newProtein =
-        getProtein() + protein;
+function addNutrition(
+    calories,
+    protein
+) {
 
     localStorage.setItem(
         "todayCalories",
-        newCalories
+        getCalories() +
+        calories
     );
 
     localStorage.setItem(
         "todayProtein",
-        newProtein
+        getProtein() +
+        protein
     );
 
     loadTotals();
@@ -2004,70 +3050,106 @@ function addNutrition(calories, protein) {
 function addSavedFood() {
 
     let value =
-        document.getElementById("foodSelect").value;
+        document.getElementById(
+            "foodSelect"
+        ).value;
 
     let quantity =
         Number(
-            document.getElementById("foodQuantity").value
+            document.getElementById(
+                "foodQuantity"
+            ).value
         ) || 1;
 
     if (!value) {
-        alert("Select a food first.");
+
+        alert(
+            "Select a food first."
+        );
+
         return;
     }
 
-    let parts = value.split(",");
+    let parts =
+        value.split(",");
 
-    let calories =
-        Number(parts[0]) * quantity;
+    addNutrition(
+        Number(parts[0]) *
+        quantity,
 
-    let protein =
-        Number(parts[1]) * quantity;
+        Number(parts[1]) *
+        quantity
+    );
 
-    addNutrition(calories, protein);
-
-    document.getElementById("foodSelect").value = "";
+    document.getElementById(
+        "foodSelect"
+    ).value = "";
 }
 
 function addDrink() {
 
     let value =
-        document.getElementById("drinkSelect").value;
+        document.getElementById(
+            "drinkSelect"
+        ).value;
 
     let quantity =
         Number(
-            document.getElementById("drinkQuantity").value
+            document.getElementById(
+                "drinkQuantity"
+            ).value
         ) || 1;
 
     if (!value) {
-        alert("Select a drink first.");
+
+        alert(
+            "Select a drink first."
+        );
+
         return;
     }
 
-    let parts = value.split(",");
+    let parts =
+        value.split(",");
 
     addNutrition(
-        Number(parts[0]) * quantity,
-        Number(parts[1]) * quantity
+        Number(parts[0]) *
+        quantity,
+
+        Number(parts[1]) *
+        quantity
     );
 
-    document.getElementById("drinkSelect").value = "";
+    document.getElementById(
+        "drinkSelect"
+    ).value = "";
 }
 
 function addManualFood() {
 
     let calories =
         Number(
-            document.getElementById("manualCalories").value
+            document.getElementById(
+                "manualCalories"
+            ).value
         );
 
     let protein =
         Number(
-            document.getElementById("manualProtein").value
+            document.getElementById(
+                "manualProtein"
+            ).value
         );
 
-    if (!calories && !protein) {
-        alert("Enter calories or protein.");
+    if (
+        !calories &&
+        !protein
+    ) {
+
+        alert(
+            "Enter calories or protein."
+        );
+
         return;
     }
 
@@ -2076,16 +3158,24 @@ function addManualFood() {
         protein || 0
     );
 
-    document.getElementById("manualCalories").value = "";
-    document.getElementById("manualProtein").value = "";
+    document.getElementById(
+        "manualCalories"
+    ).value = "";
+
+    document.getElementById(
+        "manualProtein"
+    ).value = "";
 }
 
 function loadTotals() {
 
     if (!profile) return;
 
-    let calories = getCalories();
-    let protein = getProtein();
+    let calories =
+        getCalories();
+
+    let protein =
+        getProtein();
 
     let calorieTarget =
         profile.targets.calories;
@@ -2093,105 +3183,140 @@ function loadTotals() {
     let proteinTarget =
         profile.targets.protein;
 
-    document.getElementById("todayCalories")
-        .innerText = Math.round(calories);
+    document.getElementById(
+        "todayCalories"
+    ).innerText =
+        Math.round(calories);
 
-    document.getElementById("todayProtein")
-        .innerText = Math.round(protein);
+    document.getElementById(
+        "todayProtein"
+    ).innerText =
+        Math.round(protein);
 
     let caloriePercent =
         Math.round(
-            calories / calorieTarget * 100
+            calories /
+            calorieTarget *
+            100
         );
 
     let proteinPercent =
         Math.round(
-            protein / proteinTarget * 100
+            protein /
+            proteinTarget *
+            100
         );
 
-    document.getElementById("caloriePercent")
-        .innerText = caloriePercent + "%";
+    document.getElementById(
+        "caloriePercent"
+    ).innerText =
+        caloriePercent + "%";
 
-    document.getElementById("proteinPercent")
-        .innerText = proteinPercent + "%";
+    document.getElementById(
+        "proteinPercent"
+    ).innerText =
+        proteinPercent + "%";
 
-    let calorieBar =
-        document.getElementById("calorieBar");
+    document.getElementById(
+        "calorieBar"
+    ).style.width =
+        Math.min(
+            caloriePercent,
+            100
+        ) + "%";
 
-    let proteinBar =
-        document.getElementById("proteinBar");
+    document.getElementById(
+        "proteinBar"
+    ).style.width =
+        Math.min(
+            proteinPercent,
+            100
+        ) + "%";
 
-    calorieBar.style.width =
-        Math.min(caloriePercent, 100) + "%";
-
-    proteinBar.style.width =
-        Math.min(proteinPercent, 100) + "%";
-
-    calorieBar.classList.toggle(
+    document.getElementById(
+        "calorieBar"
+    ).classList.toggle(
         "over",
-        calories > calorieTarget
+        calories >
+        calorieTarget
     );
-
-    proteinBar.classList.toggle(
-        "over",
-        false
-    );
-
-    let calorieRemaining =
-        Math.max(
-            calorieTarget - calories,
-            0
-        );
-
-    let proteinRemaining =
-        Math.max(
-            proteinTarget - protein,
-            0
-        );
 
     let calorieElement =
-        document.getElementById("remainingCalories");
+        document.getElementById(
+            "remainingCalories"
+        );
 
     let proteinElement =
-        document.getElementById("remainingProtein");
+        document.getElementById(
+            "remainingProtein"
+        );
 
-    if (calories > calorieTarget) {
+    if (
+        calories >
+        calorieTarget
+    ) {
 
         calorieElement.innerText =
             "Calories Over: " +
-            Math.round(calories - calorieTarget);
+            Math.round(
+                calories -
+                calorieTarget
+            );
 
-        calorieElement.classList.add("over");
+        calorieElement.classList.add(
+            "over"
+        );
 
     }
     else {
 
         calorieElement.innerText =
             "Calories Left: " +
-            Math.round(calorieRemaining);
+            Math.round(
+                calorieTarget -
+                calories
+            );
 
-        calorieElement.classList.remove("over");
+        calorieElement.classList.remove(
+            "over"
+        );
+
     }
 
-    if (protein > proteinTarget) {
+    if (
+        protein >
+        proteinTarget
+    ) {
 
         proteinElement.innerText =
             "Protein Over: " +
-            Math.round(protein - proteinTarget) + "g";
+            Math.round(
+                protein -
+                proteinTarget
+            ) +
+            "g";
 
     }
     else {
 
         proteinElement.innerText =
             "Protein Left: " +
-            Math.round(proteinRemaining) + "g";
+            Math.round(
+                proteinTarget -
+                protein
+            ) +
+            "g";
 
     }
 }
 
 function resetToday() {
 
-    if (!confirm("Reset today's calories and protein?")) {
+    if (
+        !confirm(
+            "Reset today's calories and protein?"
+        )
+    ) {
         return;
     }
 
@@ -2209,12 +3334,13 @@ function resetToday() {
 }
 
 /* =========================================================
-   WEEK TRACKING
+   WEEK
 ========================================================= */
 
 function getWeekID() {
 
-    let now = new Date();
+    let now =
+        new Date();
 
     let day =
         now.getDay() || 7;
@@ -2223,24 +3349,38 @@ function getWeekID() {
         new Date(now);
 
     monday.setDate(
-        now.getDate() - day + 1
+        now.getDate() -
+        day +
+        1
     );
 
-    return monday.getFullYear() +
+    return (
+        monday.getFullYear() +
         "-" +
-        String(monday.getMonth() + 1).padStart(2, "0") +
+        String(
+            monday.getMonth() + 1
+        ).padStart(2,"0") +
         "-" +
-        String(monday.getDate()).padStart(2, "0");
+        String(
+            monday.getDate()
+        ).padStart(2,"0")
+    );
 }
 
 function checkNewWeek() {
 
-    let currentWeek = getWeekID();
+    let currentWeek =
+        getWeekID();
 
     let savedWeek =
-        localStorage.getItem("weekID");
+        localStorage.getItem(
+            "weekID"
+        );
 
-    if (savedWeek !== currentWeek) {
+    if (
+        savedWeek !==
+        currentWeek
+    ) {
 
         localStorage.setItem(
             "weekID",
@@ -2272,67 +3412,93 @@ function checkNewWeek() {
 function getWeekCalories() {
 
     return Number(
-        localStorage.getItem("weekCalories") || 0
+        localStorage.getItem(
+            "weekCalories"
+        ) || 0
     );
 }
 
 function getWeekProtein() {
 
     return Number(
-        localStorage.getItem("weekProtein") || 0
+        localStorage.getItem(
+            "weekProtein"
+        ) || 0
     );
 }
 
 function getAddedDays() {
 
     return JSON.parse(
-        localStorage.getItem("weekAddedDays") || "[]"
+        localStorage.getItem(
+            "weekAddedDays"
+        ) || "[]"
     );
 }
 
 function addTodayToWeek() {
 
-    let today = getTodayKey();
+    let today =
+        getTodayKey();
 
-    let addedDays = getAddedDays();
+    let addedDays =
+        getAddedDays();
 
-    if (addedDays.includes(today)) {
+    if (
+        addedDays.includes(today)
+    ) {
         return;
     }
 
-    let calories = getCalories();
-    let protein = getProtein();
+    let calories =
+        getCalories();
+
+    let protein =
+        getProtein();
 
     localStorage.setItem(
         "weekCalories",
-        getWeekCalories() + calories
+        getWeekCalories() +
+        calories
     );
 
     localStorage.setItem(
         "weekProtein",
-        getWeekProtein() + protein
+        getWeekProtein() +
+        protein
     );
 
-    addedDays.push(today);
+    addedDays.push(
+        today
+    );
 
     localStorage.setItem(
         "weekAddedDays",
-        JSON.stringify(addedDays)
+        JSON.stringify(
+            addedDays
+        )
     );
 
     let history =
         JSON.parse(
-            localStorage.getItem("dailyHistory") || "{}"
+            localStorage.getItem(
+                "dailyHistory"
+            ) || "{}"
         );
 
     history[today] = {
-        calories: calories,
-        protein: protein
+
+        calories,
+
+        protein
+
     };
 
     localStorage.setItem(
         "dailyHistory",
-        JSON.stringify(history)
+        JSON.stringify(
+            history
+        )
     );
 
     loadWeek();
@@ -2343,70 +3509,111 @@ function loadWeek() {
 
     if (!profile) return;
 
-    let calories = getWeekCalories();
-    let protein = getWeekProtein();
+    let calories =
+        getWeekCalories();
+
+    let protein =
+        getWeekProtein();
 
     let calorieTarget =
-        profile.targets.calories * 7;
+        profile.targets.calories *
+        7;
 
     let proteinTarget =
-        profile.targets.protein * 7;
+        profile.targets.protein *
+        7;
 
-    document.getElementById("weekCalories")
-        .innerText = Math.round(calories);
+    document.getElementById(
+        "weekCalories"
+    ).innerText =
+        Math.round(calories);
 
-    document.getElementById("weekProtein")
-        .innerText = Math.round(protein);
+    document.getElementById(
+        "weekProtein"
+    ).innerText =
+        Math.round(protein);
 
     let caloriePercent =
         Math.round(
-            calories / calorieTarget * 100
+            calories /
+            calorieTarget *
+            100
         );
 
     let proteinPercent =
         Math.round(
-            protein / proteinTarget * 100
+            protein /
+            proteinTarget *
+            100
         );
 
-    document.getElementById("weekCaloriePercent")
-        .innerText = caloriePercent + "%";
+    document.getElementById(
+        "weekCaloriePercent"
+    ).innerText =
+        caloriePercent + "%";
 
-    document.getElementById("weekProteinPercent")
-        .innerText = proteinPercent + "%";
+    document.getElementById(
+        "weekProteinPercent"
+    ).innerText =
+        proteinPercent + "%";
 
-    document.getElementById("weekCalorieBar")
-        .style.width =
-        Math.min(caloriePercent,100) + "%";
+    document.getElementById(
+        "weekCalorieBar"
+    ).style.width =
+        Math.min(
+            caloriePercent,
+            100
+        ) + "%";
 
-    document.getElementById("weekProteinBar")
-        .style.width =
-        Math.min(proteinPercent,100) + "%";
+    document.getElementById(
+        "weekProteinBar"
+    ).style.width =
+        Math.min(
+            proteinPercent,
+            100
+        ) + "%";
 
     let button =
-        document.getElementById("addWeekButton");
+        document.getElementById(
+            "addWeekButton"
+        );
 
-    if (getAddedDays().includes(getTodayKey())) {
+    if (
+        getAddedDays()
+            .includes(today = getTodayKey())
+    ) {
 
-        button.disabled = true;
+        button.disabled =
+            true;
+
         button.innerText =
             "✓ Today Added to Week";
 
-        button.style.opacity = ".45";
+        button.style.opacity =
+            ".45";
 
     }
     else {
 
-        button.disabled = false;
+        button.disabled =
+            false;
+
         button.innerText =
             "+ Add Today to Week";
 
-        button.style.opacity = "1";
+        button.style.opacity =
+            "1";
+
     }
 }
 
 function resetWeek() {
 
-    if (!confirm("Reset this week's totals?")) {
+    if (
+        !confirm(
+            "Reset this week's totals?"
+        )
+    ) {
         return;
     }
 
@@ -2444,12 +3651,15 @@ function drawGraphs() {
 
     let history =
         JSON.parse(
-            localStorage.getItem("dailyHistory") || "{}"
+            localStorage.getItem(
+                "dailyHistory"
+            ) || "{}"
         );
 
     let dates = [];
 
-    let now = new Date();
+    let now =
+        new Date();
 
     let day =
         now.getDay() || 7;
@@ -2458,117 +3668,155 @@ function drawGraphs() {
         new Date(now);
 
     monday.setDate(
-        now.getDate() - day + 1
+        now.getDate() -
+        day +
+        1
     );
 
-    for (let i = 0; i < 7; i++) {
+    for (
+        let i = 0;
+        i < 7;
+        i++
+    ) {
 
-        let date = new Date(monday);
+        let date =
+            new Date(monday);
 
         date.setDate(
-            monday.getDate() + i
+            monday.getDate() +
+            i
         );
 
         let key =
             date.getFullYear() +
             "-" +
-            String(date.getMonth()+1).padStart(2,"0") +
+            String(
+                date.getMonth()+1
+            ).padStart(2,"0") +
             "-" +
-            String(date.getDate()).padStart(2,"0");
+            String(
+                date.getDate()
+            ).padStart(2,"0");
 
         dates.push(key);
     }
 
     let calorieGraph =
-        document.getElementById("calorieGraph");
+        document.getElementById(
+            "calorieGraph"
+        );
 
     let proteinGraph =
-        document.getElementById("proteinGraph");
+        document.getElementById(
+            "proteinGraph"
+        );
 
     calorieGraph.innerHTML = "";
     proteinGraph.innerHTML = "";
 
     let maxCalories =
         Math.max(
-            profile.targets.calories * 1.5,
-            ...dates.map(d =>
-                history[d]?.calories || 0
+            profile.targets.calories *
+            1.5,
+
+            ...dates.map(
+                d =>
+                    history[d]?.calories ||
+                    0
             )
         );
 
     let maxProtein =
         Math.max(
-            profile.targets.protein * 1.5,
-            ...dates.map(d =>
-                history[d]?.protein || 0
+            profile.targets.protein *
+            1.5,
+
+            ...dates.map(
+                d =>
+                    history[d]?.protein ||
+                    0
             )
         );
 
-    dates.forEach(date => {
+    dates.forEach(
+        date => {
 
-        let calorie =
-            history[date]?.calories || 0;
+            let calorie =
+                history[date]?.calories ||
+                0;
 
-        let protein =
-            history[date]?.protein || 0;
+            let protein =
+                history[date]?.protein ||
+                0;
 
-        let calorieDay =
-            document.createElement("div");
+            let calorieDay =
+                document.createElement(
+                    "div"
+                );
 
-        calorieDay.className = "graph-day";
+            calorieDay.className =
+                "graph-day";
 
-        let calorieBar =
-            document.createElement("div");
+            let calorieBar =
+                document.createElement(
+                    "div"
+                );
 
-        calorieBar.className = "graph-bar";
+            calorieBar.className =
+                "graph-bar";
 
-        calorieBar.style.height =
-            Math.max(
-                calorie > 0
-                    ? calorie / maxCalories * 100
-                    : 0,
-                0
-            ) + "%";
+            calorieBar.style.height =
+                (
+                    calorie /
+                    maxCalories *
+                    100
+                ) + "%";
 
-        calorieDay.appendChild(
-            calorieBar
-        );
+            calorieDay.appendChild(
+                calorieBar
+            );
 
-        calorieGraph.appendChild(
-            calorieDay
-        );
+            calorieGraph.appendChild(
+                calorieDay
+            );
 
-        let proteinDay =
-            document.createElement("div");
+            let proteinDay =
+                document.createElement(
+                    "div"
+                );
 
-        proteinDay.className = "graph-day";
+            proteinDay.className =
+                "graph-day";
 
-        let proteinBar =
-            document.createElement("div");
+            let proteinBar =
+                document.createElement(
+                    "div"
+                );
 
-        proteinBar.className = "graph-bar";
+            proteinBar.className =
+                "graph-bar";
 
-        proteinBar.style.height =
-            Math.max(
-                protein > 0
-                    ? protein / maxProtein * 100
-                    : 0,
-                0
-            ) + "%";
+            proteinBar.style.height =
+                (
+                    protein /
+                    maxProtein *
+                    100
+                ) + "%";
 
-        proteinDay.appendChild(
-            proteinBar
-        );
+            proteinDay.appendChild(
+                proteinBar
+            );
 
-        proteinGraph.appendChild(
-            proteinDay
-        );
+            proteinGraph.appendChild(
+                proteinDay
+            );
 
-    });
+        }
+    );
 }
 
 /* =========================================================
-   WEIGHT TRACKER
+   WEIGHT
 ========================================================= */
 
 function loadWeightGoal() {
@@ -2576,7 +3824,9 @@ function loadWeightGoal() {
     if (!profile) return;
 
     let savedCurrent =
-        localStorage.getItem("weightCurrent");
+        localStorage.getItem(
+            "weightCurrent"
+        );
 
     let current =
         savedCurrent
@@ -2585,37 +3835,53 @@ function loadWeightGoal() {
 
     let goal =
         Number(
-            localStorage.getItem("weightGoal") ||
+            localStorage.getItem(
+                "weightGoal"
+            ) ||
             current
         );
 
     document.getElementById(
         "currentWeightDisplay"
-    ).innerText = current;
+    ).innerText =
+        current;
 
     document.getElementById(
         "currentWeightInput"
-    ).value = current;
+    ).value =
+        current;
 
     document.getElementById(
         "goalWeightInput"
-    ).value = goal;
+    ).value =
+        goal;
 }
 
 function saveWeightGoal() {
 
     let current =
         Number(
-            document.getElementById("currentWeightInput").value
+            document.getElementById(
+                "currentWeightInput"
+            ).value
         );
 
     let goal =
         Number(
-            document.getElementById("goalWeightInput").value
+            document.getElementById(
+                "goalWeightInput"
+            ).value
         );
 
-    if (!current || !goal) {
-        alert("Please enter both weights.");
+    if (
+        !current ||
+        !goal
+    ) {
+
+        alert(
+            "Please enter both weights."
+        );
+
         return;
     }
 
@@ -2631,12 +3897,13 @@ function saveWeightGoal() {
 
     if (profile) {
 
-        profile.weight = current;
+        profile.weight =
+            current;
 
-        let targets =
-            calculateTargets(profile);
-
-        profile.targets = targets;
+        profile.targets =
+            calculateTargets(
+                profile
+            );
 
         localStorage.setItem(
             "userProfile",
@@ -2647,6 +3914,7 @@ function saveWeightGoal() {
         updateTargets();
         loadTotals();
         loadWeek();
+
     }
 
     loadWeightGoal();
@@ -2656,27 +3924,41 @@ function saveWeeklyWeight() {
 
     let weight =
         Number(
-            document.getElementById("weeklyWeightInput").value
+            document.getElementById(
+                "weeklyWeightInput"
+            ).value
         );
 
     if (!weight) {
-        alert("Enter your weight.");
+
+        alert(
+            "Enter your weight."
+        );
+
         return;
     }
 
     let history =
         JSON.parse(
-            localStorage.getItem("weightHistory") || "[]"
+            localStorage.getItem(
+                "weightHistory"
+            ) || "[]"
         );
 
     history.unshift({
-        date: new Date().toISOString(),
-        weight: weight
+
+        date:
+            new Date().toISOString(),
+
+        weight
+
     });
 
     localStorage.setItem(
         "weightHistory",
-        JSON.stringify(history)
+        JSON.stringify(
+            history
+        )
     );
 
     localStorage.setItem(
@@ -2691,12 +3973,13 @@ function saveWeeklyWeight() {
 
     if (profile) {
 
-        profile.weight = weight;
+        profile.weight =
+            weight;
 
-        let targets =
-            calculateTargets(profile);
-
-        profile.targets = targets;
+        profile.targets =
+            calculateTargets(
+                profile
+            );
 
         localStorage.setItem(
             "userProfile",
@@ -2707,6 +3990,7 @@ function saveWeeklyWeight() {
         updateTargets();
         loadTotals();
         loadWeek();
+
     }
 
     document.getElementById(
@@ -2723,57 +4007,93 @@ function updateWeightEntryState() {
 
     let last =
         Number(
-            localStorage.getItem("lastWeightEntry") || 0
+            localStorage.getItem(
+                "lastWeightEntry"
+            ) || 0
         );
 
     let sevenDays =
-        7 * 24 * 60 * 60 * 1000;
+        7 *
+        24 *
+        60 *
+        60 *
+        1000;
 
     let button =
-        document.getElementById("weightEntryButton");
+        document.getElementById(
+            "weightEntryButton"
+        );
 
     let input =
-        document.getElementById("weeklyWeightInput");
+        document.getElementById(
+            "weeklyWeightInput"
+        );
 
     let status =
-        document.getElementById("weightEntryStatus");
+        document.getElementById(
+            "weightEntryStatus"
+        );
 
-    if (last && Date.now() - last < sevenDays) {
+    if (
+        last &&
+        Date.now() -
+        last <
+        sevenDays
+    ) {
 
         let remaining =
-            sevenDays - (Date.now() - last);
+            sevenDays -
+            (
+                Date.now() -
+                last
+            );
 
         let days =
             Math.ceil(
-                remaining / (24 * 60 * 60 * 1000)
+                remaining /
+                (
+                    24 *
+                    60 *
+                    60 *
+                    1000
+                )
             );
 
-        button.disabled = true;
-        input.disabled = true;
+        button.disabled =
+            true;
+
+        input.disabled =
+            true;
 
         button.innerText =
             "Weigh-In Locked";
 
-        button.classList.add("locked");
-
         status.innerText =
             "Next weigh-in available in approximately " +
-            days + " day" +
-            (days === 1 ? "" : "s") + ".";
+            days +
+            " day" +
+            (
+                days === 1
+                    ? ""
+                    : "s"
+            ) +
+            ".";
 
     }
     else {
 
-        button.disabled = false;
-        input.disabled = false;
+        button.disabled =
+            false;
+
+        input.disabled =
+            false;
 
         button.innerText =
             "Save Weekly Weight";
 
-        button.classList.remove("locked");
-
         status.innerText =
             "You can enter your weekly weight.";
+
     }
 }
 
@@ -2781,16 +4101,25 @@ function resetWeeklyWeight() {
 
     let history =
         JSON.parse(
-            localStorage.getItem("weightHistory") || "[]"
+            localStorage.getItem(
+                "weightHistory"
+            ) || "[]"
         );
 
-    if (history.length > 0) {
+    if (
+        history.length >
+        0
+    ) {
+
         history.shift();
+
     }
 
     localStorage.setItem(
         "weightHistory",
-        JSON.stringify(history)
+        JSON.stringify(
+            history
+        )
     );
 
     localStorage.removeItem(
@@ -2806,15 +4135,21 @@ function renderWeightHistory() {
 
     let history =
         JSON.parse(
-            localStorage.getItem("weightHistory") || "[]"
+            localStorage.getItem(
+                "weightHistory"
+            ) || "[]"
         );
 
     let container =
-        document.getElementById("weightHistory");
+        document.getElementById(
+            "weightHistory"
+        );
 
     container.innerHTML = "";
 
-    if (!history.length) {
+    if (
+        !history.length
+    ) {
 
         container.innerHTML =
             '<p style="color:#777">No weigh-ins yet.</p>';
@@ -2822,82 +4157,125 @@ function renderWeightHistory() {
         return;
     }
 
-    history.forEach(item => {
+    history.forEach(
+        item => {
 
-        let div =
-            document.createElement("div");
+            let div =
+                document.createElement(
+                    "div"
+                );
 
-        div.className =
-            "history-item";
+            div.className =
+                "history-item";
 
-        let date =
-            new Date(item.date)
-                .toLocaleDateString();
+            let date =
+                new Date(
+                    item.date
+                ).toLocaleDateString();
 
-        div.innerHTML =
-            "<span>" + date + "</span>" +
-            "<strong>" + item.weight + " kg</strong>";
+            div.innerHTML =
+                "<span>" +
+                date +
+                "</span>" +
+                "<strong>" +
+                item.weight +
+                " kg</strong>";
 
-        container.appendChild(div);
+            container.appendChild(
+                div
+            );
 
-    });
+        }
+    );
 }
 
 function drawWeightGraph() {
 
     let history =
         JSON.parse(
-            localStorage.getItem("weightHistory") || "[]"
+            localStorage.getItem(
+                "weightHistory"
+            ) || "[]"
         );
 
     let graph =
-        document.getElementById("weightGraph");
+        document.getElementById(
+            "weightGraph"
+        );
 
     graph.innerHTML = "";
 
-    if (!history.length) return;
+    if (
+        !history.length
+    ) return;
 
     let values =
-        history.map(item => Number(item.weight));
+        history.map(
+            item =>
+                Number(item.weight)
+        );
 
     let max =
-        Math.max(...values);
+        Math.max(
+            ...values
+        );
 
     let min =
-        Math.min(...values);
+        Math.min(
+            ...values
+        );
 
     let range =
-        Math.max(max - min, 1);
+        Math.max(
+            max - min,
+            1
+        );
 
-    /*
-       Show oldest to newest.
-    */
+    [...history]
+        .reverse()
+        .forEach(
+            item => {
 
-    [...history].reverse().forEach(item => {
+                let day =
+                    document.createElement(
+                        "div"
+                    );
 
-        let day =
-            document.createElement("div");
+                day.className =
+                    "graph-day";
 
-        day.className =
-            "graph-day";
+                let bar =
+                    document.createElement(
+                        "div"
+                    );
 
-        let bar =
-            document.createElement("div");
+                bar.className =
+                    "graph-bar";
 
-        bar.className =
-            "graph-bar";
+                let height =
+                    20 +
+                    (
+                        (
+                            item.weight -
+                            min
+                        ) /
+                        range
+                    ) *
+                    80;
 
-        let height =
-            20 +
-            ((item.weight - min) / range) * 80;
+                bar.style.height =
+                    height + "%";
 
-        bar.style.height =
-            height + "%";
+                day.appendChild(
+                    bar
+                );
 
-        day.appendChild(bar);
+                graph.appendChild(
+                    day
+                );
 
-        graph.appendChild(day);
-    });
+            }
+        );
 }
 
 /* =========================================================
@@ -2906,24 +4284,37 @@ function drawWeightGraph() {
 
 function checkEasterEgg(page) {
 
-    let now = Date.now();
+    let now =
+        Date.now();
 
     if (
-        now - lastTabSwitch > 2500
+        now -
+        lastTabSwitch >
+        2500
     ) {
-        tabSwitchCount = 0;
+
+        tabSwitchCount =
+            0;
+
     }
 
     tabSwitchCount++;
-    lastTabSwitch = now;
+    lastTabSwitch =
+        now;
 
-    if (tabSwitchCount >= 5) {
+    if (
+        tabSwitchCount >=
+        5
+    ) {
 
         document.getElementById(
             "easterEgg"
-        ).classList.add("active");
+        ).classList.add(
+            "active"
+        );
 
-        tabSwitchCount = 0;
+        tabSwitchCount =
+            0;
     }
 }
 
@@ -2931,11 +4322,13 @@ function closeEasterEgg() {
 
     document.getElementById(
         "easterEgg"
-    ).classList.remove("active");
+    ).classList.remove(
+        "active"
+    );
 }
 
 /* =========================================================
-   STARTUP
+   START
 ========================================================= */
 
 function startApp() {
@@ -2944,11 +4337,13 @@ function startApp() {
 
         document.getElementById(
             "setupScreen"
-        ).style.display = "block";
+        ).style.display =
+            "block";
 
         document.getElementById(
             "mainApp"
-        ).style.display = "none";
+        ).style.display =
+            "none";
 
         return;
     }
@@ -2958,11 +4353,18 @@ function startApp() {
 
     document.getElementById(
         "setupScreen"
-    ).style.display = "none";
+    ).style.display =
+        "none";
 
     document.getElementById(
         "mainApp"
-    ).style.display = "block";
+    ).style.display =
+        "block";
+
+    document.getElementById(
+        "goalSelect"
+    ).value =
+        profile.goal;
 
     updateTheme();
     updateTargets();
