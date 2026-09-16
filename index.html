@@ -341,6 +341,64 @@ button.danger {
     gap: 8px;
 }
 
+.saved-meal-create {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid #292929;
+}
+
+.saved-meal-create h3 {
+    margin-bottom: 10px;
+}
+
+.saved-meals-list {
+    margin-top: 14px;
+}
+
+.saved-meal-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 11px 12px;
+    margin-top: 8px;
+    background: #101010;
+    border: 1px solid #292929;
+    border-radius: 10px;
+}
+
+.saved-meal-info {
+    min-width: 0;
+}
+
+.saved-meal-name {
+    font-weight: 800;
+    overflow-wrap: anywhere;
+}
+
+.saved-meal-macros {
+    color: #999;
+    font-size: 12px;
+    margin-top: 3px;
+}
+
+.saved-meal-delete {
+    flex: 0 0 auto;
+    width: auto !important;
+    padding: 7px 10px !important;
+    border: 1px solid var(--danger);
+    border-radius: 8px;
+    background: #150509;
+    color: var(--danger);
+    font-weight: 800;
+}
+
+.saved-meals-empty {
+    color: #777;
+    font-size: 13px;
+    margin-top: 12px;
+}
+
 /* ================= GRAPH ================= */
 
 .graph {
@@ -1218,43 +1276,19 @@ button.danger {
 
             </div>
 
-            <!-- FOOD -->
+            <!-- SAVED MEALS -->
 
             <div class="card">
 
-                <h2>Add Food</h2>
+                <h2>Saved Meals</h2>
 
                 <div class="food-row">
 
-                    <select id="foodSelect">
-
-                        <option value="">
-                            Select saved food
-                        </option>
-
-                        <option value="630,37">
-                            Mcdees 2x Double Burger — 630 kcal / 37g
-                        </option>
-
-                        <option value="650,25">
-                            Big Mac Meal — 650 kcal / 25g
-                        </option>
-
-                        <option value="700,30">
-                            Wimpy Burger Meal — 700 kcal / 30g
-                        </option>
-
-                        <option value="121,23">
-                            USN Choc Caramel 1 Scoop — 121 kcal / 23g
-                        </option>
-
-                        <option value="242,46">
-                            USN Choc Caramel 2 Scoop — 242 kcal / 46g
-                        </option>
-
+                    <select id="savedMealSelect">
+                        <option value="">Select saved meal</option>
                     </select>
 
-                    <input id="foodQuantity"
+                    <input id="savedMealQuantity"
                            type="number"
                            min="1"
                            value="1"
@@ -1263,48 +1297,45 @@ button.danger {
                 </div>
 
                 <button class="primary"
-                        onclick="addSavedFood()">
-                    Add Food
+                        onclick="addSavedMeal()">
+                    Add Saved Meal
                 </button>
 
-            </div>
+                <div class="saved-meal-create">
 
-            <!-- DRINKS -->
+                    <h3>Create Saved Meal</h3>
 
-            <div class="card">
+                    <input id="savedMealName"
+                           type="text"
+                           maxlength="60"
+                           placeholder="Meal name">
 
-                <h2>Drinks</h2>
+                    <div class="manual-grid">
 
-                <div class="food-row">
+                        <input id="savedMealCalories"
+                               type="number"
+                               min="0"
+                               step="1"
+                               placeholder="Calories">
 
-                    <select id="drinkSelect">
+                        <input id="savedMealProtein"
+                               type="number"
+                               min="0"
+                               step="0.1"
+                               placeholder="Protein (g)">
 
-                        <option value="">
-                            Select drink
-                        </option>
+                    </div>
 
-                        <option value="55,0">
-                            Single Vodka with Zero Mix — 55 kcal
-                        </option>
-
-                        <option value="55,0">
-                            Jägermeister Shot — 55 kcal
-                        </option>
-
-                    </select>
-
-                    <input id="drinkQuantity"
-                           type="number"
-                           min="1"
-                           value="1"
-                           placeholder="Qty">
+                    <button class="secondary"
+                            onclick="saveNewMeal()">
+                        Save Meal for Future
+                    </button>
 
                 </div>
 
-                <button class="primary"
-                        onclick="addDrink()">
-                    Add Drink
-                </button>
+                <div id="savedMealsList"
+                     class="saved-meals-list">
+                </div>
 
             </div>
 
@@ -1315,7 +1346,6 @@ button.danger {
                 <h2>Manual Entry</h2>
 
                 <div class="manual-grid">
-
                     <input id="manualCalories"
                            type="number"
                            min="0"
@@ -1326,7 +1356,6 @@ button.danger {
                            min="0"
                            step=".1"
                            placeholder="Protein (g)">
-
                 </div>
 
                 <button class="primary"
@@ -2524,6 +2553,7 @@ function finishSetup() {
     checkNewDay();
     checkNewWeek();
 
+    renderSavedMeals();
     loadTotals();
     loadWeek();
     drawGraphs();
@@ -2718,6 +2748,7 @@ function saveProfile() {
 
     updateTheme();
     updateTargets();
+    renderSavedMeals();
     loadTotals();
     loadWeek();
     drawGraphs();
@@ -3117,82 +3148,222 @@ function addNutrition(
     loadTotals();
 }
 
-function addSavedFood() {
+function getSavedMeals() {
 
-    let value =
-        document.getElementById(
-            "foodSelect"
-        ).value;
-
-    let quantity =
-        Number(
-            document.getElementById(
-                "foodQuantity"
-            ).value
-        ) || 1;
-
-    if (!value) {
-
-        alert(
-            "Select a food first."
+    try {
+        return JSON.parse(
+            localStorage.getItem("savedMeals") || "[]"
         );
+    } catch (error) {
+        return [];
+    }
+}
 
+function saveSavedMeals(meals) {
+
+    localStorage.setItem(
+        "savedMeals",
+        JSON.stringify(meals)
+    );
+}
+
+function renderSavedMeals() {
+
+    let meals = getSavedMeals();
+
+    let select = document.getElementById(
+        "savedMealSelect"
+    );
+
+    let list = document.getElementById(
+        "savedMealsList"
+    );
+
+    if (!select || !list) return;
+
+    select.innerHTML =
+        '<option value="">Select saved meal</option>';
+
+    meals.forEach((meal, index) => {
+
+        let option = document.createElement("option");
+        option.value = String(index);
+        option.textContent =
+            meal.name +
+            " — " +
+            Math.round(meal.calories) +
+            " kcal / " +
+            formatProtein(meal.protein) +
+            "g";
+
+        select.appendChild(option);
+    });
+
+    list.innerHTML = "";
+
+    if (!meals.length) {
+        list.innerHTML =
+            '<div class="saved-meals-empty">No saved meals yet. Create one above and it will stay here for future use.</div>';
         return;
     }
 
-    let parts =
-        value.split(",");
+    meals.forEach((meal, index) => {
 
-    addNutrition(
-        Number(parts[0]) *
-        quantity,
+        let item = document.createElement("div");
+        item.className = "saved-meal-item";
 
-        Number(parts[1]) *
-        quantity
-    );
+        let info = document.createElement("div");
+        info.className = "saved-meal-info";
+
+        let name = document.createElement("div");
+        name.className = "saved-meal-name";
+        name.textContent = meal.name;
+
+        let macros = document.createElement("div");
+        macros.className = "saved-meal-macros";
+        macros.textContent =
+            Math.round(meal.calories) +
+            " kcal • " +
+            formatProtein(meal.protein) +
+            "g protein";
+
+        info.appendChild(name);
+        info.appendChild(macros);
+
+        let deleteButton = document.createElement("button");
+        deleteButton.className = "saved-meal-delete";
+        deleteButton.textContent = "Delete";
+        deleteButton.onclick = function() {
+            deleteSavedMeal(index);
+        };
+
+        item.appendChild(info);
+        item.appendChild(deleteButton);
+        list.appendChild(item);
+    });
+}
+
+function formatProtein(value) {
+    let number = Number(value) || 0;
+    return Number.isInteger(number)
+        ? String(number)
+        : number.toFixed(1).replace(/\.0$/, "");
+}
+
+function saveNewMeal() {
+
+    let name =
+        document.getElementById(
+            "savedMealName"
+        ).value.trim();
+
+    let calories =
+        Number(
+            document.getElementById(
+                "savedMealCalories"
+            ).value
+        );
+
+    let protein =
+        Number(
+            document.getElementById(
+                "savedMealProtein"
+            ).value
+        );
+
+    if (!name) {
+        alert("Enter a meal name.");
+        return;
+    }
+
+    if (!Number.isFinite(calories) || calories < 0) {
+        alert("Enter the meal calories.");
+        return;
+    }
+
+    if (!Number.isFinite(protein) || protein < 0) {
+        alert("Enter the meal protein.");
+        return;
+    }
+
+    let meals = getSavedMeals();
+
+    meals.push({
+        id: Date.now(),
+        name: name,
+        calories: calories,
+        protein: protein
+    });
+
+    saveSavedMeals(meals);
+    renderSavedMeals();
 
     document.getElementById(
-        "foodSelect"
+        "savedMealName"
+    ).value = "";
+
+    document.getElementById(
+        "savedMealCalories"
+    ).value = "";
+
+    document.getElementById(
+        "savedMealProtein"
     ).value = "";
 }
 
-function addDrink() {
+function addSavedMeal() {
 
-    let value =
+    let selected =
         document.getElementById(
-            "drinkSelect"
+            "savedMealSelect"
         ).value;
 
     let quantity =
         Number(
             document.getElementById(
-                "drinkQuantity"
+                "savedMealQuantity"
             ).value
         ) || 1;
 
-    if (!value) {
+    let meals = getSavedMeals();
+    let meal = meals[Number(selected)];
 
-        alert(
-            "Select a drink first."
-        );
-
+    if (!meal) {
+        alert("Select a saved meal first.");
         return;
     }
 
-    let parts =
-        value.split(",");
-
     addNutrition(
-        Number(parts[0]) *
-        quantity,
-
-        Number(parts[1]) *
-        quantity
+        Number(meal.calories) * quantity,
+        Number(meal.protein) * quantity
     );
 
     document.getElementById(
-        "drinkSelect"
+        "savedMealSelect"
     ).value = "";
+
+    document.getElementById(
+        "savedMealQuantity"
+    ).value = "1";
+}
+
+function deleteSavedMeal(index) {
+
+    let meals = getSavedMeals();
+
+    if (!meals[index]) return;
+
+    let confirmed = confirm(
+        'Delete saved meal "' +
+        meals[index].name +
+        '"?'
+    );
+
+    if (!confirmed) return;
+
+    meals.splice(index, 1);
+    saveSavedMeals(meals);
+    renderSavedMeals();
 }
 
 function addManualFood() {
