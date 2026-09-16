@@ -39,7 +39,9 @@
    ========================================================= */
 
 * {
+
     box-sizing: border-box;
+
 }
 
 
@@ -93,7 +95,305 @@ h1 {
 
 
 /* =========================================================
-   GOAL SELECTOR
+   TOP HEADER
+   ========================================================= */
+
+.top-header {
+
+    position: relative;
+
+    min-height: 48px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin-bottom: 2px;
+
+}
+
+
+.top-header h1 {
+
+    margin: 0;
+
+}
+
+
+/* =========================================================
+   HAMBURGER
+   ========================================================= */
+
+.menu-button {
+
+    position: absolute;
+
+    right: 0;
+
+    top: 2px;
+
+    width: 46px;
+
+    height: 46px;
+
+    background: #151515;
+
+    border: 1px solid #333;
+
+    border-radius: 12px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 5px;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+
+    z-index: 1001;
+
+}
+
+
+.menu-button span {
+
+    display: block;
+
+    width: 22px;
+
+    height: 2px;
+
+    background: white;
+
+    border-radius: 5px;
+
+    transition: 0.2s ease;
+
+}
+
+
+.menu-button:hover {
+
+    border-color: var(--accent);
+
+    box-shadow:
+        0 0 12px var(--accent-glow);
+
+}
+
+
+.menu-button:hover span {
+
+    background: var(--accent);
+
+}
+
+
+/* =========================================================
+   MENU OVERLAY
+   ========================================================= */
+
+.menu-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    background:
+        rgba(0, 0, 0, 0.65);
+
+    z-index: 999;
+
+    display: none;
+
+}
+
+
+.menu-overlay.show {
+
+    display: block;
+
+}
+
+
+/* =========================================================
+   SIDE MENU
+   ========================================================= */
+
+.side-menu {
+
+    position: fixed;
+
+    top: 0;
+
+    right: -300px;
+
+    width: 285px;
+
+    height: 100vh;
+
+    background: #111;
+
+    border-left: 1px solid #292929;
+
+    z-index: 1000;
+
+    padding: 85px 18px 20px;
+
+    transition:
+        right 0.25s ease;
+
+    box-shadow:
+        -10px 0 35px rgba(0,0,0,0.6);
+
+}
+
+
+.side-menu.open {
+
+    right: 0;
+
+}
+
+
+.menu-title {
+
+    color: #777;
+
+    font-size: 12px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 2px;
+
+    margin:
+        0 8px 12px;
+
+}
+
+
+.menu-item {
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 16px;
+
+    margin-bottom: 9px;
+
+    background: #181818;
+
+    border: 1px solid #292929;
+
+    border-radius: 12px;
+
+    color: white;
+
+    font-size: 17px;
+
+    font-weight: bold;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    transition:
+        0.2s ease;
+
+}
+
+
+.menu-item:hover {
+
+    border-color: var(--accent);
+
+    color: var(--accent);
+
+    box-shadow:
+        0 0 12px var(--accent-glow);
+
+}
+
+
+.menu-item.active {
+
+    background: var(--accent);
+
+    color: #000;
+
+    border-color: var(--accent);
+
+    box-shadow:
+        0 0 15px var(--accent-glow);
+
+}
+
+
+.menu-icon {
+
+    width: 25px;
+
+    text-align: center;
+
+    font-size: 20px;
+
+}
+
+
+.menu-coming {
+
+    margin-top: 20px;
+
+    padding: 14px;
+
+    border-radius: 12px;
+
+    background: #0d0d0d;
+
+    border: 1px solid #242424;
+
+    color: #777;
+
+    font-size: 12px;
+
+    line-height: 1.5;
+
+}
+
+
+/* =========================================================
+   APP SCREENS
+   ========================================================= */
+
+.app-screen {
+
+    display: none;
+
+}
+
+
+.app-screen.active {
+
+    display: block;
+
+}
+
+
+/* =========================================================
+   DASHBOARD GOAL SELECTOR
    ========================================================= */
 
 .goal-card {
@@ -156,7 +456,7 @@ h1 {
 
 
 /* =========================================================
-   TABS
+   DASHBOARD TABS
    ========================================================= */
 
 .tabs {
@@ -1067,7 +1367,7 @@ button {
 
 
 /* =========================================================
-   WEEKLY WEIGH-IN
+   WEIGHT ENTRY
    ========================================================= */
 
 .weight-entry {
@@ -1279,6 +1579,124 @@ button {
 
 
 /* =========================================================
+   WORKOUTS PLACEHOLDER
+   ========================================================= */
+
+.workouts-header {
+
+    text-align: center;
+
+    padding: 20px 10px 15px;
+
+}
+
+
+.workouts-header .workout-icon {
+
+    font-size: 50px;
+
+    margin-bottom: 5px;
+
+}
+
+
+.workouts-header h2 {
+
+    margin: 5px 0;
+
+    font-size: 28px;
+
+}
+
+
+.workouts-header p {
+
+    color: #888;
+
+    line-height: 1.5;
+
+    margin: 8px 0 0;
+
+}
+
+
+.workout-coming-card {
+
+    background: #151515;
+
+    border: 1px solid #292929;
+
+    border-radius: 16px;
+
+    padding: 25px 20px;
+
+    text-align: center;
+
+}
+
+
+.workout-coming-card h3 {
+
+    color: var(--accent);
+
+    font-size: 22px;
+
+    margin-top: 0;
+
+}
+
+
+.workout-coming-card p {
+
+    color: #aaa;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+
+}
+
+
+.workout-feature {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    text-align: left;
+
+    background: #101010;
+
+    border: 1px solid #292929;
+
+    border-radius: 12px;
+
+    padding: 13px;
+
+    margin-top: 10px;
+
+}
+
+
+.workout-feature-icon {
+
+    font-size: 24px;
+
+}
+
+
+.workout-feature-text {
+
+    color: #ccc;
+
+    font-size: 13px;
+
+}
+
+
+/* =========================================================
    EASTER EGG
    ========================================================= */
 
@@ -1430,9 +1848,9 @@ button {
     }
 
 
-    h1 {
+    .top-header h1 {
 
-        font-size: 25px;
+        font-size: 24px;
 
     }
 
@@ -1457,6 +1875,13 @@ button {
 
     }
 
+
+    .side-menu {
+
+        width: 280px;
+
+    }
+
 }
 
 </style>
@@ -1467,223 +1892,215 @@ button {
 <body>
 
 
+<!-- =========================================================
+     MENU OVERLAY
+     ========================================================= -->
+
+<div
+    id="menuOverlay"
+    class="menu-overlay"
+    onclick="closeMenu()">
+
+</div>
+
+
+<!-- =========================================================
+     SIDE MENU
+     ========================================================= -->
+
+<div
+    id="sideMenu"
+    class="side-menu">
+
+
+    <div class="menu-title">
+
+        Navigation
+
+    </div>
+
+
+    <button
+        id="dashboardMenuItem"
+        class="menu-item active"
+        onclick="openScreen('dashboard')">
+
+
+        <span class="menu-icon">
+            🏠
+        </span>
+
+
+        <span>
+            Dashboard
+        </span>
+
+
+    </button>
+
+
+    <button
+        id="workoutsMenuItem"
+        class="menu-item"
+        onclick="openScreen('workouts')">
+
+
+        <span class="menu-icon">
+            🏋️
+        </span>
+
+
+        <span>
+            Workouts
+        </span>
+
+
+    </button>
+
+
+    <div class="menu-coming">
+
+        More sections will be added here as
+        the app grows.
+
+        <br><br>
+
+        Nutrition → Weight → Workouts →
+        eventually your full fitness hub.
+
+    </div>
+
+
+</div>
+
+
+<!-- =========================================================
+     MAIN CONTAINER
+     ========================================================= -->
+
 <div class="container">
 
 
-    <!-- HEADER -->
+    <!-- =====================================================
+         TOP HEADER
+         ===================================================== -->
 
-    <h1>
-        Dyl's Six Pack Tracker
-    </h1>
+    <div class="top-header">
+
+
+        <h1>
+            Dyl's Six Pack Tracker
+        </h1>
+
+
+        <button
+            class="menu-button"
+            onclick="toggleMenu()"
+            aria-label="Open navigation menu">
+
+
+            <span></span>
+
+            <span></span>
+
+            <span></span>
+
+
+        </button>
+
+
+    </div>
 
 
     <div
         class="date"
         id="date">
-    </div>
-
-
-    <!-- GOAL SELECTOR -->
-
-    <div class="goal-card">
-
-
-        <div class="goal-title">
-            Current Goal
-        </div>
-
-
-        <select
-            id="goalSelect"
-            class="goal-select"
-            onchange="changeGoal()">
-
-
-            <option value="cut">
-                🥗 Cut — 1,900 kcal
-            </option>
-
-
-            <option value="maintenance">
-                ⚖️ Maintenance — 2,400 kcal
-            </option>
-
-
-            <option value="bulk">
-                💪 Bulk — 2,700 kcal
-            </option>
-
-
-        </select>
-
-
-    </div>
-
-
-    <!-- TABS -->
-
-    <div class="tabs">
-
-
-        <button
-            class="tab-button active"
-            onclick="showPage('main', this)">
-
-            Main
-
-        </button>
-
-
-        <button
-            class="tab-button"
-            onclick="showPage('graphs', this)">
-
-            Graphs
-
-        </button>
-
-
-        <button
-            class="tab-button"
-            onclick="showPage('weight', this)">
-
-            WG
-
-        </button>
-
 
     </div>
 
 
     <!-- =====================================================
-         MAIN
+         DASHBOARD SCREEN
          ===================================================== -->
 
     <div
-        id="main"
-        class="page active">
+        id="dashboardScreen"
+        class="app-screen active">
 
 
-        <!-- ADD FOOD -->
+        <!-- GOAL SELECTOR -->
 
-        <div class="card">
-
-
-            <h2>
-                Add Food
-            </h2>
+        <div class="goal-card">
 
 
-            <label>
-                Meal
-            </label>
+            <div class="goal-title">
+
+                Current Goal
+
+            </div>
 
 
             <select
-                id="mealSelect"
-                onchange="mealSelected()">
+                id="goalSelect"
+                class="goal-select"
+                onchange="changeGoal()">
 
 
-                <option value="">
-                    Select a meal
+                <option value="cut">
+
+                    🥗 Cut — 1,900 kcal
+
                 </option>
 
 
-                <option value="Mcdees 2x Double Burger">
-                    Mcdees 2x Double Burger
+                <option value="maintenance">
+
+                    ⚖️ Maintenance — 2,400 kcal
+
                 </option>
 
 
-                <option value="Big Mac Meal">
-                    Big Mac Meal
-                </option>
+                <option value="bulk">
 
+                    💪 Bulk — 2,700 kcal
 
-                <option value="Wimpy Burger Meal">
-                    Wimpy Burger Meal
-                </option>
-
-
-                <option value="USN Choc Caramel 1 Scoop">
-                    USN Choc Caramel 1 Scoop
-                </option>
-
-
-                <option value="USN Choc Caramel 2 Scoop">
-                    USN Choc Caramel 2 Scoop
                 </option>
 
 
             </select>
 
 
-            <label>
-                Drink
-            </label>
+        </div>
 
 
-            <select
-                id="drinkSelect"
-                onchange="drinkSelected()">
+        <!-- DASHBOARD TABS -->
 
-
-                <option value="">
-                    Select a drink
-                </option>
-
-
-                <option value="Single Vodka with Zero Mix">
-                    Single Vodka with Zero Mix
-                </option>
-
-
-                <option value="Jägermeister Shot">
-                    Jägermeister Shot
-                </option>
-
-
-            </select>
-
-
-            <label>
-                Quantity
-            </label>
-
-
-            <input
-                type="number"
-                id="quantity"
-                value="1"
-                min="1">
-
-
-            <label>
-                Calories
-            </label>
-
-
-            <input
-                type="number"
-                id="calories"
-                placeholder="Enter calories">
-
-
-            <label>
-                Protein (g)
-            </label>
-
-
-            <input
-                type="number"
-                id="protein"
-                placeholder="Enter protein">
+        <div class="tabs">
 
 
             <button
-                class="primary-button"
-                onclick="addFood()">
+                class="tab-button active"
+                onclick="showPage('main', this)">
 
-                + Add Food
+                Main
+
+            </button>
+
+
+            <button
+                class="tab-button"
+                onclick="showPage('graphs', this)">
+
+                Graphs
+
+            </button>
+
+
+            <button
+                class="tab-button"
+                onclick="showPage('weight', this)">
+
+                WG
 
             </button>
 
@@ -1691,175 +2108,176 @@ button {
         </div>
 
 
-        <!-- TODAY -->
+        <!-- =================================================
+             MAIN PAGE
+             ================================================= -->
 
-        <div class="card">
-
-
-            <h2>
-                Today's Total
-            </h2>
-
-
-            <div class="stat-row">
+        <div
+            id="main"
+            class="page active">
 
 
-                <div class="stat-box">
+            <div class="card">
 
 
-                    <div class="stat-title">
-                        Calories
-                    </div>
+                <h2>
+                    Add Food
+                </h2>
 
 
-                    <div class="stat-value">
+                <label>
+                    Meal
+                </label>
 
 
-                        <span id="todayCalories">
-                            0
-                        </span>
+                <select
+                    id="mealSelect"
+                    onchange="mealSelected()">
 
 
-                        /
+                    <option value="">
+                        Select a meal
+                    </option>
 
 
-                        <span id="dailyCalorieTarget">
-                            1,900
-                        </span>
+                    <option value="Mcdees 2x Double Burger">
+                        Mcdees 2x Double Burger
+                    </option>
 
 
-                    </div>
+                    <option value="Big Mac Meal">
+                        Big Mac Meal
+                    </option>
 
 
-                </div>
+                    <option value="Wimpy Burger Meal">
+                        Wimpy Burger Meal
+                    </option>
 
 
-                <div class="stat-box">
+                    <option value="USN Choc Caramel 1 Scoop">
+                        USN Choc Caramel 1 Scoop
+                    </option>
 
 
-                    <div class="stat-title">
-                        Protein
-                    </div>
+                    <option value="USN Choc Caramel 2 Scoop">
+                        USN Choc Caramel 2 Scoop
+                    </option>
 
 
-                    <div class="stat-value">
+                </select>
 
 
-                        <span id="todayProtein">
-                            0
-                        </span>
+                <label>
+                    Drink
+                </label>
 
 
-                        / 160g
+                <select
+                    id="drinkSelect"
+                    onchange="drinkSelected()">
 
 
-                    </div>
+                    <option value="">
+                        Select a drink
+                    </option>
 
 
-                </div>
+                    <option value="Single Vodka with Zero Mix">
+                        Single Vodka with Zero Mix
+                    </option>
+
+
+                    <option value="Jägermeister Shot">
+                        Jägermeister Shot
+                    </option>
+
+
+                </select>
+
+
+                <label>
+                    Quantity
+                </label>
+
+
+                <input
+                    type="number"
+                    id="quantity"
+                    value="1"
+                    min="1">
+
+
+                <label>
+                    Calories
+                </label>
+
+
+                <input
+                    type="number"
+                    id="calories"
+                    placeholder="Enter calories">
+
+
+                <label>
+                    Protein (g)
+                </label>
+
+
+                <input
+                    type="number"
+                    id="protein"
+                    placeholder="Enter protein">
+
+
+                <button
+                    class="primary-button"
+                    onclick="addFood()">
+
+                    + Add Food
+
+                </button>
 
 
             </div>
 
 
-            <div class="progress-container">
+            <!-- TODAY -->
+
+            <div class="card">
 
 
-                <div class="progress-header">
+                <h2>
+                    Today's Total
+                </h2>
 
 
-                    <span>
-                        Calories
-                    </span>
-
-
-                    <span id="caloriePercent">
-                        0%
-                    </span>
-
-
-                </div>
-
-
-                <div class="progress">
-
-
-                    <div
-                        id="calorieProgress"
-                        class="progress-bar"
-                        style="width:0%">
-
-                    </div>
-
-
-                </div>
-
-
-            </div>
-
-
-            <div class="progress-container">
-
-
-                <div class="progress-header">
-
-
-                    <span>
-                        Protein
-                    </span>
-
-
-                    <span id="proteinPercent">
-                        0%
-                    </span>
-
-
-                </div>
-
-
-                <div class="progress">
-
-
-                    <div
-                        id="proteinProgress"
-                        class="progress-bar"
-                        style="width:0%">
-
-                    </div>
-
-
-                </div>
-
-
-            </div>
-
-
-            <div class="remaining">
-
-
-                <div class="remaining-title">
-                    Remaining Today
-                </div>
-
-
-                <div
-                    class="stat-row"
-                    style="margin-top:0">
+                <div class="stat-row">
 
 
                     <div class="stat-box">
 
 
                         <div class="stat-title">
-                            Calories Left
+                            Calories
                         </div>
 
 
-                        <div
-                            class="remaining-number"
-                            id="caloriesLeft">
+                        <div class="stat-value">
 
-                            1,900 kcal
+
+                            <span id="todayCalories">
+                                0
+                            </span>
+
+
+                            /
+
+
+                            <span id="dailyCalorieTarget">
+                                1,900
+                            </span>
+
 
                         </div>
 
@@ -1871,15 +2289,382 @@ button {
 
 
                         <div class="stat-title">
-                            Protein Left
+                            Protein
+                        </div>
+
+
+                        <div class="stat-value">
+
+
+                            <span id="todayProtein">
+                                0
+                            </span>
+
+
+                            / 160g
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="progress-container">
+
+
+                    <div class="progress-header">
+
+
+                        <span>
+                            Calories
+                        </span>
+
+
+                        <span id="caloriePercent">
+                            0%
+                        </span>
+
+
+                    </div>
+
+
+                    <div class="progress">
+
+
+                        <div
+                            id="calorieProgress"
+                            class="progress-bar"
+                            style="width:0%">
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="progress-container">
+
+
+                    <div class="progress-header">
+
+
+                        <span>
+                            Protein
+                        </span>
+
+
+                        <span id="proteinPercent">
+                            0%
+                        </span>
+
+
+                    </div>
+
+
+                    <div class="progress">
+
+
+                        <div
+                            id="proteinProgress"
+                            class="progress-bar"
+                            style="width:0%">
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="remaining">
+
+
+                    <div class="remaining-title">
+                        Remaining Today
+                    </div>
+
+
+                    <div
+                        class="stat-row"
+                        style="margin-top:0">
+
+
+                        <div class="stat-box">
+
+
+                            <div class="stat-title">
+                                Calories Left
+                            </div>
+
+
+                            <div
+                                class="remaining-number"
+                                id="caloriesLeft">
+
+                                1,900 kcal
+
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="stat-box">
+
+
+                            <div class="stat-title">
+                                Protein Left
+                            </div>
+
+
+                            <div
+                                class="remaining-number"
+                                id="proteinLeft">
+
+                                160g
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+                <button
+                    class="secondary-button"
+                    onclick="resetDay()">
+
+                    Reset Today
+
+                </button>
+
+
+            </div>
+
+
+            <!-- WEEK -->
+
+            <div class="card">
+
+
+                <h2>
+                    This Week
+                </h2>
+
+
+                <div class="week-row">
+
+
+                    <div class="week-header">
+
+
+                        <span>
+                            Calories
+                        </span>
+
+
+                        <span>
+
+
+                            <span id="weekCalories">
+                                0
+                            </span>
+
+
+                            /
+
+
+                            <span id="weeklyCalorieTarget">
+                                13,300
+                            </span>
+
+
+                        </span>
+
+
+                    </div>
+
+
+                    <div class="week-progress">
+
+
+                        <div
+                            id="weekCalorieProgress"
+                            class="week-progress-bar"
+                            style="width:0%">
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div
+                        class="week-remaining"
+                        id="weekCaloriesRemaining">
+
+                        13,300 calories remaining
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="week-row">
+
+
+                    <div class="week-header">
+
+
+                        <span>
+                            Protein
+                        </span>
+
+
+                        <span>
+
+
+                            <span id="weekProtein">
+                                0
+                            </span>
+
+
+                            / 1,120g
+
+
+                        </span>
+
+
+                    </div>
+
+
+                    <div class="week-progress">
+
+
+                        <div
+                            id="weekProteinProgress"
+                            class="week-progress-bar"
+                            style="width:0%">
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div
+                        class="week-remaining"
+                        id="weekProteinRemaining">
+
+                        1,120g protein remaining
+
+                    </div>
+
+
+                </div>
+
+
+                <button
+                    id="addWeekButton"
+                    class="primary-button"
+                    onclick="addTodayToWeek()">
+
+                    + Add Today to Week
+
+                </button>
+
+
+                <button
+                    class="secondary-button"
+                    onclick="resetWeek()">
+
+                    Reset Week
+
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =================================================
+             GRAPHS
+             ================================================= -->
+
+        <div
+            id="graphs"
+            class="page">
+
+
+            <div class="graph-card">
+
+
+                <h2>
+                    Weekly Calories
+                </h2>
+
+
+                <div class="chart">
+
+
+                    <div
+                        class="y-labels"
+                        id="calorieYLabels">
+
+                    </div>
+
+
+                    <div class="chart-area">
+
+
+                        <div
+                            class="target-line"
+                            id="calorieTargetLine">
+
                         </div>
 
 
                         <div
-                            class="remaining-number"
-                            id="proteinLeft">
+                            class="chart-grid"
+                            style="top:25%">
 
-                            160g
+                        </div>
+
+
+                        <div
+                            class="chart-grid"
+                            style="top:50%">
+
+                        </div>
+
+
+                        <div
+                            class="chart-grid"
+                            style="top:75%">
+
+                        </div>
+
+
+                        <div
+                            class="bars"
+                            id="calorieBars">
 
                         </div>
 
@@ -1890,137 +2675,11 @@ button {
                 </div>
 
 
-            </div>
-
-
-            <button
-                class="secondary-button"
-                onclick="resetDay()">
-
-                Reset Today
-
-            </button>
-
-
-        </div>
-
-
-        <!-- WEEK -->
-
-        <div class="card">
-
-
-            <h2>
-                This Week
-            </h2>
-
-
-            <div class="week-row">
-
-
-                <div class="week-header">
-
-
-                    <span>
-                        Calories
-                    </span>
-
-
-                    <span>
-
-
-                        <span id="weekCalories">
-                            0
-                        </span>
-
-
-                        /
-
-
-                        <span id="weeklyCalorieTarget">
-                            13,300
-                        </span>
-
-
-                    </span>
-
-
-                </div>
-
-
-                <div class="week-progress">
-
-
-                    <div
-                        id="weekCalorieProgress"
-                        class="week-progress-bar"
-                        style="width:0%">
-
-                    </div>
-
-
-                </div>
-
-
                 <div
-                    class="week-remaining"
-                    id="weekCaloriesRemaining">
+                    class="graph-legend"
+                    id="calorieGraphLegend">
 
-                    13,300 calories remaining
-
-                </div>
-
-
-            </div>
-
-
-            <div class="week-row">
-
-
-                <div class="week-header">
-
-
-                    <span>
-                        Protein
-                    </span>
-
-
-                    <span>
-
-
-                        <span id="weekProtein">
-                            0
-                        </span>
-
-
-                        / 1,120g
-
-
-                    </span>
-
-
-                </div>
-
-
-                <div class="week-progress">
-
-
-                    <div
-                        id="weekProteinProgress"
-                        class="week-progress-bar"
-                        style="width:0%">
-
-                    </div>
-
-
-                </div>
-
-
-                <div
-                    class="week-remaining"
-                    id="weekProteinRemaining">
-
-                    1,120g protein remaining
+                    Daily target: 1,900 calories
 
                 </div>
 
@@ -2028,92 +2687,61 @@ button {
             </div>
 
 
-            <button
-                id="addWeekButton"
-                class="primary-button"
-                onclick="addTodayToWeek()">
-
-                + Add Today to Week
-
-            </button>
+            <div class="graph-card">
 
 
-            <button
-                class="secondary-button"
-                onclick="resetWeek()">
-
-                Reset Week
-
-            </button>
+                <h2>
+                    Weekly Protein
+                </h2>
 
 
-        </div>
-
-
-    </div>
-
-
-    <!-- =====================================================
-         GRAPHS
-         ===================================================== -->
-
-    <div
-        id="graphs"
-        class="page">
-
-
-        <div class="graph-card">
-
-
-            <h2>
-                Weekly Calories
-            </h2>
-
-
-            <div class="chart">
-
-
-                <div
-                    class="y-labels"
-                    id="calorieYLabels">
-
-                </div>
-
-
-                <div class="chart-area">
+                <div class="chart">
 
 
                     <div
-                        class="target-line"
-                        id="calorieTargetLine">
+                        class="y-labels"
+                        id="proteinYLabels">
 
                     </div>
 
 
-                    <div
-                        class="chart-grid"
-                        style="top:25%">
-
-                    </div>
+                    <div class="chart-area">
 
 
-                    <div
-                        class="chart-grid"
-                        style="top:50%">
+                        <div
+                            class="target-line"
+                            id="proteinTargetLine">
 
-                    </div>
-
-
-                    <div
-                        class="chart-grid"
-                        style="top:75%">
-
-                    </div>
+                        </div>
 
 
-                    <div
-                        class="bars"
-                        id="calorieBars">
+                        <div
+                            class="chart-grid"
+                            style="top:25%">
+
+                        </div>
+
+
+                        <div
+                            class="chart-grid"
+                            style="top:50%">
+
+                        </div>
+
+
+                        <div
+                            class="chart-grid"
+                            style="top:75%">
+
+                        </div>
+
+
+                        <div
+                            class="bars"
+                            id="proteinBars">
+
+                        </div>
+
 
                     </div>
 
@@ -2121,14 +2749,12 @@ button {
                 </div>
 
 
-            </div>
+                <div class="graph-legend">
 
+                    Daily target: 160g protein
 
-            <div
-                class="graph-legend"
-                id="calorieGraphLegend">
+                </div>
 
-                Daily target: 1,900 calories
 
             </div>
 
@@ -2136,61 +2762,72 @@ button {
         </div>
 
 
-        <div class="graph-card">
+        <!-- =================================================
+             WEIGHT GOAL
+             ================================================= -->
+
+        <div
+            id="weight"
+            class="page">
 
 
-            <h2>
-                Weekly Protein
-            </h2>
+            <div class="weight-goal-card">
 
 
-            <div class="chart">
+                <h2>
+                    Weight Goal
+                </h2>
+
+
+                <label>
+                    Current Weight (kg)
+                </label>
+
+
+                <input
+                    type="number"
+                    id="currentWeight"
+                    class="weight-input"
+                    step="0.1"
+                    min="0"
+                    placeholder="e.g. 72.0">
+
+
+                <label>
+                    Goal Weight (kg)
+                </label>
+
+
+                <input
+                    type="number"
+                    id="goalWeight"
+                    class="weight-input"
+                    step="0.1"
+                    min="0"
+                    placeholder="e.g. 68.0">
+
+
+                <button
+                    class="primary-button"
+                    onclick="saveWeightGoal()">
+
+                    Save Weight Goal
+
+                </button>
 
 
                 <div
-                    class="y-labels"
-                    id="proteinYLabels">
+                    id="weightSummary"
+                    class="weight-summary">
+
+                    Enter your current and goal weight above.
 
                 </div>
 
 
-                <div class="chart-area">
-
-
-                    <div
-                        class="target-line"
-                        id="proteinTargetLine">
-
-                    </div>
-
-
-                    <div
-                        class="chart-grid"
-                        style="top:25%">
-
-                    </div>
-
-
-                    <div
-                        class="chart-grid"
-                        style="top:50%">
-
-                    </div>
-
-
-                    <div
-                        class="chart-grid"
-                        style="top:75%">
-
-                    </div>
-
-
-                    <div
-                        class="bars"
-                        id="proteinBars">
-
-                    </div>
-
+                <div
+                    id="goalSuggestion"
+                    style="display:none">
 
                 </div>
 
@@ -2198,9 +2835,97 @@ button {
             </div>
 
 
-            <div class="graph-legend">
+            <!-- WEEKLY WEIGHT -->
 
-                Daily target: 160g protein
+            <div class="weight-entry">
+
+
+                <h2>
+                    Weekly Weight
+                </h2>
+
+
+                <label>
+                    This Week's Weight (kg)
+                </label>
+
+
+                <input
+                    type="number"
+                    id="weeklyWeight"
+                    class="weight-input"
+                    step="0.1"
+                    min="0"
+                    placeholder="Enter weight">
+
+
+                <button
+                    id="saveWeeklyWeightButton"
+                    class="primary-button weight-entry-button"
+                    onclick="saveWeeklyWeight()">
+
+                    Save Weekly Weight
+
+                </button>
+
+
+                <button
+                    id="resetWeightEntryButton"
+                    class="secondary-button"
+                    onclick="resetWeeklyWeight()">
+
+                    Reset Weekly Entry
+
+                </button>
+
+
+                <div
+                    id="weightEntryStatus"
+                    class="weight-status">
+
+                    You can enter your weight once every 7 days.
+
+                </div>
+
+
+            </div>
+
+
+            <!-- HISTORY -->
+
+            <div class="card">
+
+
+                <h2>
+                    Weight History
+                </h2>
+
+
+                <div
+                    id="weightHistory">
+
+                </div>
+
+
+            </div>
+
+
+            <!-- WEIGHT GRAPH -->
+
+            <div class="graph-card">
+
+
+                <h2>
+                    Weight Trend
+                </h2>
+
+
+                <div
+                    id="weightGraph"
+                    class="weight-chart">
+
+                </div>
+
 
             </div>
 
@@ -2212,172 +2937,143 @@ button {
 
 
     <!-- =====================================================
-         WEIGHT GOAL
+         WORKOUTS SCREEN
          ===================================================== -->
 
     <div
-        id="weight"
-        class="page">
+        id="workoutsScreen"
+        class="app-screen">
 
 
-        <!-- WEIGHT GOAL -->
+        <div class="workouts-header">
 
-        <div class="weight-goal-card">
+
+            <div class="workout-icon">
+                🏋️
+            </div>
 
 
             <h2>
-                Weight Goal
+                Workouts
             </h2>
 
 
-            <label>
-                Current Weight (kg)
-            </label>
+            <p>
 
+                Your personalized workout section
+                is coming next.
 
-            <input
-                type="number"
-                id="currentWeight"
-                class="weight-input"
-                step="0.1"
-                min="0"
-                placeholder="e.g. 72.0">
-
-
-            <label>
-                Goal Weight (kg)
-            </label>
-
-
-            <input
-                type="number"
-                id="goalWeight"
-                class="weight-input"
-                step="0.1"
-                min="0"
-                placeholder="e.g. 68.0">
-
-
-            <button
-                class="primary-button"
-                onclick="saveWeightGoal()">
-
-                Save Weight Goal
-
-            </button>
-
-
-            <div
-                id="weightSummary"
-                class="weight-summary">
-
-                Enter your current and goal weight above.
-
-            </div>
-
-
-            <!-- =================================================
-                 SUGGESTION SYSTEM
-                 ================================================= -->
-
-            <div
-                id="goalSuggestion"
-                style="display:none">
-
-            </div>
+            </p>
 
 
         </div>
 
 
-        <!-- WEEKLY WEIGH-IN -->
-
-        <div class="weight-entry">
+        <div class="workout-coming-card">
 
 
-            <h2>
-                Weekly Weight
-            </h2>
+            <h3>
+                Workout Builder
+            </h3>
 
 
-            <label>
-                This Week's Weight (kg)
-            </label>
+            <p>
+
+                Soon you'll be able to tell the app
+                what you're trying to achieve and it
+                will build a workout around you.
+
+            </p>
 
 
-            <input
-                type="number"
-                id="weeklyWeight"
-                class="weight-input"
-                step="0.1"
-                min="0"
-                placeholder="Enter weight">
+            <div class="workout-feature">
 
 
-            <button
-                id="saveWeeklyWeightButton"
-                class="primary-button weight-entry-button"
-                onclick="saveWeeklyWeight()">
-
-                Save Weekly Weight
-
-            </button>
+                <div class="workout-feature-icon">
+                    🎯
+                </div>
 
 
-            <button
-                id="resetWeightEntryButton"
-                class="secondary-button"
-                onclick="resetWeeklyWeight()">
+                <div class="workout-feature-text">
 
-                Reset Weekly Entry
+                    Select your goal
 
-            </button>
+                </div>
 
-
-            <div
-                id="weightEntryStatus"
-                class="weight-status">
-
-                You can enter your weight once every 7 days.
 
             </div>
 
 
-        </div>
+            <div class="workout-feature">
 
 
-        <!-- WEIGHT HISTORY -->
-
-        <div class="card">
-
-
-            <h2>
-                Weight History
-            </h2>
+                <div class="workout-feature-icon">
+                    💪
+                </div>
 
 
-            <div
-                id="weightHistory">
+                <div class="workout-feature-text">
+
+                    Select the muscle group you want
+                    to train
+
+                </div>
+
 
             </div>
 
 
-        </div>
+            <div class="workout-feature">
 
 
-        <!-- WEIGHT GRAPH -->
-
-        <div class="graph-card">
-
-
-            <h2>
-                Weight Trend
-            </h2>
+                <div class="workout-feature-icon">
+                    ⏱️
+                </div>
 
 
-            <div
-                id="weightGraph"
-                class="weight-chart">
+                <div class="workout-feature-text">
+
+                    Choose your available workout time
+
+                </div>
+
+
+            </div>
+
+
+            <div class="workout-feature">
+
+
+                <div class="workout-feature-icon">
+                    🏠
+                </div>
+
+
+                <div class="workout-feature-text">
+
+                    Gym or home workout options
+
+                </div>
+
+
+            </div>
+
+
+            <div class="workout-feature">
+
+
+                <div class="workout-feature-icon">
+                    🧠
+                </div>
+
+
+                <div class="workout-feature-text">
+
+                    The app suggests exercises,
+                    sets and reps
+
+                </div>
+
 
             </div>
 
@@ -2450,10 +3146,7 @@ const GOALS = {
 
         weeklyCalories: 13300,
 
-        icon: "🥗",
-
-        description:
-            "Your goal weight is below your current weight, so a calorie deficit is the direction that matches the goal."
+        icon: "🥗"
 
     },
 
@@ -2466,10 +3159,7 @@ const GOALS = {
 
         weeklyCalories: 16800,
 
-        icon: "⚖️",
-
-        description:
-            "Your goal weight is the same as your current weight, so maintaining your current weight matches the goal."
+        icon: "⚖️"
 
     },
 
@@ -2482,10 +3172,7 @@ const GOALS = {
 
         weeklyCalories: 18900,
 
-        icon: "💪",
-
-        description:
-            "Your goal weight is above your current weight, so a calorie surplus is the direction that matches the goal."
+        icon: "💪"
 
     }
 
@@ -2496,6 +3183,183 @@ const GOALS = {
 const DAILY_PROTEIN_TARGET = 160;
 
 const WEEKLY_PROTEIN_TARGET = 1120;
+
+
+/* =========================================================
+   HAMBURGER MENU
+   ========================================================= */
+
+function toggleMenu() {
+
+
+    const menu =
+
+        document.getElementById(
+            "sideMenu"
+        );
+
+
+    const overlay =
+
+        document.getElementById(
+            "menuOverlay"
+        );
+
+
+    const isOpen =
+
+        menu.classList.contains(
+            "open"
+        );
+
+
+    if (
+        isOpen
+    ) {
+
+        closeMenu();
+
+    }
+
+    else {
+
+        menu.classList.add(
+            "open"
+        );
+
+        overlay.classList.add(
+            "show"
+        );
+
+    }
+
+}
+
+
+function closeMenu() {
+
+
+    document
+        .getElementById(
+            "sideMenu"
+        )
+        .classList
+        .remove("open");
+
+
+    document
+        .getElementById(
+            "menuOverlay"
+        )
+        .classList
+        .remove("show");
+
+}
+
+
+/* =========================================================
+   OPEN APP SCREEN
+   ========================================================= */
+
+function openScreen(
+    screen
+) {
+
+
+    document
+        .querySelectorAll(
+            ".app-screen"
+        )
+        .forEach(
+
+            element => {
+
+                element.classList.remove(
+                    "active"
+                );
+
+            }
+
+        );
+
+
+    document
+        .querySelectorAll(
+            ".menu-item"
+        )
+        .forEach(
+
+            element => {
+
+                element.classList.remove(
+                    "active"
+                );
+
+            }
+
+        );
+
+
+    if (
+        screen === "dashboard"
+    ) {
+
+
+        document
+            .getElementById(
+                "dashboardScreen"
+            )
+            .classList
+            .add("active");
+
+
+        document
+            .getElementById(
+                "dashboardMenuItem"
+            )
+            .classList
+            .add("active");
+
+
+    }
+
+
+    if (
+        screen === "workouts"
+    ) {
+
+
+        document
+            .getElementById(
+                "workoutsScreen"
+            )
+            .classList
+            .add("active");
+
+
+        document
+            .getElementById(
+                "workoutsMenuItem"
+            )
+            .classList
+            .add("active");
+
+
+    }
+
+
+    closeMenu();
+
+
+    window.scrollTo({
+
+        top: 0,
+
+        behavior: "smooth"
+
+    });
+
+}
 
 
 /* =========================================================
@@ -2634,7 +3498,6 @@ function changeGoal() {
 
     updateWeightGoalDisplay();
 
-
 }
 
 
@@ -2668,10 +3531,6 @@ function applySuggestedGoal(
 
     updateWeightGoalDisplay();
 
-
-    /*
-       Scroll back to top of WG.
-    */
 
     window.scrollTo({
 
@@ -4111,12 +4970,6 @@ function saveWeightGoal() {
         );
 
 
-    /*
-       If there is no goal yet OR the goal
-       weight has changed, create a new
-       starting point for progress.
-    */
-
     if (
         !oldGoal ||
         oldGoal !== goal
@@ -4220,7 +5073,7 @@ function loadWeightGoal() {
 
 
 /* =========================================================
-   WEIGHT GOAL DISPLAY + SUGGESTION
+   WEIGHT DISPLAY + SUGGESTION
    ========================================================= */
 
 function updateWeightGoalDisplay() {
@@ -4438,10 +5291,6 @@ function updateWeightGoalDisplay() {
     `;
 
 
-    /*
-       Generate suggestion.
-    */
-
     generateGoalSuggestion(
         current,
         goal
@@ -4451,7 +5300,7 @@ function updateWeightGoalDisplay() {
 
 
 /* =========================================================
-   GOAL SUGGESTION ENGINE
+   SUGGESTION ENGINE
    ========================================================= */
 
 function generateGoalSuggestion(
@@ -4460,7 +5309,7 @@ function generateGoalSuggestion(
 ) {
 
 
-    const suggestionContainer =
+    const container =
 
         document.getElementById(
             "goalSuggestion"
@@ -4470,18 +5319,12 @@ function generateGoalSuggestion(
     let suggestedGoal;
 
 
-    /*
-       Determine the direction.
-    */
-
     if (
         goal < current
     ) {
 
-
         suggestedGoal =
             "cut";
-
 
     }
 
@@ -4490,16 +5333,13 @@ function generateGoalSuggestion(
         goal > current
     ) {
 
-
         suggestedGoal =
             "bulk";
-
 
     }
 
 
     else {
-
 
         suggestedGoal =
             "maintenance";
@@ -4552,7 +5392,7 @@ function generateGoalSuggestion(
 
         reason =
 
-            `Your current weight and goal weight are both ${current.toFixed(1)} kg. The tracker therefore suggests maintaining your current body weight rather than intentionally gaining or losing weight.`;
+            `Your current weight and goal weight are both ${current.toFixed(1)} kg. The tracker therefore suggests maintaining your current body weight.`;
 
     }
 
@@ -4564,11 +5404,11 @@ function generateGoalSuggestion(
         suggestedGoal;
 
 
-    suggestionContainer.style.display =
+    container.style.display =
         "block";
 
 
-    suggestionContainer.innerHTML = `
+    container.innerHTML = `
 
         <div class="suggestion-card">
 
@@ -4683,11 +5523,8 @@ function generateGoalSuggestion(
 
             <div class="suggestion-note">
 
-                This suggestion uses your current weight
-                and goal weight to determine the direction
-                of your goal. It is a simple tracker
-                recommendation, not a medical or dietary
-                diagnosis.
+                This is a simple goal-direction suggestion
+                based on your current and target weight.
 
             </div>
 
@@ -4791,11 +5628,6 @@ function saveWeeklyWeight() {
     );
 
 
-    /*
-       Latest weekly weigh-in becomes
-       the current weight.
-    */
-
     localStorage.setItem(
 
         "weightCurrent",
@@ -4828,7 +5660,7 @@ function saveWeeklyWeight() {
 
 
 /* =========================================================
-   WEEKLY WEIGHT LOCK
+   WEIGHT LOCK
    ========================================================= */
 
 function updateWeightEntryState() {
@@ -4927,6 +5759,7 @@ function updateWeightEntryState() {
 
             "Your weekly weigh-in is ready.";
 
+
         return;
 
     }
@@ -5001,7 +5834,7 @@ function updateWeightEntryState() {
 
 
 /* =========================================================
-   RESET WEEKLY WEIGHT
+   RESET WEIGHT ENTRY
    ========================================================= */
 
 function resetWeeklyWeight() {
@@ -5037,10 +5870,6 @@ function resetWeeklyWeight() {
         [];
 
 
-    /*
-       Remove latest weigh-in.
-    */
-
     if (
         history.length > 0
     ) {
@@ -5071,11 +5900,6 @@ function resetWeeklyWeight() {
     ).value = "";
 
 
-    /*
-       If previous history exists,
-       use previous weigh-in as current.
-    */
-
     if (
         history.length > 0
     ) {
@@ -5101,41 +5925,6 @@ function resetWeeklyWeight() {
         ).value =
             latest.weight;
 
-
-    }
-
-
-    else {
-
-
-        /*
-           If no history remains,
-           don't destroy the manually
-           saved current weight.
-        */
-
-        const savedCurrent =
-
-            Number(
-
-                localStorage.getItem(
-                    "weightCurrent"
-                )
-
-            );
-
-
-        if (
-            savedCurrent > 0
-        ) {
-
-
-            document.getElementById(
-                "currentWeight"
-            ).value =
-                savedCurrent;
-
-        }
 
     }
 
@@ -5514,8 +6303,6 @@ function drawWeightGraph() {
     `;
 
 
-    /* GRID */
-
     for (
         let i = 0;
         i <= 4;
@@ -5538,7 +6325,6 @@ function drawWeightGraph() {
 
 
         const y =
-
             yPosition(
                 weight
             );
@@ -5570,8 +6356,6 @@ function drawWeightGraph() {
     }
 
 
-    /* GOAL LINE */
-
     if (
         goal > 0 &&
         goal >= graphMin &&
@@ -5602,8 +6386,6 @@ function drawWeightGraph() {
 
     }
 
-
-    /* PATH */
 
     let path = "";
 
@@ -5661,8 +6443,6 @@ function drawWeightGraph() {
 
     `;
 
-
-    /* POINTS */
 
     history.forEach(
 
@@ -5756,7 +6536,7 @@ function drawWeightGraph() {
 
 
 /* =========================================================
-   TABS
+   DASHBOARD TABS
    ========================================================= */
 
 function showPage(
@@ -5770,7 +6550,7 @@ function showPage(
 
     document
         .querySelectorAll(
-            ".page"
+            "#dashboardScreen .page"
         )
         .forEach(
 
@@ -5790,7 +6570,7 @@ function showPage(
 
     document
         .querySelectorAll(
-            ".tab-button"
+            "#dashboardScreen .tab-button"
         )
         .forEach(
 
@@ -6309,7 +7089,7 @@ function drawBarGraph(
 
 
 /* =========================================================
-   START
+   STARTUP
    ========================================================= */
 
 checkNewDay();
@@ -6338,8 +7118,7 @@ drawWeightGraph();
 
 
 /*
-   Keep the 7-day lock accurate if the app
-   remains open.
+   Keep weekly weight lock accurate.
 */
 
 setInterval(
