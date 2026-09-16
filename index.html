@@ -2230,17 +2230,24 @@ function validateBodyStep() {
 
 function validateMovementStep() {
 
-    let steps =
-        Number(
-            document.getElementById(
-                "setupSteps"
-            ).value
+    const stepsInput =
+        document.getElementById(
+            "setupSteps"
         );
+
+    const rawSteps =
+        stepsInput.value.trim();
+
+    let steps =
+        Number(rawSteps);
 
     let job =
         setupData.job;
 
+    // The user must enter a number.
+    // 0 is valid, but a blank field is not.
     if (
+        rawSteps === "" ||
         steps < 0 ||
         isNaN(steps)
     ) {
