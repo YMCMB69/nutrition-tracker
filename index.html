@@ -41,7 +41,7 @@ h1 {
 }
 
 
-/* ================= GOAL SELECTOR ================= */
+/* ================= GOAL ================= */
 
 .goal-card {
     background: #151515;
@@ -403,6 +403,76 @@ button {
     text-align: center;
 }
 
+
+/* ================= EASTER EGG ================= */
+
+.easter-egg {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: rgba(0, 0, 0, 0.96);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.easter-egg.show {
+    display: flex;
+}
+
+.easter-egg-content {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    text-align: center;
+    animation: eggPop 0.35s ease-out;
+}
+
+.easter-egg-image {
+    width: 100%;
+    max-height: 82vh;
+    object-fit: contain;
+    border-radius: 18px;
+    box-shadow: 0 0 50px rgba(123, 44, 255, 0.45);
+}
+
+.easter-close {
+    position: absolute;
+    top: -12px;
+    right: -4px;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 2px solid white;
+    background: #111;
+    color: white;
+    font-size: 25px;
+    line-height: 36px;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.easter-text {
+    margin-top: 12px;
+    font-size: 14px;
+    color: #aaa;
+}
+
+@keyframes eggPop {
+
+    0% {
+        transform: scale(0.7);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+}
+
 </style>
 </head>
 
@@ -468,9 +538,6 @@ button {
     <!-- ================= MAIN ================= -->
 
     <div id="main" class="page active">
-
-
-        <!-- ADD FOOD -->
 
         <div class="card">
 
@@ -566,7 +633,7 @@ button {
         </div>
 
 
-        <!-- ================= TODAY'S TOTAL ================= -->
+        <!-- ================= TODAY ================= -->
 
         <div class="card">
 
@@ -619,8 +686,6 @@ button {
             </div>
 
 
-            <!-- CALORIE PROGRESS -->
-
             <div class="progress-container">
 
                 <div class="progress-header">
@@ -648,8 +713,6 @@ button {
             </div>
 
 
-            <!-- PROTEIN PROGRESS -->
-
             <div class="progress-container">
 
                 <div class="progress-header">
@@ -676,8 +739,6 @@ button {
 
             </div>
 
-
-            <!-- REMAINING -->
 
             <div class="remaining">
 
@@ -865,9 +926,6 @@ button {
 
     <div id="graphs" class="page">
 
-
-        <!-- CALORIES -->
-
         <div class="graph-card">
 
             <h2>
@@ -927,8 +985,6 @@ button {
 
         </div>
 
-
-        <!-- PROTEIN -->
 
         <div class="graph-card">
 
@@ -992,6 +1048,36 @@ button {
 </div>
 
 
+<!-- ================= SECRET EASTER EGG ================= -->
+
+<div
+    id="easterEgg"
+    class="easter-egg">
+
+    <div class="easter-egg-content">
+
+        <button
+            class="easter-close"
+            onclick="closeEasterEgg()">
+
+            ×
+
+        </button>
+
+        <img
+            src="easteregg.jpg"
+            class="easter-egg-image"
+            alt="Secret Easter Egg">
+
+        <div class="easter-text">
+            You found the secret 👀
+        </div>
+
+    </div>
+
+</div>
+
+
 <script>
 
 
@@ -1000,35 +1086,21 @@ button {
 const GOALS = {
 
     cut: {
-
         name: "Cut",
-
         dailyCalories: 1900,
-
         weeklyCalories: 13300
-
     },
-
 
     maintenance: {
-
         name: "Maintenance",
-
         dailyCalories: 2400,
-
         weeklyCalories: 16800
-
     },
 
-
     bulk: {
-
         name: "Bulk",
-
         dailyCalories: 2700,
-
         weeklyCalories: 18900
-
     }
 
 };
@@ -1039,13 +1111,101 @@ const DAILY_PROTEIN_TARGET = 160;
 const WEEKLY_PROTEIN_TARGET = 1120;
 
 
-/* ================= CURRENT GOAL ================= */
+/* ================= SECRET EASTER EGG ================= */
+
+let tabSwitchCount = 0;
+
+let lastTab = null;
+
+let firstSwitchTime = null;
+
+const EASTER_EGG_SWITCHES = 5;
+
+const EASTER_EGG_TIME = 2500;
+
+
+function checkEasterEgg(page) {
+
+    const now = Date.now();
+
+
+    /*
+        Start a new sequence if:
+        - this is the first switch
+        - more than 2.5 seconds passed
+        - same tab was clicked
+    */
+
+    if (
+        firstSwitchTime === null ||
+        now - firstSwitchTime >
+        EASTER_EGG_TIME ||
+        page === lastTab
+    ) {
+
+        tabSwitchCount = 0;
+
+        firstSwitchTime = now;
+
+    }
+
+
+    if (
+        page !== lastTab
+    ) {
+
+        tabSwitchCount++;
+
+    }
+
+
+    lastTab = page;
+
+
+    if (
+        tabSwitchCount >=
+        EASTER_EGG_SWITCHES
+    ) {
+
+        activateEasterEgg();
+
+        tabSwitchCount = 0;
+
+        firstSwitchTime = null;
+
+        lastTab = null;
+
+    }
+
+}
+
+
+function activateEasterEgg() {
+
+    document
+        .getElementById("easterEgg")
+        .classList.add("show");
+
+}
+
+
+function closeEasterEgg() {
+
+    document
+        .getElementById("easterEgg")
+        .classList.remove("show");
+
+}
+
+
+/* ================= GOAL ================= */
 
 function getCurrentGoal() {
 
     return (
-        localStorage.getItem("currentGoal")
-        || "cut"
+        localStorage.getItem(
+            "currentGoal"
+        ) || "cut"
     );
 
 }
@@ -1053,12 +1213,12 @@ function getCurrentGoal() {
 
 function getGoalData() {
 
-    return GOALS[getCurrentGoal()];
+    return GOALS[
+        getCurrentGoal()
+    ];
 
 }
 
-
-/* ================= CHANGE GOAL ================= */
 
 function changeGoal() {
 
@@ -1079,8 +1239,6 @@ function changeGoal() {
 }
 
 
-/* ================= UPDATE TARGETS ================= */
-
 function updateTargets() {
 
     const goal =
@@ -1093,29 +1251,26 @@ function updateTargets() {
         getCurrentGoal();
 
 
-    /* DAILY CALORIE TARGET */
-
     document.getElementById(
         "dailyCalorieTarget"
     ).textContent =
-        goal.dailyCalories.toLocaleString();
+        goal.dailyCalories
+            .toLocaleString();
 
-
-    /* WEEKLY CALORIE TARGET */
 
     document.getElementById(
         "weeklyCalorieTarget"
     ).textContent =
-        goal.weeklyCalories.toLocaleString();
+        goal.weeklyCalories
+            .toLocaleString();
 
-
-    /* GRAPH LEGEND */
 
     document.getElementById(
         "calorieGraphLegend"
     ).textContent =
         "Daily target: "
-        + goal.dailyCalories.toLocaleString()
+        + goal.dailyCalories
+            .toLocaleString()
         + " calories";
 
 
@@ -1181,7 +1336,9 @@ function getToday() {
 
     const d = new Date();
 
-    return d.toISOString().split("T")[0];
+    return d
+        .toISOString()
+        .split("T")[0];
 
 }
 
@@ -1206,13 +1363,15 @@ function displayDate() {
 }
 
 
-/* ================= WEEK ID ================= */
+/* ================= WEEK ================= */
 
 function getWeekID() {
 
     const d = new Date();
 
-    const day = d.getDay();
+    const day =
+        d.getDay();
+
 
     const diff =
         day === 0
@@ -1236,13 +1395,13 @@ function getWeekID() {
 }
 
 
-/* ================= WEEK DATES ================= */
-
 function getWeekDates() {
 
     const d = new Date();
 
-    const day = d.getDay();
+    const day =
+        d.getDay();
+
 
     const diff =
         day === 0
@@ -1381,7 +1540,7 @@ function checkNewWeek() {
 }
 
 
-/* ================= LOAD TODAY ================= */
+/* ================= TODAY ================= */
 
 function loadTotals() {
 
@@ -1421,12 +1580,11 @@ function loadTotals() {
         );
 
 
-    /* CALORIES LEFT */
-
     const caloriesRemaining =
         Math.max(
             0,
-            goal.dailyCalories - calories
+            goal.dailyCalories -
+            calories
         );
 
 
@@ -1439,12 +1597,11 @@ function loadTotals() {
         + " kcal";
 
 
-    /* PROTEIN LEFT */
-
     const proteinRemaining =
         Math.max(
             0,
-            DAILY_PROTEIN_TARGET - protein
+            DAILY_PROTEIN_TARGET -
+            protein
         );
 
 
@@ -1456,23 +1613,23 @@ function loadTotals() {
         ) + "g";
 
 
-    /* PROGRESS */
-
     const caloriePercent =
         Math.min(
             100,
-            (calories /
-                goal.dailyCalories) *
-            100
+            (
+                calories /
+                goal.dailyCalories
+            ) * 100
         );
 
 
     const proteinPercent =
         Math.min(
             100,
-            (protein /
-                DAILY_PROTEIN_TARGET) *
-            100
+            (
+                protein /
+                DAILY_PROTEIN_TARGET
+            ) * 100
         );
 
 
@@ -1492,9 +1649,10 @@ function loadTotals() {
         "caloriePercent"
     ).textContent =
         Math.round(
-            (calories /
-                goal.dailyCalories) *
-            100
+            (
+                calories /
+                goal.dailyCalories
+            ) * 100
         ) + "%";
 
 
@@ -1502,13 +1660,12 @@ function loadTotals() {
         "proteinPercent"
     ).textContent =
         Math.round(
-            (protein /
-                DAILY_PROTEIN_TARGET) *
-            100
+            (
+                protein /
+                DAILY_PROTEIN_TARGET
+            ) * 100
         ) + "%";
 
-
-    /* RED IF OVER */
 
     document.getElementById(
         "calorieProgress"
@@ -1530,7 +1687,7 @@ function loadTotals() {
 }
 
 
-/* ================= LOAD WEEK ================= */
+/* ================= WEEK ================= */
 
 function loadWeek() {
 
@@ -1573,18 +1730,20 @@ function loadWeek() {
     const caloriePercent =
         Math.min(
             100,
-            (calories /
-                goal.weeklyCalories) *
-            100
+            (
+                calories /
+                goal.weeklyCalories
+            ) * 100
         );
 
 
     const proteinPercent =
         Math.min(
             100,
-            (protein /
-                WEEKLY_PROTEIN_TARGET) *
-            100
+            (
+                protein /
+                WEEKLY_PROTEIN_TARGET
+            ) * 100
         );
 
 
@@ -1877,8 +2036,6 @@ function addTodayToWeek() {
     );
 
 
-    /* DAILY HISTORY */
-
     let history =
         JSON.parse(
             localStorage.getItem(
@@ -2041,6 +2198,11 @@ function showPage(
     button
 ) {
 
+    /* SECRET EASTER EGG CHECK */
+
+    checkEasterEgg(page);
+
+
     document.querySelectorAll(
         ".page"
     ).forEach(
@@ -2084,7 +2246,7 @@ function showPage(
 }
 
 
-/* ================= DRAW GRAPHS ================= */
+/* ================= GRAPHS ================= */
 
 function drawGraphs() {
 
@@ -2197,8 +2359,6 @@ function drawBarGraph(
     }
 
 
-    /* Y LABELS */
-
     for (
         let i = 4;
         i >= 0;
@@ -2229,8 +2389,6 @@ function drawBarGraph(
     }
 
 
-    /* TARGET LINE */
-
     const targetLine =
         document.getElementById(
             targetID
@@ -2247,8 +2405,6 @@ function drawBarGraph(
             )
         ) + "%";
 
-
-    /* BARS */
 
     const days = [
         "Mon",
