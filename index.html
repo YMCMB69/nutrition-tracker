@@ -947,6 +947,126 @@ button {
 
 
 /* =========================================================
+   SUGGESTION SYSTEM
+   ========================================================= */
+
+.suggestion-card {
+
+    background: #101010;
+
+    border: 1px solid var(--accent);
+
+    border-radius: 16px;
+
+    padding: 20px;
+
+    margin-top: 18px;
+
+    box-shadow:
+        0 0 18px var(--accent-glow);
+
+}
+
+
+.suggestion-label {
+
+    color: #999;
+
+    font-size: 13px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+
+}
+
+
+.suggestion-title {
+
+    font-size: 30px;
+
+    font-weight: bold;
+
+    color: var(--accent);
+
+    margin-top: 5px;
+
+}
+
+
+.suggestion-reason {
+
+    color: #ccc;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+
+    margin-top: 10px;
+
+}
+
+
+.suggestion-target {
+
+    display: flex;
+
+    gap: 10px;
+
+    margin-top: 15px;
+
+}
+
+
+.suggestion-target-box {
+
+    flex: 1;
+
+    background: #151515;
+
+    border-radius: 10px;
+
+    padding: 12px;
+
+    text-align: center;
+
+}
+
+
+.suggestion-target-label {
+
+    color: #888;
+
+    font-size: 11px;
+
+}
+
+
+.suggestion-target-value {
+
+    font-size: 19px;
+
+    font-weight: bold;
+
+    margin-top: 4px;
+
+}
+
+
+.suggestion-note {
+
+    color: #777;
+
+    font-size: 11px;
+
+    margin-top: 13px;
+
+    line-height: 1.4;
+
+}
+
+
+/* =========================================================
    WEEKLY WEIGH-IN
    ========================================================= */
 
@@ -1350,9 +1470,7 @@ button {
 <div class="container">
 
 
-    <!-- =====================================================
-         HEADER
-         ===================================================== -->
+    <!-- HEADER -->
 
     <h1>
         Dyl's Six Pack Tracker
@@ -1365,9 +1483,7 @@ button {
     </div>
 
 
-    <!-- =====================================================
-         GOAL SELECTOR
-         ===================================================== -->
+    <!-- GOAL SELECTOR -->
 
     <div class="goal-card">
 
@@ -1404,9 +1520,7 @@ button {
     </div>
 
 
-    <!-- =====================================================
-         TABS
-         ===================================================== -->
+    <!-- TABS -->
 
     <div class="tabs">
 
@@ -1442,7 +1556,7 @@ button {
 
 
     <!-- =====================================================
-         MAIN PAGE
+         MAIN
          ===================================================== -->
 
     <div
@@ -1475,43 +1589,28 @@ button {
                 </option>
 
 
-                <option
-                    value="Mcdees 2x Double Burger">
-
+                <option value="Mcdees 2x Double Burger">
                     Mcdees 2x Double Burger
-
                 </option>
 
 
-                <option
-                    value="Big Mac Meal">
-
+                <option value="Big Mac Meal">
                     Big Mac Meal
-
                 </option>
 
 
-                <option
-                    value="Wimpy Burger Meal">
-
+                <option value="Wimpy Burger Meal">
                     Wimpy Burger Meal
-
                 </option>
 
 
-                <option
-                    value="USN Choc Caramel 1 Scoop">
-
+                <option value="USN Choc Caramel 1 Scoop">
                     USN Choc Caramel 1 Scoop
-
                 </option>
 
 
-                <option
-                    value="USN Choc Caramel 2 Scoop">
-
+                <option value="USN Choc Caramel 2 Scoop">
                     USN Choc Caramel 2 Scoop
-
                 </option>
 
 
@@ -1533,19 +1632,13 @@ button {
                 </option>
 
 
-                <option
-                    value="Single Vodka with Zero Mix">
-
+                <option value="Single Vodka with Zero Mix">
                     Single Vodka with Zero Mix
-
                 </option>
 
 
-                <option
-                    value="Jägermeister Shot">
-
+                <option value="Jägermeister Shot">
                     Jägermeister Shot
-
                 </option>
 
 
@@ -1622,22 +1715,16 @@ button {
                     <div class="stat-value">
 
 
-                        <span
-                            id="todayCalories">
-
+                        <span id="todayCalories">
                             0
-
                         </span>
 
 
                         /
 
 
-                        <span
-                            id="dailyCalorieTarget">
-
+                        <span id="dailyCalorieTarget">
                             1,900
-
                         </span>
 
 
@@ -1658,11 +1745,8 @@ button {
                     <div class="stat-value">
 
 
-                        <span
-                            id="todayProtein">
-
+                        <span id="todayProtein">
                             0
-
                         </span>
 
 
@@ -1689,11 +1773,8 @@ button {
                     </span>
 
 
-                    <span
-                        id="caloriePercent">
-
+                    <span id="caloriePercent">
                         0%
-
                     </span>
 
 
@@ -1728,11 +1809,8 @@ button {
                     </span>
 
 
-                    <span
-                        id="proteinPercent">
-
+                    <span id="proteinPercent">
                         0%
-
                     </span>
 
 
@@ -1760,9 +1838,7 @@ button {
 
 
                 <div class="remaining-title">
-
                     Remaining Today
-
                 </div>
 
 
@@ -1775,9 +1851,7 @@ button {
 
 
                         <div class="stat-title">
-
                             Calories Left
-
                         </div>
 
 
@@ -1797,9 +1871,7 @@ button {
 
 
                         <div class="stat-title">
-
                             Protein Left
-
                         </div>
 
 
@@ -1857,22 +1929,16 @@ button {
                     <span>
 
 
-                        <span
-                            id="weekCalories">
-
+                        <span id="weekCalories">
                             0
-
                         </span>
 
 
                         /
 
 
-                        <span
-                            id="weeklyCalorieTarget">
-
+                        <span id="weeklyCalorieTarget">
                             13,300
-
                         </span>
 
 
@@ -1922,11 +1988,8 @@ button {
                     <span>
 
 
-                        <span
-                            id="weekProtein">
-
+                        <span id="weekProtein">
                             0
-
                         </span>
 
 
@@ -1991,7 +2054,7 @@ button {
 
 
     <!-- =====================================================
-         GRAPHS PAGE
+         GRAPHS
          ===================================================== -->
 
     <div
@@ -2149,7 +2212,7 @@ button {
 
 
     <!-- =====================================================
-         WEIGHT GOAL PAGE
+         WEIGHT GOAL
          ===================================================== -->
 
     <div
@@ -2209,6 +2272,17 @@ button {
                 class="weight-summary">
 
                 Enter your current and goal weight above.
+
+            </div>
+
+
+            <!-- =================================================
+                 SUGGESTION SYSTEM
+                 ================================================= -->
+
+            <div
+                id="goalSuggestion"
+                style="display:none">
 
             </div>
 
@@ -2374,7 +2448,12 @@ const GOALS = {
 
         dailyCalories: 1900,
 
-        weeklyCalories: 13300
+        weeklyCalories: 13300,
+
+        icon: "🥗",
+
+        description:
+            "Your goal weight is below your current weight, so a calorie deficit is the direction that matches the goal."
 
     },
 
@@ -2385,7 +2464,12 @@ const GOALS = {
 
         dailyCalories: 2400,
 
-        weeklyCalories: 16800
+        weeklyCalories: 16800,
+
+        icon: "⚖️",
+
+        description:
+            "Your goal weight is the same as your current weight, so maintaining your current weight matches the goal."
 
     },
 
@@ -2396,7 +2480,12 @@ const GOALS = {
 
         dailyCalories: 2700,
 
-        weeklyCalories: 18900
+        weeklyCalories: 18900,
+
+        icon: "💪",
+
+        description:
+            "Your goal weight is above your current weight, so a calorie surplus is the direction that matches the goal."
 
     }
 
@@ -2542,6 +2631,55 @@ function changeGoal() {
     updateTheme();
 
     updateTargets();
+
+    updateWeightGoalDisplay();
+
+
+}
+
+
+/* =========================================================
+   APPLY SUGGESTED GOAL
+   ========================================================= */
+
+function applySuggestedGoal(
+    goal
+) {
+
+
+    localStorage.setItem(
+
+        "currentGoal",
+
+        goal
+
+    );
+
+
+    document.getElementById(
+        "goalSelect"
+    ).value =
+        goal;
+
+
+    updateTheme();
+
+    updateTargets();
+
+    updateWeightGoalDisplay();
+
+
+    /*
+       Scroll back to top of WG.
+    */
+
+    window.scrollTo({
+
+        top: 0,
+
+        behavior: "smooth"
+
+    });
 
 }
 
@@ -3962,6 +4100,40 @@ function saveWeightGoal() {
     }
 
 
+    const oldGoal =
+
+        Number(
+
+            localStorage.getItem(
+                "weightGoal"
+            )
+
+        );
+
+
+    /*
+       If there is no goal yet OR the goal
+       weight has changed, create a new
+       starting point for progress.
+    */
+
+    if (
+        !oldGoal ||
+        oldGoal !== goal
+    ) {
+
+
+        localStorage.setItem(
+
+            "weightStart",
+
+            current
+
+        );
+
+    }
+
+
     localStorage.setItem(
 
         "weightCurrent",
@@ -4048,7 +4220,7 @@ function loadWeightGoal() {
 
 
 /* =========================================================
-   WEIGHT GOAL DISPLAY
+   WEIGHT GOAL DISPLAY + SUGGESTION
    ========================================================= */
 
 function updateWeightGoalDisplay() {
@@ -4092,6 +4264,12 @@ function updateWeightGoalDisplay() {
         summary.innerHTML =
 
             "Enter your current and goal weight above.";
+
+
+        document.getElementById(
+            "goalSuggestion"
+        ).style.display =
+            "none";
 
 
         return;
@@ -4182,12 +4360,16 @@ function updateWeightGoalDisplay() {
                     100,
 
                     (
+
                         1
                         -
                         currentDistance /
                         totalDistance
+
                     )
+
                     *
+
                     100
 
                 )
@@ -4250,6 +4432,265 @@ function updateWeightGoalDisplay() {
                 </div>
 
             </div>
+
+        </div>
+
+    `;
+
+
+    /*
+       Generate suggestion.
+    */
+
+    generateGoalSuggestion(
+        current,
+        goal
+    );
+
+}
+
+
+/* =========================================================
+   GOAL SUGGESTION ENGINE
+   ========================================================= */
+
+function generateGoalSuggestion(
+    current,
+    goal
+) {
+
+
+    const suggestionContainer =
+
+        document.getElementById(
+            "goalSuggestion"
+        );
+
+
+    let suggestedGoal;
+
+
+    /*
+       Determine the direction.
+    */
+
+    if (
+        goal < current
+    ) {
+
+
+        suggestedGoal =
+            "cut";
+
+
+    }
+
+
+    else if (
+        goal > current
+    ) {
+
+
+        suggestedGoal =
+            "bulk";
+
+
+    }
+
+
+    else {
+
+
+        suggestedGoal =
+            "maintenance";
+
+    }
+
+
+    const data =
+        GOALS[
+            suggestedGoal
+        ];
+
+
+    const difference =
+
+        Math.abs(
+            current - goal
+        );
+
+
+    let reason;
+
+
+    if (
+        suggestedGoal === "cut"
+    ) {
+
+
+        reason =
+
+            `You are currently ${current.toFixed(1)} kg and your goal is ${goal.toFixed(1)} kg. Because your goal is ${difference.toFixed(1)} kg lower, the tracker suggests a calorie deficit to move your weight toward that target.`;
+
+    }
+
+
+    else if (
+        suggestedGoal === "bulk"
+    ) {
+
+
+        reason =
+
+            `You are currently ${current.toFixed(1)} kg and your goal is ${goal.toFixed(1)} kg. Because your goal is ${difference.toFixed(1)} kg higher, the tracker suggests a calorie surplus to move your weight toward that target.`;
+
+    }
+
+
+    else {
+
+
+        reason =
+
+            `Your current weight and goal weight are both ${current.toFixed(1)} kg. The tracker therefore suggests maintaining your current body weight rather than intentionally gaining or losing weight.`;
+
+    }
+
+
+    const alreadySelected =
+
+        getCurrentGoal()
+        ===
+        suggestedGoal;
+
+
+    suggestionContainer.style.display =
+        "block";
+
+
+    suggestionContainer.innerHTML = `
+
+        <div class="suggestion-card">
+
+
+            <div class="suggestion-label">
+
+                Goal Suggestion
+
+            </div>
+
+
+            <div class="suggestion-title">
+
+                ${data.icon}
+                ${data.name}
+
+            </div>
+
+
+            <div class="suggestion-reason">
+
+                ${reason}
+
+            </div>
+
+
+            <div class="suggestion-target">
+
+
+                <div class="suggestion-target-box">
+
+
+                    <div class="suggestion-target-label">
+
+                        DAILY CALORIES
+
+                    </div>
+
+
+                    <div class="suggestion-target-value">
+
+                        ${data.dailyCalories
+                            .toLocaleString()}
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="suggestion-target-box">
+
+
+                    <div class="suggestion-target-label">
+
+                        DAILY PROTEIN
+
+                    </div>
+
+
+                    <div class="suggestion-target-value">
+
+                        ${DAILY_PROTEIN_TARGET}g
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+            ${
+                alreadySelected
+
+                ?
+
+                `
+
+                    <button
+                        class="secondary-button"
+                        disabled
+                        style="
+                            color:#777;
+                            border-color:#333;
+                            cursor:default;
+                        ">
+
+                        ✓ ${data.name} Already Selected
+
+                    </button>
+
+                `
+
+                :
+
+                `
+
+                    <button
+                        class="primary-button"
+                        onclick="applySuggestedGoal('${suggestedGoal}')">
+
+                        Use Suggested ${data.name}
+
+                    </button>
+
+                `
+
+            }
+
+
+            <div class="suggestion-note">
+
+                This suggestion uses your current weight
+                and goal weight to determine the direction
+                of your goal. It is a simple tracker
+                recommendation, not a medical or dietary
+                diagnosis.
+
+            </div>
+
 
         </div>
 
@@ -4351,8 +4792,8 @@ function saveWeeklyWeight() {
 
 
     /*
-       Update current weight automatically
-       to the latest weekly weigh-in.
+       Latest weekly weigh-in becomes
+       the current weight.
     */
 
     localStorage.setItem(
@@ -4519,6 +4960,7 @@ function updateWeightEntryState() {
         Math.ceil(
 
             (
+
                 remaining
                 %
                 (
@@ -4596,7 +5038,7 @@ function resetWeeklyWeight() {
 
 
     /*
-       Remove the most recent entry.
+       Remove latest weigh-in.
     */
 
     if (
@@ -4629,16 +5071,9 @@ function resetWeeklyWeight() {
     ).value = "";
 
 
-    updateWeightEntryState();
-
-    renderWeightHistory();
-
-    drawWeightGraph();
-
-
     /*
-       If history still contains weights,
-       use the newest one as current weight.
+       If previous history exists,
+       use previous weigh-in as current.
     */
 
     if (
@@ -4669,6 +5104,47 @@ function resetWeeklyWeight() {
 
     }
 
+
+    else {
+
+
+        /*
+           If no history remains,
+           don't destroy the manually
+           saved current weight.
+        */
+
+        const savedCurrent =
+
+            Number(
+
+                localStorage.getItem(
+                    "weightCurrent"
+                )
+
+            );
+
+
+        if (
+            savedCurrent > 0
+        ) {
+
+
+            document.getElementById(
+                "currentWeight"
+            ).value =
+                savedCurrent;
+
+        }
+
+    }
+
+
+    updateWeightEntryState();
+
+    renderWeightHistory();
+
+    drawWeightGraph();
 
     updateWeightGoalDisplay();
 
@@ -4719,10 +5195,6 @@ function renderWeightHistory() {
 
     }
 
-
-    /*
-       Newest first.
-    */
 
     history =
         [...history].reverse();
@@ -5032,8 +5504,6 @@ function drawWeightGraph() {
     }
 
 
-    /* GRID */
-
     let svg = `
 
         <svg
@@ -5043,6 +5513,8 @@ function drawWeightGraph() {
 
     `;
 
+
+    /* GRID */
 
     for (
         let i = 0;
@@ -5225,10 +5697,6 @@ function drawWeightGraph() {
             `;
 
 
-            /*
-               Date label.
-            */
-
             const date =
 
                 new Date(
@@ -5366,7 +5834,7 @@ function showPage(
 
 
 /* =========================================================
-   SECRET EASTER EGG
+   EASTER EGG
    ========================================================= */
 
 let tabSwitchCount = 0;
@@ -5867,6 +6335,20 @@ updateWeightEntryState();
 renderWeightHistory();
 
 drawWeightGraph();
+
+
+/*
+   Keep the 7-day lock accurate if the app
+   remains open.
+*/
+
+setInterval(
+
+    updateWeightEntryState,
+
+    60000
+
+);
 
 
 </script>
