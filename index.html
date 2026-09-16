@@ -2486,7 +2486,44 @@ function updateSetupWeightGoalSuggestion() {
     box.style.display = "block";
     box.innerHTML =
         "<strong>Suggested goal: " + emoji + " " + label + "</strong>" +
-        "<div class='small-note' style='margin-top:6px'>Based on your current and goal weight.</div>";
+        "<div class='small-note' style='margin-top:6px'>Based on your current and goal weight.</div>" +
+        "<button type='button' class='primary' style='margin-top:12px;width:100%' onclick="useSetupWeightSuggestion('" + suggested + "')">Use Suggestion</button>";
+}
+
+function useSetupWeightSuggestion(goal) {
+
+    setupData.goal = goal;
+
+    // Update the goal selection from Step 5 so the chosen suggestion
+    // is reflected everywhere when the user reaches the app.
+    document
+        .querySelectorAll("#setup5 .option")
+        .forEach(button => {
+
+            const onclick = button.getAttribute("onclick") || "";
+
+            button.classList.toggle(
+                "selected",
+                onclick.includes("'goal','" + goal + "'")
+            );
+
+        });
+
+    // Keep the selected suggestion visible so the user knows it was applied.
+    const box =
+        document.getElementById("setupWeightGoalSuggestion");
+
+    if (box) {
+        const labels = {
+            cut: "🥗 Cut",
+            bulk: "💪 Bulk",
+            maintenance: "⚖️ Maintenance"
+        };
+
+        box.innerHTML =
+            "<strong>Goal selected: " + labels[goal] + "</strong>" +
+            "<div class='small-note' style='margin-top:6px'>Your suggested goal has been applied.</div>";
+    }
 }
 
 function validateSetupWeightGoal() {
