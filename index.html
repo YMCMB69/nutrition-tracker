@@ -2381,7 +2381,29 @@ function showSetupResults() {
         targets.tdee +
         " kcal";
 
-    nextSetupStep(7);
+    /* Show Step 7 directly.
+       Do NOT call nextSetupStep(7) here because step 7
+       intentionally calls showSetupResults(), which would recurse.
+    */
+    document
+        .querySelectorAll(".setup-step")
+        .forEach(el =>
+            el.classList.remove("active")
+        );
+
+    document
+        .getElementById("setup7")
+        .classList.add("active");
+
+    document.getElementById(
+        "setupStepText"
+    ).innerText =
+        "STEP 7 OF 7";
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
 }
 
 
