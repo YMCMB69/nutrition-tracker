@@ -662,7 +662,7 @@ button.danger {
         <div class="setup-card">
 
             <div class="step-indicator" id="setupStepText">
-                STEP 1 OF 7
+                STEP 1 OF 8
             </div>
 
             <!-- STEP 1 -->
@@ -1010,6 +1010,57 @@ button.danger {
 
             <div class="setup-step" id="setup7">
 
+                <h1>Set your Weight Goal ⚖️</h1>
+
+                <p class="intro">
+                    Before you start using the tracker, set your current weight and the weight you want to reach.
+                    This will also help the app keep your goal direction clear.
+                </p>
+
+                <label>Current weight (kg)</label>
+
+                <input id="setupCurrentWeightGoal"
+                       type="number"
+                       min="30"
+                       max="300"
+                       step="0.1"
+                       placeholder="e.g. 72">
+
+                <label>Goal weight (kg)</label>
+
+                <input id="setupGoalWeight"
+                       type="number"
+                       min="30"
+                       max="300"
+                       step="0.1"
+                       placeholder="e.g. 68"
+                       oninput="updateSetupWeightGoalSuggestion()">
+
+                <div id="setupWeightGoalSuggestion"
+                     class="card"
+                     style="margin-top:12px;display:none">
+                </div>
+
+                <div class="setup-buttons">
+
+                    <button class="secondary"
+                            onclick="nextSetupStep(6)">
+                        Back
+                    </button>
+
+                    <button class="primary"
+                            onclick="validateSetupWeightGoal()">
+                        Continue
+                    </button>
+
+                </div>
+
+            </div>
+
+            <!-- STEP 8 -->
+
+            <div class="setup-step" id="setup8">
+
                 <h1>Your targets are ready 🔥</h1>
 
                 <p class="intro">
@@ -1068,7 +1119,7 @@ button.danger {
                 <div class="setup-buttons">
 
                     <button class="secondary"
-                            onclick="nextSetupStep(6)">
+                            onclick="nextSetupStep(7)">
                         Back
                     </button>
 
@@ -2309,13 +2360,13 @@ function showSetupResults() {
         );
 
     document
-        .getElementById("setup7")
+        .getElementById("setup8")
         .classList.add("active");
 
     document.getElementById(
         "setupStepText"
     ).innerText =
-        "STEP 7 OF 7";
+        "STEP 8 OF 8";
 
     window.scrollTo({
         top: 0,
@@ -2344,6 +2395,12 @@ function nextSetupStep(step) {
 
     if (step === 7) {
 
+        prepareSetupWeightGoalStep();
+
+    }
+
+    if (step === 8) {
+
         showSetupResults();
 
         return;
@@ -2362,7 +2419,108 @@ function nextSetupStep(step) {
     document
         .getElementById("setupStepText")
         .innerText =
-        "STEP " + step + " OF 7";
+        "STEP " + step + " OF 8";
+}
+
+function prepareSetupWeightGoalStep() {
+
+    const currentInput =
+        document.getElementById("setupCurrentWeightGoal");
+
+    const goalInput =
+        document.getElementById("setupGoalWeight");
+
+    if (!currentInput || !goalInput) return;
+
+    currentInput.value =
+        setupData.weight ||
+        localStorage.getItem("weightCurrent") ||
+        "";
+
+    goalInput.value =
+        localStorage.getItem("weightGoal") ||
+        "";
+
+    updateSetupWeightGoalSuggestion();
+}
+
+function updateSetupWeightGoalSuggestion() {
+
+    const current =
+        Number(document.getElementById("setupCurrentWeightGoal")?.value || 0);
+
+    const goal =
+        Number(document.getElementById("setupGoalWeight")?.value || 0);
+
+    const box =
+        document.getElementById("setupWeightGoalSuggestion");
+
+    if (!box || !current || !goal) {
+        if (box) box.style.display = "none";
+        return;
+    }
+
+    let suggested;
+    let emoji;
+
+    if (goal < current) {
+        suggested = "cut";
+        emoji = "🥗";
+    }
+    else if (goal > current) {
+        suggested = "bulk";
+        emoji = "💪";
+    }
+    else {
+        suggested = "maintenance";
+        emoji = "⚖️";
+    }
+
+    const label =
+        suggested === "cut"
+            ? "Cut"
+            : suggested === "bulk"
+                ? "Bulk"
+                : "Maintenance";
+
+    box.style.display = "block";
+    box.innerHTML =
+        "<strong>Suggested goal: " + emoji + " " + label + "</strong>" +
+        "<div class='small-note' style='margin-top:6px'>Based on your current and goal weight.</div>";
+}
+
+function validateSetupWeightGoal() {
+
+    const current =
+        Number(document.getElementById("setupCurrentWeightGoal").value);
+
+    const goal =
+        Number(document.getElementById("setupGoalWeight").value);
+
+    if (!current || !goal || current < 30 || goal < 30) {
+
+        alert(
+            "Please enter both your current weight and goal weight."
+        );
+
+        return;
+    }
+
+    if (current > 300 || goal > 300) {
+
+        alert(
+            "Please enter realistic weights between 30kg and 300kg."
+        );
+
+        return;
+    }
+
+    setupData.weight = current;
+
+    localStorage.setItem("weightCurrent", current);
+    localStorage.setItem("weightGoal", goal);
+
+    nextSetupStep(8);
 }
 
 
@@ -2535,7 +2693,7 @@ function redoSetup() {
     document.getElementById(
         "setupStepText"
     ).innerText =
-        "STEP 1 OF 7";
+        "STEP 1 OF 8";
 
     window.scrollTo({
         top: 0,
@@ -2552,6 +2710,27 @@ SETUP RESULT
 
 function finishSetup() {
 
+    const setupGoalWeight =
+        Number(document.getElementById("setupGoalWeight")?.value || localStorage.getItem("weightGoal") || 0);
+
+    const setupCurrentWeight =
+        Number(document.getElementById("setupCurrentWeightGoal")?.value || setupData.weight || 0);
+
+    if (!setupCurrentWeight || !setupGoalWeight) {
+
+        alert(
+            "Please complete the Weight Goal step before starting the app."
+        );
+
+        nextSetupStep(7);
+        return;
+    }
+
+    setupData.weight = setupCurrentWeight;
+
+    localStorage.setItem("weightCurrent", setupCurrentWeight);
+    localStorage.setItem("weightGoal", setupGoalWeight);
+
     let targets =
         calculateTargets(
             setupData
@@ -2560,6 +2739,8 @@ function finishSetup() {
     profile = {
 
         ...setupData,
+
+        weightGoal: setupGoalWeight,
 
         targets,
 
