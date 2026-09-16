@@ -1,7137 +1,2988 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
-
-<meta name="apple-mobile-web-app-capable"
-      content="yes">
-
-<meta name="apple-mobile-web-app-status-bar-style"
-      content="black-translucent">
-
-<meta name="apple-mobile-web-app-title"
-      content="Six Pack Tracker">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#000000">
 <title>Dyl's Six Pack Tracker</title>
 
-
 <style>
-
-/* =========================================================
-   THEME
-   ========================================================= */
-
 :root {
-
     --accent: #39ff14;
-
-    --accent-glow: rgba(57, 255, 20, 0.45);
-
+    --glow: rgba(57,255,20,.45);
+    --bg: #000;
+    --card: #111;
+    --card2: #181818;
+    --text: #fff;
+    --muted: #999;
+    --danger: #ff1744;
 }
-
-
-/* =========================================================
-   GENERAL
-   ========================================================= */
 
 * {
-
     box-sizing: border-box;
-
 }
-
 
 body {
-
     margin: 0;
-
-    background: #090909;
-
-    color: white;
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
+    background: var(--bg);
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+    min-height: 100vh;
 }
 
-
-.container {
-
-    max-width: 600px;
-
-    margin: auto;
-
-    padding: 20px;
-
+button,
+input,
+select {
+    font: inherit;
 }
-
-
-h1 {
-
-    text-align: center;
-
-    margin: 10px 0 5px;
-
-    font-size: 28px;
-
-}
-
-
-.date {
-
-    text-align: center;
-
-    color: #999;
-
-    margin-bottom: 20px;
-
-}
-
-
-/* =========================================================
-   TOP HEADER
-   ========================================================= */
-
-.top-header {
-
-    position: relative;
-
-    min-height: 48px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    margin-bottom: 2px;
-
-}
-
-
-.top-header h1 {
-
-    margin: 0;
-
-}
-
-
-/* =========================================================
-   HAMBURGER
-   ========================================================= */
-
-.menu-button {
-
-    position: absolute;
-
-    right: 0;
-
-    top: 2px;
-
-    width: 46px;
-
-    height: 46px;
-
-    background: #151515;
-
-    border: 1px solid #333;
-
-    border-radius: 12px;
-
-    display: flex;
-
-    flex-direction: column;
-
-    justify-content: center;
-
-    align-items: center;
-
-    gap: 5px;
-
-    cursor: pointer;
-
-    transition: 0.2s ease;
-
-    z-index: 1001;
-
-}
-
-
-.menu-button span {
-
-    display: block;
-
-    width: 22px;
-
-    height: 2px;
-
-    background: white;
-
-    border-radius: 5px;
-
-    transition: 0.2s ease;
-
-}
-
-
-.menu-button:hover {
-
-    border-color: var(--accent);
-
-    box-shadow:
-        0 0 12px var(--accent-glow);
-
-}
-
-
-.menu-button:hover span {
-
-    background: var(--accent);
-
-}
-
-
-/* =========================================================
-   MENU OVERLAY
-   ========================================================= */
-
-.menu-overlay {
-
-    position: fixed;
-
-    inset: 0;
-
-    background:
-        rgba(0, 0, 0, 0.65);
-
-    z-index: 999;
-
-    display: none;
-
-}
-
-
-.menu-overlay.show {
-
-    display: block;
-
-}
-
-
-/* =========================================================
-   SIDE MENU
-   ========================================================= */
-
-.side-menu {
-
-    position: fixed;
-
-    top: 0;
-
-    right: -300px;
-
-    width: 285px;
-
-    height: 100vh;
-
-    background: #111;
-
-    border-left: 1px solid #292929;
-
-    z-index: 1000;
-
-    padding: 85px 18px 20px;
-
-    transition:
-        right 0.25s ease;
-
-    box-shadow:
-        -10px 0 35px rgba(0,0,0,0.6);
-
-}
-
-
-.side-menu.open {
-
-    right: 0;
-
-}
-
-
-.menu-title {
-
-    color: #777;
-
-    font-size: 12px;
-
-    text-transform: uppercase;
-
-    letter-spacing: 2px;
-
-    margin:
-        0 8px 12px;
-
-}
-
-
-.menu-item {
-
-    width: 100%;
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 14px;
-
-    padding: 16px;
-
-    margin-bottom: 9px;
-
-    background: #181818;
-
-    border: 1px solid #292929;
-
-    border-radius: 12px;
-
-    color: white;
-
-    font-size: 17px;
-
-    font-weight: bold;
-
-    text-align: left;
-
-    cursor: pointer;
-
-    transition:
-        0.2s ease;
-
-}
-
-
-.menu-item:hover {
-
-    border-color: var(--accent);
-
-    color: var(--accent);
-
-    box-shadow:
-        0 0 12px var(--accent-glow);
-
-}
-
-
-.menu-item.active {
-
-    background: var(--accent);
-
-    color: #000;
-
-    border-color: var(--accent);
-
-    box-shadow:
-        0 0 15px var(--accent-glow);
-
-}
-
-
-.menu-icon {
-
-    width: 25px;
-
-    text-align: center;
-
-    font-size: 20px;
-
-}
-
-
-.menu-coming {
-
-    margin-top: 20px;
-
-    padding: 14px;
-
-    border-radius: 12px;
-
-    background: #0d0d0d;
-
-    border: 1px solid #242424;
-
-    color: #777;
-
-    font-size: 12px;
-
-    line-height: 1.5;
-
-}
-
-
-/* =========================================================
-   APP SCREENS
-   ========================================================= */
-
-.app-screen {
-
-    display: none;
-
-}
-
-
-.app-screen.active {
-
-    display: block;
-
-}
-
-
-/* =========================================================
-   DASHBOARD GOAL SELECTOR
-   ========================================================= */
-
-.goal-card {
-
-    background: #151515;
-
-    border: 1px solid #292929;
-
-    border-radius: 16px;
-
-    padding: 16px;
-
-    margin-bottom: 18px;
-
-}
-
-
-.goal-title {
-
-    color: #aaa;
-
-    font-size: 14px;
-
-    margin-bottom: 8px;
-
-}
-
-
-.goal-select {
-
-    width: 100%;
-
-    padding: 14px;
-
-    border-radius: 11px;
-
-    border: 1px solid #333;
-
-    background: #0d0d0d;
-
-    color: var(--accent);
-
-    font-size: 17px;
-
-    font-weight: bold;
-
-    outline: none;
-
-}
-
-
-.goal-select:focus {
-
-    border-color: var(--accent);
-
-    box-shadow:
-        0 0 10px var(--accent-glow);
-
-}
-
-
-/* =========================================================
-   DASHBOARD TABS
-   ========================================================= */
-
-.tabs {
-
-    display: flex;
-
-    gap: 10px;
-
-    margin-bottom: 20px;
-
-}
-
-
-.tab-button {
-
-    flex: 1;
-
-    padding: 14px 8px;
-
-    border-radius: 12px;
-
-    border: 1px solid #333;
-
-    background: #151515;
-
-    color: #aaa;
-
-    font-size: 16px;
-
-    font-weight: bold;
-
-    cursor: pointer;
-
-    transition:
-        0.2s ease;
-
-}
-
-
-.tab-button:hover {
-
-    border-color: var(--accent);
-
-    color: var(--accent);
-
-}
-
-
-.tab-button.active {
-
-    background: var(--accent);
-
-    color: #000;
-
-    border-color: var(--accent);
-
-    box-shadow:
-        0 0 15px var(--accent-glow);
-
-}
-
-
-/* =========================================================
-   PAGES
-   ========================================================= */
-
-.page {
-
-    display: none;
-
-}
-
-
-.page.active {
-
-    display: block;
-
-}
-
-
-/* =========================================================
-   CARDS
-   ========================================================= */
-
-.card {
-
-    background: #151515;
-
-    border: 1px solid #292929;
-
-    border-radius: 16px;
-
-    padding: 20px;
-
-    margin-bottom: 18px;
-
-}
-
-
-.card h2 {
-
-    margin-top: 0;
-
-    font-size: 21px;
-
-}
-
-
-/* =========================================================
-   INPUTS
-   ========================================================= */
-
-label {
-
-    display: block;
-
-    color: #aaa;
-
-    margin-top: 12px;
-
-    margin-bottom: 6px;
-
-}
-
-
-select,
-input {
-
-    width: 100%;
-
-    padding: 13px;
-
-    border-radius: 10px;
-
-    border: 1px solid #333;
-
-    background: #0d0d0d;
-
-    color: white;
-
-    font-size: 16px;
-
-}
-
-
-select:focus,
-input:focus {
-
-    outline: none;
-
-    border-color: var(--accent);
-
-    box-shadow:
-        0 0 8px var(--accent-glow);
-
-}
-
-
-/* =========================================================
-   BUTTONS
-   ========================================================= */
 
 button {
-
     cursor: pointer;
-
 }
 
-
-.primary-button {
-
+.app {
     width: 100%;
-
-    margin-top: 16px;
-
-    padding: 14px;
-
-    border: none;
-
-    border-radius: 11px;
-
-    background: var(--accent);
-
-    color: #000;
-
-    font-size: 16px;
-
-    font-weight: bold;
-
-    transition:
-        0.2s ease;
-
+    max-width: 650px;
+    margin: auto;
+    padding: 15px;
 }
 
+/* ================= HEADER ================= */
 
-.primary-button:hover {
-
-    box-shadow:
-        0 0 15px var(--accent-glow);
-
-    transform:
-        translateY(-1px);
-
-}
-
-
-.primary-button:disabled {
-
-    background: #333;
-
-    color: #777;
-
-    box-shadow: none;
-
-    transform: none;
-
-    cursor: not-allowed;
-
-}
-
-
-.secondary-button {
-
-    width: 100%;
-
-    margin-top: 10px;
-
-    padding: 12px;
-
-    border: 1px solid #333;
-
-    border-radius: 11px;
-
-    background: #111;
-
-    color: #ddd;
-
-    font-size: 15px;
-
-}
-
-
-.secondary-button:hover {
-
-    border-color: var(--accent);
-
-    color: var(--accent);
-
-}
-
-
-/* =========================================================
-   STATS
-   ========================================================= */
-
-.stat-row {
-
+.top-header {
     display: flex;
-
-    gap: 12px;
-
-    margin-top: 15px;
-
-}
-
-
-.stat-box {
-
-    flex: 1;
-
-    background: #101010;
-
-    border: 1px solid #292929;
-
-    border-radius: 12px;
-
-    padding: 14px;
-
-}
-
-
-.stat-title {
-
-    color: #999;
-
-    font-size: 13px;
-
-    margin-bottom: 5px;
-
-}
-
-
-.stat-value {
-
-    font-size: 22px;
-
-    font-weight: bold;
-
-}
-
-
-/* =========================================================
-   PROGRESS BARS
-   ========================================================= */
-
-.progress-container {
-
-    margin-top: 15px;
-
-}
-
-
-.progress-header {
-
-    display: flex;
-
+    align-items: center;
     justify-content: space-between;
-
-    font-size: 14px;
-
-    color: #aaa;
-
-    margin-bottom: 7px;
-
+    margin-bottom: 15px;
 }
 
-
-.progress {
-
-    width: 100%;
-
-    height: 12px;
-
-    background: #292929;
-
-    border-radius: 20px;
-
-    overflow: hidden;
-
+.top-header h1 {
+    margin: 0;
+    font-size: 25px;
+    font-weight: 800;
 }
 
+.menu-button {
+    width: 48px;
+    height: 48px;
+    border: 1px solid #333;
+    border-radius: 12px;
+    background: #111;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
 
-.progress-bar {
-
-    height: 100%;
-
+.menu-button span {
+    display: block;
+    width: 23px;
+    height: 3px;
+    border-radius: 3px;
     background: var(--accent);
-
-    border-radius: 20px;
-
-    transition:
-        width 0.3s ease;
-
-    box-shadow:
-        0 0 8px var(--accent-glow);
-
+    box-shadow: 0 0 7px var(--glow);
 }
 
+/* ================= SIDE MENU ================= */
 
-.over-target {
-
-    background: #ff1744;
-
-    box-shadow:
-        0 0 8px rgba(255, 23, 68, 0.45);
-
+.menu-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.75);
+    z-index: 90;
+    opacity: 0;
+    pointer-events: none;
+    transition: .25s;
 }
 
+.menu-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
 
-/* =========================================================
-   REMAINING
-   ========================================================= */
+.side-menu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 285px;
+    max-width: 85%;
+    height: 100vh;
+    background: #0b0b0b;
+    border-left: 1px solid #292929;
+    z-index: 100;
+    padding: 25px 18px;
+    transform: translateX(100%);
+    transition: .25s;
+    box-shadow: -10px 0 40px rgba(0,0,0,.7);
+}
+
+.side-menu.active {
+    transform: translateX(0);
+}
+
+.side-menu h2 {
+    margin: 0 0 25px;
+    font-size: 24px;
+}
+
+.menu-item {
+    width: 100%;
+    padding: 17px;
+    margin-bottom: 10px;
+    background: #151515;
+    color: #fff;
+    border: 1px solid #292929;
+    border-radius: 12px;
+    text-align: left;
+}
+
+.menu-item.active {
+    color: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 0 12px var(--glow);
+}
+
+/* ================= SCREENS ================= */
+
+.app-screen {
+    display: none;
+}
+
+.app-screen.active {
+    display: block;
+}
+
+/* ================= GOAL SELECTOR ================= */
+
+.goal-card {
+    background: var(--card);
+    border: 1px solid #292929;
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.goal-card label {
+    display: block;
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 7px;
+}
+
+.goal-select {
+    width: 100%;
+    padding: 13px;
+    background: #080808;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 10px;
+    outline: none;
+}
+
+/* ================= TABS ================= */
+
+.tabs {
+    display: flex;
+    gap: 7px;
+    margin-bottom: 15px;
+}
+
+.tab-button {
+    flex: 1;
+    padding: 13px 7px;
+    border-radius: 10px;
+    border: 1px solid #292929;
+    background: #111;
+    color: #aaa;
+    font-weight: bold;
+}
+
+.tab-button.active {
+    color: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 0 12px var(--glow);
+}
+
+/* ================= CARDS ================= */
+
+.card {
+    background: var(--card);
+    border: 1px solid #292929;
+    border-radius: 15px;
+    padding: 16px;
+    margin-bottom: 15px;
+}
+
+.card h2 {
+    margin-top: 0;
+    font-size: 20px;
+}
+
+.card h3 {
+    margin-top: 0;
+}
+
+/* ================= INPUTS ================= */
+
+input,
+select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    background: #080808;
+    color: white;
+    border: 1px solid #333;
+    border-radius: 9px;
+    outline: none;
+}
+
+input:focus,
+select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 8px var(--glow);
+}
+
+button.primary {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 10px;
+    background: var(--accent);
+    color: #000;
+    font-weight: 800;
+    box-shadow: 0 0 12px var(--glow);
+}
+
+button.secondary {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #444;
+    border-radius: 10px;
+    background: #171717;
+    color: #fff;
+    font-weight: bold;
+}
+
+button.danger {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--danger);
+    border-radius: 10px;
+    background: #150509;
+    color: var(--danger);
+    font-weight: bold;
+}
+
+/* ================= NUTRITION ================= */
+
+.big-number {
+    font-size: 31px;
+    font-weight: 900;
+}
+
+.sub-number {
+    color: #aaa;
+    font-size: 14px;
+}
 
 .remaining {
-
-    margin-top: 20px;
-
-    padding: 14px;
-
-    background: #101010;
-
-    border-radius: 12px;
-
-    border: 1px solid #292929;
-
-}
-
-
-.remaining-title {
-
-    color: #999;
-
-    font-size: 14px;
-
-    margin-bottom: 8px;
-
-}
-
-
-.remaining-number {
-
-    font-size: 24px;
-
+    font-size: 18px;
     font-weight: bold;
-
     color: var(--accent);
-
 }
 
-
-/* =========================================================
-   WEEK
-   ========================================================= */
-
-.week-row {
-
-    margin-bottom: 18px;
-
+.remaining.over {
+    color: var(--danger);
 }
 
+.progress-container {
+    margin: 12px 0 18px;
+}
 
-.week-header {
-
+.progress-label {
     display: flex;
-
     justify-content: space-between;
-
-    margin-bottom: 7px;
-
-}
-
-
-.week-header span:first-child {
-
-    color: #aaa;
-
-}
-
-
-.week-header span:last-child {
-
-    font-weight: bold;
-
-}
-
-
-.week-progress {
-
-    height: 12px;
-
-    background: #292929;
-
-    border-radius: 20px;
-
-    overflow: hidden;
-
-}
-
-
-.week-progress-bar {
-
-    height: 100%;
-
-    background: var(--accent);
-
-    border-radius: 20px;
-
-    box-shadow:
-        0 0 8px var(--accent-glow);
-
-    transition:
-        width 0.3s ease;
-
-}
-
-
-.week-remaining {
-
-    color: #aaa;
-
+    margin-bottom: 5px;
     font-size: 13px;
-
-    margin-top: 5px;
-
+    color: #aaa;
 }
 
-
-/* =========================================================
-   GRAPHS
-   ========================================================= */
-
-.graph-card {
-
-    background: #151515;
-
-    border: 1px solid #292929;
-
-    border-radius: 16px;
-
-    padding: 18px;
-
-    margin-bottom: 18px;
-
-}
-
-
-.graph-card h2 {
-
-    margin-top: 0;
-
-    margin-bottom: 15px;
-
-}
-
-
-.chart {
-
-    position: relative;
-
-    height: 250px;
-
-    display: flex;
-
-    padding-left: 35px;
-
-    padding-bottom: 30px;
-
-}
-
-
-.chart-area {
-
-    position: relative;
-
-    flex: 1;
-
-    border-left: 1px solid #444;
-
-    border-bottom: 1px solid #444;
-
-}
-
-
-.chart-grid {
-
-    position: absolute;
-
-    left: 0;
-
-    right: 0;
-
-    height: 1px;
-
+.progress {
+    height: 11px;
     background: #292929;
-
+    border-radius: 20px;
+    overflow: hidden;
 }
 
-
-.y-labels {
-
-    position: absolute;
-
-    left: 0;
-
-    top: 0;
-
-    bottom: 30px;
-
-    width: 32px;
-
-    display: flex;
-
-    flex-direction: column;
-
-    justify-content: space-between;
-
-    color: #777;
-
-    font-size: 10px;
-
-    text-align: right;
-
-    padding-right: 5px;
-
-}
-
-
-.bars {
-
-    position: absolute;
-
-    inset: 0;
-
-    display: flex;
-
-    justify-content: space-around;
-
-    align-items: flex-end;
-
-    padding: 10px 5px 0;
-
-}
-
-
-.bar-column {
-
+.progress-bar {
     height: 100%;
-
-    flex: 1;
-
-    display: flex;
-
-    flex-direction: column;
-
-    justify-content: flex-end;
-
-    align-items: center;
-
-}
-
-
-.bar {
-
-    width: 65%;
-
-    max-width: 35px;
-
+    width: 0%;
     background: var(--accent);
+    box-shadow: 0 0 9px var(--glow);
+    transition: width .3s;
+}
 
-    border-radius:
-        5px 5px 0 0;
+.progress-bar.over {
+    background: var(--danger);
+    box-shadow: 0 0 9px rgba(255,23,68,.4);
+}
 
+/* ================= FOOD ================= */
+
+.food-row {
+    display: grid;
+    grid-template-columns: 1fr 90px;
+    gap: 8px;
+}
+
+.manual-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+/* ================= GRAPH ================= */
+
+.graph {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    height: 210px;
+    gap: 7px;
+    padding: 15px 5px 0;
+    border-bottom: 1px solid #333;
+}
+
+.graph-day {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.graph-bar {
+    width: 75%;
+    max-width: 35px;
+    background: var(--accent);
+    box-shadow: 0 0 9px var(--glow);
+    border-radius: 5px 5px 0 0;
     min-height: 2px;
-
-    box-shadow:
-        0 0 10px var(--accent-glow);
-
-    transition:
-        height 0.3s ease;
-
 }
 
-
-.day-label {
-
-    position: absolute;
-
-    bottom: -25px;
-
+.graph-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    color: #777;
     font-size: 11px;
-
-    color: #999;
-
 }
-
 
 .target-line {
-
-    position: absolute;
-
-    left: 0;
-
-    right: 0;
-
-    border-top:
-        2px dashed var(--accent);
-
-    opacity: 0.7;
-
-}
-
-
-.graph-legend {
-
-    margin-top: 15px;
-
-    color: #aaa;
-
+    text-align: center;
+    color: var(--accent);
     font-size: 12px;
-
-    text-align: center;
-
+    margin-top: 10px;
 }
 
-
-/* =========================================================
-   WEIGHT GOAL
-   ========================================================= */
-
-.weight-goal-card {
-
-    background: #151515;
-
-    border: 1px solid #292929;
-
-    border-radius: 16px;
-
-    padding: 20px;
-
-    margin-bottom: 18px;
-
-}
-
-
-.weight-goal-card h2 {
-
-    margin-top: 0;
-
-}
-
-
-.weight-summary {
-
-    margin-top: 18px;
-
-    padding: 16px;
-
-    background: #101010;
-
-    border-radius: 12px;
-
-    border: 1px solid #292929;
-
-    text-align: center;
-
-}
-
+/* ================= WEIGHT ================= */
 
 .weight-big {
-
-    font-size: 34px;
-
-    font-weight: bold;
-
-    color: var(--accent);
-
+    font-size: 38px;
+    font-weight: 900;
 }
 
-
-.weight-small {
-
-    color: #999;
-
-    font-size: 13px;
-
-    margin-top: 4px;
-
-}
-
-
-.weight-progress {
-
-    margin-top: 15px;
-
-}
-
-
-.weight-progress-bar {
-
-    width: 100%;
-
-    height: 12px;
-
-    background: #292929;
-
-    border-radius: 20px;
-
-    overflow: hidden;
-
-}
-
-
-.weight-progress-fill {
-
-    height: 100%;
-
-    background: var(--accent);
-
-    box-shadow:
-        0 0 10px var(--accent-glow);
-
-    border-radius: 20px;
-
-    transition:
-        width 0.3s ease;
-
-}
-
-
-/* =========================================================
-   SUGGESTION SYSTEM
-   ========================================================= */
-
-.suggestion-card {
-
-    background: #101010;
-
-    border: 1px solid var(--accent);
-
-    border-radius: 16px;
-
-    padding: 20px;
-
-    margin-top: 18px;
-
-    box-shadow:
-        0 0 18px var(--accent-glow);
-
-}
-
-
-.suggestion-label {
-
-    color: #999;
-
-    font-size: 13px;
-
-    text-transform: uppercase;
-
-    letter-spacing: 1px;
-
-}
-
-
-.suggestion-title {
-
-    font-size: 30px;
-
-    font-weight: bold;
-
-    color: var(--accent);
-
-    margin-top: 5px;
-
-}
-
-
-.suggestion-reason {
-
-    color: #ccc;
-
-    font-size: 14px;
-
-    line-height: 1.5;
-
-    margin-top: 10px;
-
-}
-
-
-.suggestion-target {
-
-    display: flex;
-
-    gap: 10px;
-
-    margin-top: 15px;
-
-}
-
-
-.suggestion-target-box {
-
-    flex: 1;
-
-    background: #151515;
-
-    border-radius: 10px;
-
-    padding: 12px;
-
-    text-align: center;
-
-}
-
-
-.suggestion-target-label {
-
+.weight-unit {
     color: #888;
-
-    font-size: 11px;
-
+    font-size: 15px;
 }
 
-
-.suggestion-target-value {
-
-    font-size: 19px;
-
-    font-weight: bold;
-
-    margin-top: 4px;
-
-}
-
-
-.suggestion-note {
-
-    color: #777;
-
-    font-size: 11px;
-
-    margin-top: 13px;
-
-    line-height: 1.4;
-
-}
-
-
-/* =========================================================
-   WEIGHT ENTRY
-   ========================================================= */
-
-.weight-entry {
-
-    background: #151515;
-
-    border: 1px solid #292929;
-
-    border-radius: 16px;
-
-    padding: 20px;
-
-    margin-bottom: 18px;
-
-}
-
-
-.weight-entry h2 {
-
-    margin-top: 0;
-
-}
-
-
-.weight-status {
-
-    margin-top: 10px;
-
-    color: #999;
-
-    font-size: 13px;
-
-    line-height: 1.5;
-
-}
-
-
-.weight-input {
-
-    font-size: 20px;
-
-    font-weight: bold;
-
-    text-align: center;
-
-}
-
-
-.weight-entry-button {
-
-    margin-top: 12px;
-
-}
-
-
-.weight-entry-button:disabled {
-
-    background: #333;
-
-    color: #777;
-
-    box-shadow: none;
-
-}
-
-
-/* =========================================================
-   WEIGHT HISTORY
-   ========================================================= */
-
-.weight-history-item {
-
+.history-item {
     display: flex;
-
     justify-content: space-between;
-
-    align-items: center;
-
-    padding: 13px 0;
-
-    border-bottom: 1px solid #292929;
-
+    padding: 12px 0;
+    border-bottom: 1px solid #242424;
 }
 
-
-.weight-history-item:last-child {
-
+.history-item:last-child {
     border-bottom: none;
-
 }
 
+.locked {
+    opacity: .45;
+}
 
-.weight-history-date {
-
+.status {
     color: #aaa;
-
     font-size: 13px;
-
 }
 
+/* ================= PROFILE ================= */
 
-.weight-history-weight {
-
-    font-size: 18px;
-
-    font-weight: bold;
-
-    color: var(--accent);
-
+.setup-screen {
+    min-height: calc(100vh - 30px);
+    display: flex;
+    align-items: center;
 }
 
-
-.no-history {
-
-    color: #777;
-
-    text-align: center;
-
-    padding: 15px 0;
-
-}
-
-
-/* =========================================================
-   WEIGHT GRAPH
-   ========================================================= */
-
-.weight-chart {
-
-    position: relative;
-
-    height: 260px;
-
-    margin-top: 15px;
-
-}
-
-
-.weight-svg {
-
+.setup-card {
     width: 100%;
-
-    height: 220px;
-
-    display: block;
-
-}
-
-
-.weight-graph-line {
-
-    fill: none;
-
-    stroke: var(--accent);
-
-    stroke-width: 3;
-
-    stroke-linecap: round;
-
-    stroke-linejoin: round;
-
-}
-
-
-.weight-graph-point {
-
-    fill: var(--accent);
-
-    stroke: #090909;
-
-    stroke-width: 3;
-
-}
-
-
-.weight-graph-grid {
-
-    stroke: #292929;
-
-    stroke-width: 1;
-
-}
-
-
-.weight-graph-label {
-
-    fill: #777;
-
-    font-size: 10px;
-
-}
-
-
-.weight-graph-empty {
-
-    height: 220px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    color: #777;
-
-    text-align: center;
-
-}
-
-
-/* =========================================================
-   WORKOUTS PLACEHOLDER
-   ========================================================= */
-
-.workouts-header {
-
-    text-align: center;
-
-    padding: 20px 10px 15px;
-
-}
-
-
-.workouts-header .workout-icon {
-
-    font-size: 50px;
-
-    margin-bottom: 5px;
-
-}
-
-
-.workouts-header h2 {
-
-    margin: 5px 0;
-
-    font-size: 28px;
-
-}
-
-
-.workouts-header p {
-
-    color: #888;
-
-    line-height: 1.5;
-
-    margin: 8px 0 0;
-
-}
-
-
-.workout-coming-card {
-
-    background: #151515;
-
-    border: 1px solid #292929;
-
-    border-radius: 16px;
-
-    padding: 25px 20px;
-
-    text-align: center;
-
-}
-
-
-.workout-coming-card h3 {
-
-    color: var(--accent);
-
-    font-size: 22px;
-
-    margin-top: 0;
-
-}
-
-
-.workout-coming-card p {
-
-    color: #aaa;
-
-    font-size: 14px;
-
-    line-height: 1.6;
-
-}
-
-
-.workout-feature {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 12px;
-
-    text-align: left;
-
     background: #101010;
-
     border: 1px solid #292929;
-
-    border-radius: 12px;
-
-    padding: 13px;
-
-    margin-top: 10px;
-
+    border-radius: 18px;
+    padding: 22px;
+    box-shadow: 0 0 25px rgba(0,0,0,.6);
 }
 
-
-.workout-feature-icon {
-
-    font-size: 24px;
-
+.setup-card h1 {
+    margin-top: 0;
+    font-size: 28px;
 }
 
+.setup-card .intro {
+    color: #aaa;
+    line-height: 1.5;
+}
 
-.workout-feature-text {
+.setup-step {
+    display: none;
+}
 
-    color: #ccc;
+.setup-step.active {
+    display: block;
+}
 
+.step-indicator {
+    color: var(--accent);
     font-size: 13px;
-
+    margin-bottom: 15px;
 }
 
+.option-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
 
-/* =========================================================
-   EASTER EGG
-   ========================================================= */
+.option {
+    padding: 15px;
+    background: #151515;
+    border: 1px solid #333;
+    border-radius: 12px;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+}
+
+.option.selected {
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: 0 0 10px var(--glow);
+}
+
+.setup-buttons {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.setup-buttons button {
+    flex: 1;
+}
+
+.profile-result {
+    text-align: center;
+    padding: 15px 0;
+}
+
+.result-calories {
+    font-size: 42px;
+    font-weight: 900;
+    color: var(--accent);
+}
+
+.result-protein {
+    font-size: 25px;
+    font-weight: bold;
+    margin-top: 8px;
+}
+
+.small-note {
+    color: #777;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* ================= WORKOUT PLACEHOLDER ================= */
+
+.workout-placeholder {
+    text-align: center;
+    padding: 35px 15px;
+}
+
+.workout-placeholder .emoji {
+    font-size: 55px;
+}
+
+.workout-placeholder p {
+    color: #999;
+    line-height: 1.6;
+}
+
+/* ================= EASTER EGG ================= */
 
 .easter-egg {
-
-    display: none;
-
     position: fixed;
-
     inset: 0;
-
-    z-index: 99999;
-
-    background:
-        rgba(0, 0, 0, 0.96);
-
+    background: rgba(0,0,0,.96);
+    z-index: 200;
+    display: none;
     align-items: center;
-
     justify-content: center;
-
     padding: 20px;
-
 }
 
-
-.easter-egg.show {
-
+.easter-egg.active {
     display: flex;
-
 }
 
-
-.easter-egg-content {
-
+.easter-box {
     position: relative;
-
+    max-width: 500px;
     width: 100%;
-
-    max-width: 520px;
-
-    text-align: center;
-
-    animation:
-        eggPop 0.35s ease-out;
-
 }
 
-
-.easter-egg-image {
-
+.easter-box img {
     width: 100%;
-
-    max-height: 82vh;
-
+    max-height: 80vh;
     object-fit: contain;
-
-    border-radius: 18px;
-
-    box-shadow:
-        0 0 50px var(--accent-glow);
-
+    border-radius: 15px;
+    box-shadow: 0 0 35px var(--glow);
 }
-
 
 .easter-close {
-
     position: absolute;
-
-    top: -12px;
-
-    right: -4px;
-
+    top: -15px;
+    right: -5px;
     width: 42px;
-
     height: 42px;
-
     border-radius: 50%;
-
-    border: 2px solid white;
-
+    border: 1px solid #444;
     background: #111;
-
     color: white;
-
-    font-size: 25px;
-
-    line-height: 36px;
-
-    cursor: pointer;
-
-    z-index: 2;
-
+    font-size: 28px;
 }
 
+/* ================= MOBILE ================= */
 
-.easter-close:hover {
-
-    background: var(--accent);
-
-    color: #000;
-
-}
-
-
-.easter-text {
-
-    margin-top: 12px;
-
-    font-size: 14px;
-
-    color: #aaa;
-
-}
-
-
-@keyframes eggPop {
-
-    0% {
-
-        transform:
-            scale(0.7);
-
-        opacity: 0;
-
-    }
-
-    100% {
-
-        transform:
-            scale(1);
-
-        opacity: 1;
-
-    }
-
-}
-
-
-/* =========================================================
-   MOBILE
-   ========================================================= */
-
-@media (max-width: 450px) {
-
-    .container {
-
-        padding: 15px;
-
-    }
-
-
+@media(max-width:420px) {
     .top-header h1 {
-
-        font-size: 24px;
-
+        font-size: 21px;
     }
 
-
-    .stat-value {
-
-        font-size: 19px;
-
+    .manual-grid {
+        grid-template-columns: 1fr;
     }
 
-
-    .remaining-number {
-
-        font-size: 20px;
-
+    .option-grid {
+        grid-template-columns: 1fr;
     }
-
-
-    .tab-button {
-
-        font-size: 14px;
-
-    }
-
-
-    .side-menu {
-
-        width: 280px;
-
-    }
-
 }
-
 </style>
-
 </head>
-
 
 <body>
 
+<!-- ================= SETUP ================= -->
 
-<!-- =========================================================
-     MENU OVERLAY
-     ========================================================= -->
+<div id="setupScreen" class="app">
+    <div class="setup-screen">
+        <div class="setup-card">
 
-<div
-    id="menuOverlay"
-    class="menu-overlay"
-    onclick="closeMenu()">
-
-</div>
-
-
-<!-- =========================================================
-     SIDE MENU
-     ========================================================= -->
-
-<div
-    id="sideMenu"
-    class="side-menu">
-
-
-    <div class="menu-title">
-
-        Navigation
-
-    </div>
-
-
-    <button
-        id="dashboardMenuItem"
-        class="menu-item active"
-        onclick="openScreen('dashboard')">
-
-
-        <span class="menu-icon">
-            🏠
-        </span>
-
-
-        <span>
-            Dashboard
-        </span>
-
-
-    </button>
-
-
-    <button
-        id="workoutsMenuItem"
-        class="menu-item"
-        onclick="openScreen('workouts')">
-
-
-        <span class="menu-icon">
-            🏋️
-        </span>
-
-
-        <span>
-            Workouts
-        </span>
-
-
-    </button>
-
-
-    <div class="menu-coming">
-
-        More sections will be added here as
-        the app grows.
-
-        <br><br>
-
-        Nutrition → Weight → Workouts →
-        eventually your full fitness hub.
-
-    </div>
-
-
-</div>
-
-
-<!-- =========================================================
-     MAIN CONTAINER
-     ========================================================= -->
-
-<div class="container">
-
-
-    <!-- =====================================================
-         TOP HEADER
-         ===================================================== -->
-
-    <div class="top-header">
-
-
-        <h1>
-            Dyl's Six Pack Tracker
-        </h1>
-
-
-        <button
-            class="menu-button"
-            onclick="toggleMenu()"
-            aria-label="Open navigation menu">
-
-
-            <span></span>
-
-            <span></span>
-
-            <span></span>
-
-
-        </button>
-
-
-    </div>
-
-
-    <div
-        class="date"
-        id="date">
-
-    </div>
-
-
-    <!-- =====================================================
-         DASHBOARD SCREEN
-         ===================================================== -->
-
-    <div
-        id="dashboardScreen"
-        class="app-screen active">
-
-
-        <!-- GOAL SELECTOR -->
-
-        <div class="goal-card">
-
-
-            <div class="goal-title">
-
-                Current Goal
-
+            <div class="step-indicator" id="setupStepText">
+                STEP 1 OF 5
             </div>
 
+            <div class="setup-step active" id="setup1">
+                <h1>Let's set you up 💪</h1>
+                <p class="intro">
+                    We'll use a few details about you to calculate personalised
+                    calorie and protein targets.
+                </p>
 
-            <select
-                id="goalSelect"
-                class="goal-select"
-                onchange="changeGoal()">
+                <h3>What's your sex?</h3>
 
+                <div class="option-grid">
+                    <button class="option" onclick="selectSetupOption(this,'sex','male')">
+                        Male
+                    </button>
 
-                <option value="cut">
+                    <button class="option" onclick="selectSetupOption(this,'sex','female')">
+                        Female
+                    </button>
+                </div>
 
-                    🥗 Cut — 1,900 kcal
+                <div class="setup-buttons">
+                    <button class="primary" onclick="nextSetupStep(2)">
+                        Continue
+                    </button>
+                </div>
+            </div>
 
-                </option>
+            <div class="setup-step" id="setup2">
+                <h1>Your body</h1>
 
+                <label>Age</label>
+                <input id="setupAge" type="number" min="13" max="100" placeholder="e.g. 28">
 
-                <option value="maintenance">
+                <label>Height (cm)</label>
+                <input id="setupHeight" type="number" min="100" max="250" placeholder="e.g. 177">
 
-                    ⚖️ Maintenance — 2,400 kcal
+                <label>Current weight (kg)</label>
+                <input id="setupWeight" type="number" min="30" max="300" step="0.1" placeholder="e.g. 72">
 
-                </option>
+                <div class="setup-buttons">
+                    <button class="secondary" onclick="nextSetupStep(1)">Back</button>
+                    <button class="primary" onclick="validateBodyStep()">Continue</button>
+                </div>
+            </div>
 
+            <div class="setup-step" id="setup3">
+                <h1>How active are you?</h1>
 
-                <option value="bulk">
+                <div class="option-grid" style="grid-template-columns:1fr">
 
-                    💪 Bulk — 2,700 kcal
+                    <button class="option" onclick="selectSetupOption(this,'activity','sedentary')">
+                        🛋️ Sedentary
+                        <br><small>Little exercise</small>
+                    </button>
 
-                </option>
+                    <button class="option" onclick="selectSetupOption(this,'activity','light')">
+                        🚶 Lightly Active
+                        <br><small>Exercise 1–3 days/week</small>
+                    </button>
 
+                    <button class="option" onclick="selectSetupOption(this,'activity','moderate')">
+                        🏃 Moderately Active
+                        <br><small>Exercise 3–5 days/week</small>
+                    </button>
 
-            </select>
+                    <button class="option" onclick="selectSetupOption(this,'activity','very')">
+                        🏋️ Very Active
+                        <br><small>Hard exercise 6–7 days/week</small>
+                    </button>
 
+                    <button class="option" onclick="selectSetupOption(this,'activity','extreme')">
+                        🔥 Extremely Active
+                        <br><small>Very hard training / physical job</small>
+                    </button>
+
+                </div>
+
+                <div class="setup-buttons">
+                    <button class="secondary" onclick="nextSetupStep(2)">Back</button>
+                    <button class="primary" onclick="nextSetupStep(4)">Continue</button>
+                </div>
+            </div>
+
+            <div class="setup-step" id="setup4">
+                <h1>What's your goal?</h1>
+
+                <div class="option-grid" style="grid-template-columns:1fr">
+
+                    <button class="option" onclick="selectSetupOption(this,'goal','cut')">
+                        🔥 Lose Fat
+                        <br><small>Reduce body fat while protecting muscle</small>
+                    </button>
+
+                    <button class="option" onclick="selectSetupOption(this,'goal','maintenance')">
+                        ⚖️ Maintain
+                        <br><small>Maintain your current weight</small>
+                    </button>
+
+                    <button class="option" onclick="selectSetupOption(this,'goal','bulk')">
+                        💪 Build Muscle
+                        <br><small>Gain muscle with controlled weight gain</small>
+                    </button>
+
+                </div>
+
+                <div class="setup-buttons">
+                    <button class="secondary" onclick="nextSetupStep(3)">Back</button>
+                    <button class="primary" onclick="nextSetupStep(5)">Continue</button>
+                </div>
+            </div>
+
+            <div class="setup-step" id="setup5">
+                <h1>How aggressive? 🎯</h1>
+
+                <p class="intro" id="intensityDescription">
+                    Choose how quickly you want to reach your goal.
+                </p>
+
+                <div class="option-grid" style="grid-template-columns:1fr">
+
+                    <button class="option" onclick="selectSetupOption(this,'intensity','slow')">
+                        🐢 Slow & Steady
+                        <br><small>Smaller calorie adjustment</small>
+                    </button>
+
+                    <button class="option" onclick="selectSetupOption(this,'intensity','moderate')">
+                        ⚡ Moderate
+                        <br><small>Balanced approach</small>
+                    </button>
+
+                    <button class="option" onclick="selectSetupOption(this,'intensity','aggressive')">
+                        🔥 Aggressive
+                        <br><small>Larger calorie adjustment</small>
+                    </button>
+
+                </div>
+
+                <div class="setup-buttons">
+                    <button class="secondary" onclick="nextSetupStep(4)">Back</button>
+                    <button class="primary" onclick="finishSetup()">Calculate My Targets</button>
+                </div>
+            </div>
 
         </div>
+    </div>
+</div>
 
+<!-- ================= MAIN APP ================= -->
 
-        <!-- DASHBOARD TABS -->
+<div id="mainApp" class="app" style="display:none">
+
+    <div class="top-header">
+        <h1>Dyl's Six Pack Tracker</h1>
+
+        <button class="menu-button"
+                onclick="toggleMenu()"
+                aria-label="Open navigation menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+
+    <!-- MENU -->
+
+    <div id="menuOverlay" class="menu-overlay" onclick="closeMenu()"></div>
+
+    <div id="sideMenu" class="side-menu">
+
+        <h2>Menu</h2>
+
+        <button id="dashboardMenuItem"
+                class="menu-item active"
+                onclick="openScreen('dashboard')">
+            🏠 Dashboard
+        </button>
+
+        <button id="workoutsMenuItem"
+                class="menu-item"
+                onclick="openScreen('workouts')">
+            🏋️ Workouts
+        </button>
+
+        <button id="profileMenuItem"
+                class="menu-item"
+                onclick="openScreen('profile')">
+            👤 My Profile
+        </button>
+
+    </div>
+
+    <!-- ================= DASHBOARD ================= -->
+
+    <div id="dashboardScreen" class="app-screen active">
+
+        <div class="goal-card">
+            <label>Current Goal</label>
+
+            <select id="goalSelect"
+                    class="goal-select"
+                    onchange="changeGoal(this.value)">
+                <option value="cut">🥗 Cut</option>
+                <option value="maintenance">⚖️ Maintenance</option>
+                <option value="bulk">💪 Bulk</option>
+            </select>
+
+            <div id="goalInfo"
+                 style="margin-top:10px;color:#888;font-size:12px">
+            </div>
+        </div>
 
         <div class="tabs">
 
-
-            <button
-                class="tab-button active"
-                onclick="showPage('main', this)">
-
+            <button class="tab-button active"
+                    onclick="showPage('main',this)">
                 Main
-
             </button>
 
-
-            <button
-                class="tab-button"
-                onclick="showPage('graphs', this)">
-
+            <button class="tab-button"
+                    onclick="showPage('graphs',this)">
                 Graphs
-
             </button>
 
-
-            <button
-                class="tab-button"
-                onclick="showPage('weight', this)">
-
+            <button class="tab-button"
+                    onclick="showPage('weight',this)">
                 WG
-
             </button>
-
 
         </div>
 
+        <!-- MAIN TAB -->
 
-        <!-- =================================================
-             MAIN PAGE
-             ================================================= -->
-
-        <div
-            id="main"
-            class="page active">
-
+        <div id="mainPage">
 
             <div class="card">
 
+                <h2>Today's Total</h2>
 
-                <h2>
+                <div>
+                    <span class="big-number" id="todayCalories">0</span>
+                    <span class="sub-number">/ <span id="dailyCalorieTarget">0</span> kcal</span>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-label">
+                        <span>Calories</span>
+                        <span id="caloriePercent">0%</span>
+                    </div>
+
+                    <div class="progress">
+                        <div id="calorieBar" class="progress-bar"></div>
+                    </div>
+                </div>
+
+                <div>
+                    <span class="big-number" id="todayProtein">0</span>
+                    <span class="sub-number">/ <span id="dailyProteinTarget">0</span> g protein</span>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-label">
+                        <span>Protein</span>
+                        <span id="proteinPercent">0%</span>
+                    </div>
+
+                    <div class="progress">
+                        <div id="proteinBar" class="progress-bar"></div>
+                    </div>
+                </div>
+
+                <hr style="border-color:#222">
+
+                <p>
+                    <strong>Remaining Today</strong>
+                </p>
+
+                <div id="remainingCalories" class="remaining">
+                    Calories Left: 0
+                </div>
+
+                <div id="remainingProtein" class="remaining">
+                    Protein Left: 0g
+                </div>
+
+            </div>
+
+            <!-- ADD FOOD -->
+
+            <div class="card">
+
+                <h2>Add Food</h2>
+
+                <div class="food-row">
+
+                    <select id="foodSelect">
+
+                        <option value="">Select saved food</option>
+
+                        <option value="630,37">
+                            Mcdees 2x Double Burger — 630 kcal / 37g
+                        </option>
+
+                        <option value="650,25">
+                            Big Mac Meal — 650 kcal / 25g
+                        </option>
+
+                        <option value="700,30">
+                            Wimpy Burger Meal — 700 kcal / 30g
+                        </option>
+
+                        <option value="121,23">
+                            USN Choc Caramel 1 Scoop — 121 kcal / 23g
+                        </option>
+
+                        <option value="242,46">
+                            USN Choc Caramel 2 Scoop — 242 kcal / 46g
+                        </option>
+
+                    </select>
+
+                    <input id="foodQuantity"
+                           type="number"
+                           min="1"
+                           value="1"
+                           placeholder="Qty">
+
+                </div>
+
+                <button class="primary"
+                        onclick="addSavedFood()">
                     Add Food
-                </h2>
-
-
-                <label>
-                    Meal
-                </label>
-
-
-                <select
-                    id="mealSelect"
-                    onchange="mealSelected()">
-
-
-                    <option value="">
-                        Select a meal
-                    </option>
-
-
-                    <option value="Mcdees 2x Double Burger">
-                        Mcdees 2x Double Burger
-                    </option>
-
-
-                    <option value="Big Mac Meal">
-                        Big Mac Meal
-                    </option>
-
-
-                    <option value="Wimpy Burger Meal">
-                        Wimpy Burger Meal
-                    </option>
-
-
-                    <option value="USN Choc Caramel 1 Scoop">
-                        USN Choc Caramel 1 Scoop
-                    </option>
-
-
-                    <option value="USN Choc Caramel 2 Scoop">
-                        USN Choc Caramel 2 Scoop
-                    </option>
-
-
-                </select>
-
-
-                <label>
-                    Drink
-                </label>
-
-
-                <select
-                    id="drinkSelect"
-                    onchange="drinkSelected()">
-
-
-                    <option value="">
-                        Select a drink
-                    </option>
-
-
-                    <option value="Single Vodka with Zero Mix">
-                        Single Vodka with Zero Mix
-                    </option>
-
-
-                    <option value="Jägermeister Shot">
-                        Jägermeister Shot
-                    </option>
-
-
-                </select>
-
-
-                <label>
-                    Quantity
-                </label>
-
-
-                <input
-                    type="number"
-                    id="quantity"
-                    value="1"
-                    min="1">
-
-
-                <label>
-                    Calories
-                </label>
-
-
-                <input
-                    type="number"
-                    id="calories"
-                    placeholder="Enter calories">
-
-
-                <label>
-                    Protein (g)
-                </label>
-
-
-                <input
-                    type="number"
-                    id="protein"
-                    placeholder="Enter protein">
-
-
-                <button
-                    class="primary-button"
-                    onclick="addFood()">
-
-                    + Add Food
-
                 </button>
-
 
             </div>
 
-
-            <!-- TODAY -->
+            <!-- DRINKS -->
 
             <div class="card">
 
+                <h2>Drinks</h2>
 
-                <h2>
-                    Today's Total
-                </h2>
+                <div class="food-row">
 
+                    <select id="drinkSelect">
 
-                <div class="stat-row">
+                        <option value="">Select drink</option>
 
+                        <option value="55,0">
+                            Single Vodka with Zero Mix — 55 kcal
+                        </option>
 
-                    <div class="stat-box">
+                        <option value="55,0">
+                            Jägermeister Shot — 55 kcal
+                        </option>
 
+                    </select>
 
-                        <div class="stat-title">
-                            Calories
-                        </div>
-
-
-                        <div class="stat-value">
-
-
-                            <span id="todayCalories">
-                                0
-                            </span>
-
-
-                            /
-
-
-                            <span id="dailyCalorieTarget">
-                                1,900
-                            </span>
-
-
-                        </div>
-
-
-                    </div>
-
-
-                    <div class="stat-box">
-
-
-                        <div class="stat-title">
-                            Protein
-                        </div>
-
-
-                        <div class="stat-value">
-
-
-                            <span id="todayProtein">
-                                0
-                            </span>
-
-
-                            / 160g
-
-
-                        </div>
-
-
-                    </div>
-
+                    <input id="drinkQuantity"
+                           type="number"
+                           min="1"
+                           value="1"
+                           placeholder="Qty">
 
                 </div>
 
-
-                <div class="progress-container">
-
-
-                    <div class="progress-header">
-
-
-                        <span>
-                            Calories
-                        </span>
-
-
-                        <span id="caloriePercent">
-                            0%
-                        </span>
-
-
-                    </div>
-
-
-                    <div class="progress">
-
-
-                        <div
-                            id="calorieProgress"
-                            class="progress-bar"
-                            style="width:0%">
-
-                        </div>
-
-
-                    </div>
-
-
-                </div>
-
-
-                <div class="progress-container">
-
-
-                    <div class="progress-header">
-
-
-                        <span>
-                            Protein
-                        </span>
-
-
-                        <span id="proteinPercent">
-                            0%
-                        </span>
-
-
-                    </div>
-
-
-                    <div class="progress">
-
-
-                        <div
-                            id="proteinProgress"
-                            class="progress-bar"
-                            style="width:0%">
-
-                        </div>
-
-
-                    </div>
-
-
-                </div>
-
-
-                <div class="remaining">
-
-
-                    <div class="remaining-title">
-                        Remaining Today
-                    </div>
-
-
-                    <div
-                        class="stat-row"
-                        style="margin-top:0">
-
-
-                        <div class="stat-box">
-
-
-                            <div class="stat-title">
-                                Calories Left
-                            </div>
-
-
-                            <div
-                                class="remaining-number"
-                                id="caloriesLeft">
-
-                                1,900 kcal
-
-                            </div>
-
-
-                        </div>
-
-
-                        <div class="stat-box">
-
-
-                            <div class="stat-title">
-                                Protein Left
-                            </div>
-
-
-                            <div
-                                class="remaining-number"
-                                id="proteinLeft">
-
-                                160g
-
-                            </div>
-
-
-                        </div>
-
-
-                    </div>
-
-
-                </div>
-
-
-                <button
-                    class="secondary-button"
-                    onclick="resetDay()">
-
-                    Reset Today
-
+                <button class="primary"
+                        onclick="addDrink()">
+                    Add Drink
                 </button>
-
 
             </div>
 
+            <!-- MANUAL -->
+
+            <div class="card">
+
+                <h2>Manual Entry</h2>
+
+                <div class="manual-grid">
+
+                    <input id="manualCalories"
+                           type="number"
+                           min="0"
+                           placeholder="Calories">
+
+                    <input id="manualProtein"
+                           type="number"
+                           min="0"
+                           step=".1"
+                           placeholder="Protein (g)">
+
+                </div>
+
+                <button class="primary"
+                        onclick="addManualFood()">
+                    Add Manual Food
+                </button>
+
+            </div>
+
+            <button class="danger"
+                    onclick="resetToday()">
+                Reset Today
+            </button>
+
+            <br><br>
 
             <!-- WEEK -->
 
             <div class="card">
 
+                <h2>This Week</h2>
 
-                <h2>
-                    This Week
-                </h2>
+                <div>
+                    <span class="big-number" id="weekCalories">0</span>
+                    <span class="sub-number">
+                        / <span id="weeklyCalorieTarget">0</span> kcal
+                    </span>
+                </div>
 
+                <div class="progress-container">
 
-                <div class="week-row">
-
-
-                    <div class="week-header">
-
-
-                        <span>
-                            Calories
-                        </span>
-
-
-                        <span>
-
-
-                            <span id="weekCalories">
-                                0
-                            </span>
-
-
-                            /
-
-
-                            <span id="weeklyCalorieTarget">
-                                13,300
-                            </span>
-
-
-                        </span>
-
-
+                    <div class="progress-label">
+                        <span>Calories</span>
+                        <span id="weekCaloriePercent">0%</span>
                     </div>
 
-
-                    <div class="week-progress">
-
-
-                        <div
-                            id="weekCalorieProgress"
-                            class="week-progress-bar"
-                            style="width:0%">
-
-                        </div>
-
-
+                    <div class="progress">
+                        <div id="weekCalorieBar"
+                             class="progress-bar"></div>
                     </div>
-
-
-                    <div
-                        class="week-remaining"
-                        id="weekCaloriesRemaining">
-
-                        13,300 calories remaining
-
-                    </div>
-
 
                 </div>
 
+                <div>
+                    <span class="big-number" id="weekProtein">0</span>
+                    <span class="sub-number">
+                        / <span id="weeklyProteinTarget">0</span> g
+                    </span>
+                </div>
 
-                <div class="week-row">
+                <div class="progress-container">
 
-
-                    <div class="week-header">
-
-
-                        <span>
-                            Protein
-                        </span>
-
-
-                        <span>
-
-
-                            <span id="weekProtein">
-                                0
-                            </span>
-
-
-                            / 1,120g
-
-
-                        </span>
-
-
+                    <div class="progress-label">
+                        <span>Protein</span>
+                        <span id="weekProteinPercent">0%</span>
                     </div>
 
-
-                    <div class="week-progress">
-
-
-                        <div
-                            id="weekProteinProgress"
-                            class="week-progress-bar"
-                            style="width:0%">
-
-                        </div>
-
-
+                    <div class="progress">
+                        <div id="weekProteinBar"
+                             class="progress-bar"></div>
                     </div>
-
-
-                    <div
-                        class="week-remaining"
-                        id="weekProteinRemaining">
-
-                        1,120g protein remaining
-
-                    </div>
-
 
                 </div>
 
-
-                <button
-                    id="addWeekButton"
-                    class="primary-button"
-                    onclick="addTodayToWeek()">
-
+                <button id="addWeekButton"
+                        class="primary"
+                        onclick="addTodayToWeek()">
                     + Add Today to Week
-
                 </button>
 
+                <br><br>
 
-                <button
-                    class="secondary-button"
-                    onclick="resetWeek()">
-
+                <button class="danger"
+                        onclick="resetWeek()">
                     Reset Week
-
                 </button>
 
-
             </div>
-
 
         </div>
 
+        <!-- GRAPHS -->
 
-        <!-- =================================================
-             GRAPHS
-             ================================================= -->
-
-        <div
-            id="graphs"
-            class="page">
-
-
-            <div class="graph-card">
-
-
-                <h2>
-                    Weekly Calories
-                </h2>
-
-
-                <div class="chart">
-
-
-                    <div
-                        class="y-labels"
-                        id="calorieYLabels">
-
-                    </div>
-
-
-                    <div class="chart-area">
-
-
-                        <div
-                            class="target-line"
-                            id="calorieTargetLine">
-
-                        </div>
-
-
-                        <div
-                            class="chart-grid"
-                            style="top:25%">
-
-                        </div>
-
-
-                        <div
-                            class="chart-grid"
-                            style="top:50%">
-
-                        </div>
-
-
-                        <div
-                            class="chart-grid"
-                            style="top:75%">
-
-                        </div>
-
-
-                        <div
-                            class="bars"
-                            id="calorieBars">
-
-                        </div>
-
-
-                    </div>
-
-
-                </div>
-
-
-                <div
-                    class="graph-legend"
-                    id="calorieGraphLegend">
-
-                    Daily target: 1,900 calories
-
-                </div>
-
-
-            </div>
-
-
-            <div class="graph-card">
-
-
-                <h2>
-                    Weekly Protein
-                </h2>
-
-
-                <div class="chart">
-
-
-                    <div
-                        class="y-labels"
-                        id="proteinYLabels">
-
-                    </div>
-
-
-                    <div class="chart-area">
-
-
-                        <div
-                            class="target-line"
-                            id="proteinTargetLine">
-
-                        </div>
-
-
-                        <div
-                            class="chart-grid"
-                            style="top:25%">
-
-                        </div>
-
-
-                        <div
-                            class="chart-grid"
-                            style="top:50%">
-
-                        </div>
-
-
-                        <div
-                            class="chart-grid"
-                            style="top:75%">
-
-                        </div>
-
-
-                        <div
-                            class="bars"
-                            id="proteinBars">
-
-                        </div>
-
-
-                    </div>
-
-
-                </div>
-
-
-                <div class="graph-legend">
-
-                    Daily target: 160g protein
-
-                </div>
-
-
-            </div>
-
-
-        </div>
-
-
-        <!-- =================================================
-             WEIGHT GOAL
-             ================================================= -->
-
-        <div
-            id="weight"
-            class="page">
-
-
-            <div class="weight-goal-card">
-
-
-                <h2>
-                    Weight Goal
-                </h2>
-
-
-                <label>
-                    Current Weight (kg)
-                </label>
-
-
-                <input
-                    type="number"
-                    id="currentWeight"
-                    class="weight-input"
-                    step="0.1"
-                    min="0"
-                    placeholder="e.g. 72.0">
-
-
-                <label>
-                    Goal Weight (kg)
-                </label>
-
-
-                <input
-                    type="number"
-                    id="goalWeight"
-                    class="weight-input"
-                    step="0.1"
-                    min="0"
-                    placeholder="e.g. 68.0">
-
-
-                <button
-                    class="primary-button"
-                    onclick="saveWeightGoal()">
-
-                    Save Weight Goal
-
-                </button>
-
-
-                <div
-                    id="weightSummary"
-                    class="weight-summary">
-
-                    Enter your current and goal weight above.
-
-                </div>
-
-
-                <div
-                    id="goalSuggestion"
-                    style="display:none">
-
-                </div>
-
-
-            </div>
-
-
-            <!-- WEEKLY WEIGHT -->
-
-            <div class="weight-entry">
-
-
-                <h2>
-                    Weekly Weight
-                </h2>
-
-
-                <label>
-                    This Week's Weight (kg)
-                </label>
-
-
-                <input
-                    type="number"
-                    id="weeklyWeight"
-                    class="weight-input"
-                    step="0.1"
-                    min="0"
-                    placeholder="Enter weight">
-
-
-                <button
-                    id="saveWeeklyWeightButton"
-                    class="primary-button weight-entry-button"
-                    onclick="saveWeeklyWeight()">
-
-                    Save Weekly Weight
-
-                </button>
-
-
-                <button
-                    id="resetWeightEntryButton"
-                    class="secondary-button"
-                    onclick="resetWeeklyWeight()">
-
-                    Reset Weekly Entry
-
-                </button>
-
-
-                <div
-                    id="weightEntryStatus"
-                    class="weight-status">
-
-                    You can enter your weight once every 7 days.
-
-                </div>
-
-
-            </div>
-
-
-            <!-- HISTORY -->
+        <div id="graphsPage" style="display:none">
 
             <div class="card">
 
+                <h2>Weekly Calories</h2>
 
-                <h2>
-                    Weight History
-                </h2>
-
-
-                <div
-                    id="weightHistory">
-
+                <div id="calorieGraph"
+                     class="graph">
                 </div>
 
+                <div class="graph-labels">
+                    <span>Mon</span>
+                    <span>Tue</span>
+                    <span>Wed</span>
+                    <span>Thu</span>
+                    <span>Fri</span>
+                    <span>Sat</span>
+                    <span>Sun</span>
+                </div>
+
+                <div class="target-line">
+                    Target: <span id="graphTarget">0</span> kcal/day
+                </div>
 
             </div>
 
+            <div class="card">
 
-            <!-- WEIGHT GRAPH -->
+                <h2>Weekly Protein</h2>
 
-            <div class="graph-card">
-
-
-                <h2>
-                    Weight Trend
-                </h2>
-
-
-                <div
-                    id="weightGraph"
-                    class="weight-chart">
-
+                <div id="proteinGraph"
+                     class="graph">
                 </div>
 
+                <div class="graph-labels">
+                    <span>Mon</span>
+                    <span>Tue</span>
+                    <span>Wed</span>
+                    <span>Thu</span>
+                    <span>Fri</span>
+                    <span>Sat</span>
+                    <span>Sun</span>
+                </div>
+
+                <div class="target-line">
+                    Target: <span id="proteinGraphTarget">0</span>g/day
+                </div>
 
             </div>
-
 
         </div>
 
+        <!-- WEIGHT -->
+
+        <div id="weightPage" style="display:none">
+
+            <div class="card">
+
+                <h2>Weight Goal</h2>
+
+                <div class="weight-big">
+                    <span id="currentWeightDisplay">0</span>
+                    <span class="weight-unit">kg</span>
+                </div>
+
+                <br>
+
+                <label>Current Weight</label>
+                <input id="currentWeightInput"
+                       type="number"
+                       step=".1"
+                       placeholder="Current weight">
+
+                <label>Goal Weight</label>
+                <input id="goalWeightInput"
+                       type="number"
+                       step=".1"
+                       placeholder="Goal weight">
+
+                <button class="primary"
+                        onclick="saveWeightGoal()">
+                    Save Weight Goal
+                </button>
+
+            </div>
+
+            <div class="card">
+
+                <h2>Weekly Weigh-In</h2>
+
+                <input id="weeklyWeightInput"
+                       type="number"
+                       step=".1"
+                       placeholder="Enter your weight">
+
+                <button id="weightEntryButton"
+                        class="primary"
+                        onclick="saveWeeklyWeight()">
+                    Save Weekly Weight
+                </button>
+
+                <p id="weightEntryStatus"
+                   class="status">
+                </p>
+
+                <button class="secondary"
+                        onclick="resetWeeklyWeight()">
+                    Undo Latest Weigh-In
+                </button>
+
+            </div>
+
+            <div class="card">
+
+                <h2>Weight History</h2>
+
+                <div id="weightHistory">
+                </div>
+
+            </div>
+
+            <div class="card">
+
+                <h2>Weight Trend</h2>
+
+                <div id="weightGraph"
+                     class="graph">
+                </div>
+
+            </div>
+
+        </div>
 
     </div>
 
+    <!-- ================= WORKOUTS ================= -->
 
-    <!-- =====================================================
-         WORKOUTS SCREEN
-         ===================================================== -->
+    <div id="workoutsScreen" class="app-screen">
 
-    <div
-        id="workoutsScreen"
-        class="app-screen">
+        <div class="card workout-placeholder">
 
+            <div class="emoji">🏋️</div>
 
-        <div class="workouts-header">
-
-
-            <div class="workout-icon">
-                🏋️
-            </div>
-
-
-            <h2>
-                Workouts
-            </h2>
-
+            <h2>Workouts</h2>
 
             <p>
-
-                Your personalized workout section
-                is coming next.
-
+                Your personalised workout generator is coming next.
             </p>
-
-
-        </div>
-
-
-        <div class="workout-coming-card">
-
-
-            <h3>
-                Workout Builder
-            </h3>
-
 
             <p>
-
-                Soon you'll be able to tell the app
-                what you're trying to achieve and it
-                will build a workout around you.
-
+                You'll be able to choose your goal, muscle group,
+                equipment, experience level and available time.
             </p>
 
-
-            <div class="workout-feature">
-
-
-                <div class="workout-feature-icon">
-                    🎯
-                </div>
-
-
-                <div class="workout-feature-text">
-
-                    Select your goal
-
-                </div>
-
-
-            </div>
-
-
-            <div class="workout-feature">
-
-
-                <div class="workout-feature-icon">
-                    💪
-                </div>
-
-
-                <div class="workout-feature-text">
-
-                    Select the muscle group you want
-                    to train
-
-                </div>
-
-
-            </div>
-
-
-            <div class="workout-feature">
-
-
-                <div class="workout-feature-icon">
-                    ⏱️
-                </div>
-
-
-                <div class="workout-feature-text">
-
-                    Choose your available workout time
-
-                </div>
-
-
-            </div>
-
-
-            <div class="workout-feature">
-
-
-                <div class="workout-feature-icon">
-                    🏠
-                </div>
-
-
-                <div class="workout-feature-text">
-
-                    Gym or home workout options
-
-                </div>
-
-
-            </div>
-
-
-            <div class="workout-feature">
-
-
-                <div class="workout-feature-icon">
-                    🧠
-                </div>
-
-
-                <div class="workout-feature-text">
-
-                    The app suggests exercises,
-                    sets and reps
-
-                </div>
-
-
-            </div>
-
+            <button class="primary"
+                    onclick="openScreen('dashboard')">
+                Back to Dashboard
+            </button>
 
         </div>
-
 
     </div>
 
+    <!-- ================= PROFILE ================= -->
+
+    <div id="profileScreen" class="app-screen">
+
+        <div class="card">
+
+            <h2>My Profile 👤</h2>
+
+            <p style="color:#999">
+                These details are used to calculate your personalised
+                nutrition targets.
+            </p>
+
+            <label>Sex</label>
+
+            <select id="profileSex">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+
+            <label>Age</label>
+            <input id="profileAge"
+                   type="number"
+                   min="13"
+                   max="100">
+
+            <label>Height (cm)</label>
+            <input id="profileHeight"
+                   type="number"
+                   min="100"
+                   max="250">
+
+            <label>Current Weight (kg)</label>
+            <input id="profileWeight"
+                   type="number"
+                   min="30"
+                   max="300"
+                   step=".1">
+
+            <label>Activity Level</label>
+
+            <select id="profileActivity">
+
+                <option value="sedentary">Sedentary</option>
+                <option value="light">Lightly Active</option>
+                <option value="moderate">Moderately Active</option>
+                <option value="very">Very Active</option>
+                <option value="extreme">Extremely Active</option>
+
+            </select>
+
+            <button class="primary"
+                    onclick="saveProfile()">
+                Recalculate My Targets
+            </button>
+
+            <br><br>
+
+            <div class="card" style="margin-bottom:0">
+
+                <h3>Your Estimated Targets</h3>
+
+                <div class="profile-result">
+
+                    <div class="result-calories"
+                         id="profileCalories">
+                        0
+                    </div>
+
+                    <div style="color:#888">
+                        kcal/day
+                    </div>
+
+                    <div class="result-protein"
+                         id="profileProtein">
+                        0g protein
+                    </div>
+
+                </div>
+
+                <p class="small-note">
+                    These are estimates based on your entered information.
+                    Real-world calorie needs can vary, so your weight trend
+                    and progress should be used to fine-tune your targets.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </div>
 
+<!-- ================= EASTER EGG ================= -->
 
-<!-- =========================================================
-     EASTER EGG
-     ========================================================= -->
+<div id="easterEgg"
+     class="easter-egg">
 
-<div
-    id="easterEgg"
-    class="easter-egg">
+    <div class="easter-box">
 
-
-    <div class="easter-egg-content">
-
-
-        <button
-            class="easter-close"
-            onclick="closeEasterEgg()">
-
+        <button class="easter-close"
+                onclick="closeEasterEgg()">
             ×
-
         </button>
 
-
-        <img
-            src="easteregg.jpg"
-            class="easter-egg-image"
-            alt="Secret Easter Egg">
-
-
-        <div class="easter-text">
-
-            You found the secret 👀
-
-        </div>
-
+        <img src="easteregg.jpg"
+             alt="Easter egg">
 
     </div>
 
-
 </div>
-
-
 
 <script>
 
-
 /* =========================================================
-   GOALS
-   ========================================================= */
+   PERSONAL PROFILE
+========================================================= */
 
-const GOALS = {
+let profile = JSON.parse(localStorage.getItem("userProfile") || "null");
 
-
-    cut: {
-
-        name: "Cut",
-
-        dailyCalories: 1900,
-
-        weeklyCalories: 13300,
-
-        icon: "🥗"
-
-    },
-
-
-    maintenance: {
-
-        name: "Maintenance",
-
-        dailyCalories: 2400,
-
-        weeklyCalories: 16800,
-
-        icon: "⚖️"
-
-    },
-
-
-    bulk: {
-
-        name: "Bulk",
-
-        dailyCalories: 2700,
-
-        weeklyCalories: 18900,
-
-        icon: "💪"
-
-    }
-
-
+let setupData = {
+    sex: "",
+    age: "",
+    height: "",
+    weight: "",
+    activity: "",
+    goal: "cut",
+    intensity: "moderate"
 };
 
+const activityMultipliers = {
+    sedentary: 1.20,
+    light: 1.375,
+    moderate: 1.55,
+    very: 1.725,
+    extreme: 1.90
+};
 
-const DAILY_PROTEIN_TARGET = 160;
+const goalNames = {
+    cut: "Cut",
+    maintenance: "Maintenance",
+    bulk: "Bulk"
+};
 
-const WEEKLY_PROTEIN_TARGET = 1120;
+function roundToNearest10(number) {
+    return Math.round(number / 10) * 10;
+}
 
+function calculateBMR(data) {
 
-/* =========================================================
-   HAMBURGER MENU
-   ========================================================= */
+    let weight = Number(data.weight);
+    let height = Number(data.height);
+    let age = Number(data.age);
 
-function toggleMenu() {
-
-
-    const menu =
-
-        document.getElementById(
-            "sideMenu"
-        );
-
-
-    const overlay =
-
-        document.getElementById(
-            "menuOverlay"
-        );
-
-
-    const isOpen =
-
-        menu.classList.contains(
-            "open"
-        );
-
-
-    if (
-        isOpen
-    ) {
-
-        closeMenu();
-
+    if (data.sex === "male") {
+        return (10 * weight) + (6.25 * height) - (5 * age) + 5;
     }
 
+    return (10 * weight) + (6.25 * height) - (5 * age) - 161;
+}
+
+function calculateTDEE(data) {
+
+    let bmr = calculateBMR(data);
+
+    return bmr * activityMultipliers[data.activity];
+}
+
+function calculateProtein(weight, goal) {
+
+    let multiplier;
+
+    if (goal === "cut") {
+        multiplier = 2.0;
+    }
+    else if (goal === "bulk") {
+        multiplier = 1.8;
+    }
+    else {
+        multiplier = 1.8;
+    }
+
+    return Math.round(weight * multiplier);
+}
+
+function calculateTargets(data) {
+
+    let tdee = calculateTDEE(data);
+
+    let calories;
+
+    if (data.goal === "cut") {
+
+        if (data.intensity === "slow") {
+            calories = tdee - 250;
+        }
+        else if (data.intensity === "moderate") {
+            calories = tdee - 400;
+        }
+        else {
+            calories = tdee - 550;
+        }
+
+    }
+    else if (data.goal === "bulk") {
+
+        if (data.intensity === "slow") {
+            calories = tdee + 150;
+        }
+        else if (data.intensity === "moderate") {
+            calories = tdee + 250;
+        }
+        else {
+            calories = tdee + 350;
+        }
+
+    }
     else {
 
-        menu.classList.add(
-            "open"
-        );
-
-        overlay.classList.add(
-            "show"
-        );
+        calories = tdee;
 
     }
 
-}
+    /*
+       Safety floor so the automatic calculation does not
+       accidentally create an extremely low calorie target.
+    */
 
+    let minimumCalories =
+        data.sex === "female" ? 1400 : 1600;
 
-function closeMenu() {
+    calories = Math.max(calories, minimumCalories);
 
+    calories = roundToNearest10(calories);
 
-    document
-        .getElementById(
-            "sideMenu"
-        )
-        .classList
-        .remove("open");
-
-
-    document
-        .getElementById(
-            "menuOverlay"
-        )
-        .classList
-        .remove("show");
-
-}
-
-
-/* =========================================================
-   OPEN APP SCREEN
-   ========================================================= */
-
-function openScreen(
-    screen
-) {
-
-
-    document
-        .querySelectorAll(
-            ".app-screen"
-        )
-        .forEach(
-
-            element => {
-
-                element.classList.remove(
-                    "active"
-                );
-
-            }
-
-        );
-
-
-    document
-        .querySelectorAll(
-            ".menu-item"
-        )
-        .forEach(
-
-            element => {
-
-                element.classList.remove(
-                    "active"
-                );
-
-            }
-
-        );
-
-
-    if (
-        screen === "dashboard"
-    ) {
-
-
-        document
-            .getElementById(
-                "dashboardScreen"
-            )
-            .classList
-            .add("active");
-
-
-        document
-            .getElementById(
-                "dashboardMenuItem"
-            )
-            .classList
-            .add("active");
-
-
-    }
-
-
-    if (
-        screen === "workouts"
-    ) {
-
-
-        document
-            .getElementById(
-                "workoutsScreen"
-            )
-            .classList
-            .add("active");
-
-
-        document
-            .getElementById(
-                "workoutsMenuItem"
-            )
-            .classList
-            .add("active");
-
-
-    }
-
-
-    closeMenu();
-
-
-    window.scrollTo({
-
-        top: 0,
-
-        behavior: "smooth"
-
-    });
-
-}
-
-
-/* =========================================================
-   THEME
-   ========================================================= */
-
-function updateTheme() {
-
-
-    const goal =
-        getCurrentGoal();
-
-
-    let accent;
-
-    let glow;
-
-
-    if (
-        goal === "cut"
-    ) {
-
-
-        accent =
-            "#39ff14";
-
-
-        glow =
-            "rgba(57, 255, 20, 0.45)";
-
-
-    }
-
-
-    else if (
-        goal === "maintenance"
-    ) {
-
-
-        accent =
-            "#7b2cff";
-
-
-        glow =
-            "rgba(123, 44, 255, 0.45)";
-
-
-    }
-
-
-    else {
-
-
-        accent =
-            "#ff1744";
-
-
-        glow =
-            "rgba(255, 23, 68, 0.45)";
-
-
-    }
-
-
-    document.documentElement.style
-        .setProperty(
-            "--accent",
-            accent
-        );
-
-
-    document.documentElement.style
-        .setProperty(
-            "--accent-glow",
-            glow
-        );
-
-
-}
-
-
-/* =========================================================
-   GOAL
-   ========================================================= */
-
-function getCurrentGoal() {
-
-
-    return (
-
-        localStorage.getItem(
-            "currentGoal"
-        )
-
-        ||
-
-        "cut"
-
+    let protein = calculateProtein(
+        Number(data.weight),
+        data.goal
     );
 
+    return {
+        bmr: Math.round(calculateBMR(data)),
+        tdee: roundToNearest10(tdee),
+        calories: calories,
+        protein: protein
+    };
 }
 
+/* =========================================================
+   SETUP
+========================================================= */
 
-function getGoalData() {
+function selectSetupOption(button, field, value) {
 
+    let parent = button.parentElement;
 
-    return GOALS[
-        getCurrentGoal()
-    ];
+    parent.querySelectorAll(".option")
+        .forEach(option => option.classList.remove("selected"));
 
+    button.classList.add("selected");
+
+    setupData[field] = value;
+
+    if (field === "goal") {
+
+        let description =
+            document.getElementById("intensityDescription");
+
+        if (value === "cut") {
+            description.innerText =
+                "Choose how quickly you want to lose weight.";
+        }
+        else if (value === "bulk") {
+            description.innerText =
+                "Choose how quickly you want to gain weight.";
+        }
+        else {
+            description.innerText =
+                "Maintenance does not need an aggressive adjustment.";
+        }
+    }
 }
 
+function nextSetupStep(step) {
 
-function changeGoal() {
+    document.querySelectorAll(".setup-step")
+        .forEach(el => el.classList.remove("active"));
 
+    document.getElementById("setup" + step)
+        .classList.add("active");
 
-    const selectedGoal =
+    document.getElementById("setupStepText")
+        .innerText = "STEP " + step + " OF 5";
+}
 
-        document.getElementById(
-            "goalSelect"
-        ).value;
+function validateBodyStep() {
 
+    let age =
+        Number(document.getElementById("setupAge").value);
+
+    let height =
+        Number(document.getElementById("setupHeight").value);
+
+    let weight =
+        Number(document.getElementById("setupWeight").value);
+
+    if (!age || !height || !weight) {
+        alert("Please enter your age, height and weight.");
+        return;
+    }
+
+    if (!setupData.sex) {
+        alert("Please select your sex.");
+        return;
+    }
+
+    setupData.age = age;
+    setupData.height = height;
+    setupData.weight = weight;
+
+    nextSetupStep(3);
+}
+
+function finishSetup() {
+
+    if (!setupData.sex) {
+        alert("Please select your sex.");
+        nextSetupStep(1);
+        return;
+    }
+
+    if (!setupData.activity) {
+        alert("Please select your activity level.");
+        nextSetupStep(3);
+        return;
+    }
+
+    if (!setupData.goal) {
+        alert("Please select your goal.");
+        nextSetupStep(4);
+        return;
+    }
+
+    if (!setupData.intensity) {
+        alert("Please select an intensity.");
+        return;
+    }
+
+    let targets = calculateTargets(setupData);
+
+    profile = {
+        ...setupData,
+        targets: targets,
+        createdAt: Date.now()
+    };
 
     localStorage.setItem(
-
-        "currentGoal",
-
-        selectedGoal
-
+        "userProfile",
+        JSON.stringify(profile)
     );
 
+    applyProfile();
 
-    updateTheme();
+    document.getElementById("setupScreen").style.display = "none";
+    document.getElementById("mainApp").style.display = "block";
 
-    updateTargets();
-
-    updateWeightGoalDisplay();
-
+    alert(
+        "Your personalised targets are ready!\n\n" +
+        targets.calories + " kcal/day\n" +
+        targets.protein + "g protein/day"
+    );
 }
 
-
 /* =========================================================
-   APPLY SUGGESTED GOAL
-   ========================================================= */
+   PROFILE
+========================================================= */
 
-function applySuggestedGoal(
-    goal
-) {
+function loadProfileScreen() {
 
+    if (!profile) return;
+
+    document.getElementById("profileSex").value =
+        profile.sex;
+
+    document.getElementById("profileAge").value =
+        profile.age;
+
+    document.getElementById("profileHeight").value =
+        profile.height;
+
+    document.getElementById("profileWeight").value =
+        profile.weight;
+
+    document.getElementById("profileActivity").value =
+        profile.activity;
+
+    document.getElementById("profileCalories").innerText =
+        profile.targets.calories;
+
+    document.getElementById("profileProtein").innerText =
+        profile.targets.protein + "g protein";
+}
+
+function saveProfile() {
+
+    let updated = {
+        sex: document.getElementById("profileSex").value,
+
+        age: Number(
+            document.getElementById("profileAge").value
+        ),
+
+        height: Number(
+            document.getElementById("profileHeight").value
+        ),
+
+        weight: Number(
+            document.getElementById("profileWeight").value
+        ),
+
+        activity:
+            document.getElementById("profileActivity").value,
+
+        goal: profile.goal,
+        intensity: profile.intensity
+    };
+
+    if (
+        !updated.age ||
+        !updated.height ||
+        !updated.weight
+    ) {
+        alert("Please fill in all your details.");
+        return;
+    }
+
+    let targets = calculateTargets(updated);
+
+    profile = {
+        ...profile,
+        ...updated,
+        targets: targets
+    };
 
     localStorage.setItem(
-
-        "currentGoal",
-
-        goal
-
+        "userProfile",
+        JSON.stringify(profile)
     );
 
+    /*
+       Also update current weight in the weight tracker.
+    */
 
-    document.getElementById(
-        "goalSelect"
-    ).value =
-        goal;
+    localStorage.setItem(
+        "weightCurrent",
+        updated.weight
+    );
 
+    applyProfile();
 
-    updateTheme();
+    document.getElementById("profileCalories").innerText =
+        targets.calories;
 
+    document.getElementById("profileProtein").innerText =
+        targets.protein + "g protein";
+
+    loadWeightGoal();
     updateTargets();
-
-    updateWeightGoalDisplay();
-
-
-    window.scrollTo({
-
-        top: 0,
-
-        behavior: "smooth"
-
-    });
-
-}
-
-
-/* =========================================================
-   UPDATE TARGETS
-   ========================================================= */
-
-function updateTargets() {
-
-
-    const goal =
-        getGoalData();
-
-
-    document.getElementById(
-        "goalSelect"
-    ).value =
-        getCurrentGoal();
-
-
-    document.getElementById(
-        "dailyCalorieTarget"
-    ).textContent =
-
-        goal.dailyCalories
-            .toLocaleString();
-
-
-    document.getElementById(
-        "weeklyCalorieTarget"
-    ).textContent =
-
-        goal.weeklyCalories
-            .toLocaleString();
-
-
-    document.getElementById(
-        "calorieGraphLegend"
-    ).textContent =
-
-        "Daily target: "
-
-        +
-
-        goal.dailyCalories
-            .toLocaleString()
-
-        +
-
-        " calories";
-
-
     loadTotals();
-
     loadWeek();
+    drawGraphs();
 
+    alert(
+        "Targets updated!\n\n" +
+        targets.calories + " kcal/day\n" +
+        targets.protein + "g protein/day"
+    );
+}
+
+/* =========================================================
+   GOAL / THEME
+========================================================= */
+
+function applyProfile() {
+
+    if (!profile) return;
+
+    document.getElementById("goalSelect").value =
+        profile.goal;
+
+    updateTheme();
+    updateTargets();
+}
+
+function changeGoal(goal) {
+
+    if (!profile) return;
+
+    profile.goal = goal;
+
+    let targets = calculateTargets(profile);
+
+    profile.targets = targets;
+
+    localStorage.setItem(
+        "userProfile",
+        JSON.stringify(profile)
+    );
+
+    updateTheme();
+    updateTargets();
+    loadTotals();
+    loadWeek();
     drawGraphs();
 
 }
 
+function updateTheme() {
 
-/* =========================================================
-   MEALS
-   ========================================================= */
+    if (!profile) return;
 
-const meals = {
+    let goal = profile.goal;
 
+    let accent;
+    let glow;
 
-    "Mcdees 2x Double Burger": {
+    if (goal === "cut") {
 
-        calories: 630,
+        accent = "#39ff14";
+        glow = "rgba(57,255,20,.45)";
 
-        protein: 37
+    }
+    else if (goal === "maintenance") {
 
-    },
+        accent = "#7b2cff";
+        glow = "rgba(123,44,255,.45)";
 
+    }
+    else {
 
-    "Big Mac Meal": {
-
-        calories: 650,
-
-        protein: 25
-
-    },
-
-
-    "Wimpy Burger Meal": {
-
-        calories: 700,
-
-        protein: 30
-
-    },
-
-
-    "USN Choc Caramel 1 Scoop": {
-
-        calories: 121,
-
-        protein: 23
-
-    },
-
-
-    "USN Choc Caramel 2 Scoop": {
-
-        calories: 242,
-
-        protein: 46
+        accent = "#ff1744";
+        glow = "rgba(255,23,68,.45)";
 
     }
 
+    document.documentElement.style
+        .setProperty("--accent", accent);
 
-};
+    document.documentElement.style
+        .setProperty("--glow", glow);
 
-
-/* =========================================================
-   DRINKS
-   ========================================================= */
-
-const drinks = {
-
-
-    "Single Vodka with Zero Mix": {
-
-        calories: 55,
-
-        protein: 0
-
-    },
-
-
-    "Jägermeister Shot": {
-
-        calories: 55,
-
-        protein: 0
-
-    }
-
-
-};
-
-
-/* =========================================================
-   DATE
-   ========================================================= */
-
-function getToday() {
-
-
-    return new Date()
-
-        .toISOString()
-
-        .split("T")[0];
-
-
+    document.getElementById("goalInfo").innerText =
+        "Personalised target: " +
+        profile.targets.calories +
+        " kcal / " +
+        profile.targets.protein +
+        "g protein per day.";
 }
 
+function updateTargets() {
 
-function displayDate() {
+    if (!profile) return;
 
+    document.getElementById("dailyCalorieTarget")
+        .innerText = profile.targets.calories;
 
-    const d =
-        new Date();
+    document.getElementById("dailyProteinTarget")
+        .innerText = profile.targets.protein;
 
+    document.getElementById("weeklyCalorieTarget")
+        .innerText = profile.targets.calories * 7;
+
+    document.getElementById("weeklyProteinTarget")
+        .innerText = profile.targets.protein * 7;
+
+    document.getElementById("graphTarget")
+        .innerText = profile.targets.calories;
+
+    document.getElementById("proteinGraphTarget")
+        .innerText = profile.targets.protein;
+}
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function toggleMenu() {
+
+    document.getElementById("sideMenu")
+        .classList.toggle("active");
+
+    document.getElementById("menuOverlay")
+        .classList.toggle("active");
+}
+
+function closeMenu() {
+
+    document.getElementById("sideMenu")
+        .classList.remove("active");
+
+    document.getElementById("menuOverlay")
+        .classList.remove("active");
+}
+
+function openScreen(screen) {
+
+    document.querySelectorAll(".app-screen")
+        .forEach(el => el.classList.remove("active"));
 
     document.getElementById(
-        "date"
-    ).textContent =
+        screen + "Screen"
+    ).classList.add("active");
 
-        d.toLocaleDateString(
+    document.querySelectorAll(".menu-item")
+        .forEach(el => el.classList.remove("active"));
 
-            "en-ZA",
+    if (screen === "dashboard") {
 
-            {
-
-                weekday: "long",
-
-                day: "numeric",
-
-                month: "long",
-
-                year: "numeric"
-
-            }
-
-        );
-
-}
-
-
-/* =========================================================
-   WEEK
-   ========================================================= */
-
-function getWeekID() {
-
-
-    const d =
-        new Date();
-
-
-    const day =
-        d.getDay();
-
-
-    const diff =
-
-        day === 0
-
-            ? -6
-
-            : 1 - day;
-
-
-    const monday =
-        new Date(d);
-
-
-    monday.setDate(
-
-        d.getDate()
-        +
-        diff
-
-    );
-
-
-    return monday
-
-        .toISOString()
-
-        .split("T")[0];
-
-}
-
-
-function getWeekDates() {
-
-
-    const d =
-        new Date();
-
-
-    const day =
-        d.getDay();
-
-
-    const diff =
-
-        day === 0
-
-            ? -6
-
-            : 1 - day;
-
-
-    const monday =
-        new Date(d);
-
-
-    monday.setDate(
-
-        d.getDate()
-        +
-        diff
-
-    );
-
-
-    const dates = [];
-
-
-    for (
-        let i = 0;
-        i < 7;
-        i++
-    ) {
-
-
-        const date =
-            new Date(monday);
-
-
-        date.setDate(
-
-            monday.getDate()
-            +
-            i
-
-        );
-
-
-        dates.push(
-
-            date
-
-                .toISOString()
-
-                .split("T")[0]
-
-        );
+        document.getElementById(
+            "dashboardMenuItem"
+        ).classList.add("active");
 
     }
+    else if (screen === "workouts") {
 
+        document.getElementById(
+            "workoutsMenuItem"
+        ).classList.add("active");
 
-    return dates;
+    }
+    else if (screen === "profile") {
 
+        document.getElementById(
+            "profileMenuItem"
+        ).classList.add("active");
+
+        loadProfileScreen();
+    }
+
+    closeMenu();
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
 }
 
+/* =========================================================
+   DASHBOARD TABS
+========================================================= */
+
+let tabSwitchCount = 0;
+let lastTabSwitch = 0;
+
+function showPage(page, button) {
+
+    document.getElementById("mainPage").style.display =
+        page === "main" ? "block" : "none";
+
+    document.getElementById("graphsPage").style.display =
+        page === "graphs" ? "block" : "none";
+
+    document.getElementById("weightPage").style.display =
+        page === "weight" ? "block" : "none";
+
+    document.querySelectorAll(".tab-button")
+        .forEach(btn => btn.classList.remove("active"));
+
+    button.classList.add("active");
+
+    if (page === "graphs") {
+        drawGraphs();
+    }
+
+    if (page === "weight") {
+        loadWeightGoal();
+        updateWeightEntryState();
+        renderWeightHistory();
+        drawWeightGraph();
+    }
+
+    checkEasterEgg(page);
+}
 
 /* =========================================================
-   NEW DAY
-   ========================================================= */
+   DAILY TRACKING
+========================================================= */
+
+function getTodayKey() {
+
+    let d = new Date();
+
+    return d.getFullYear() +
+        "-" +
+        String(d.getMonth() + 1).padStart(2, "0") +
+        "-" +
+        String(d.getDate()).padStart(2, "0");
+}
 
 function checkNewDay() {
 
+    let savedDate =
+        localStorage.getItem("trackingDate");
 
-    const today =
-        getToday();
+    let today = getTodayKey();
 
+    if (savedDate !== today) {
 
-    const savedDate =
-
-        localStorage.getItem(
-            "savedDate"
+        localStorage.setItem(
+            "trackingDate",
+            today
         );
-
-
-    if (
-        savedDate !== today
-    ) {
-
 
         localStorage.setItem(
             "todayCalories",
             "0"
         );
 
-
         localStorage.setItem(
             "todayProtein",
             "0"
         );
-
-
-        localStorage.setItem(
-            "savedDate",
-            today
-        );
-
-
     }
-
 }
 
+function getCalories() {
+
+    return Number(
+        localStorage.getItem("todayCalories") || 0
+    );
+}
+
+function getProtein() {
+
+    return Number(
+        localStorage.getItem("todayProtein") || 0
+    );
+}
+
+function addNutrition(calories, protein) {
+
+    let newCalories =
+        getCalories() + calories;
+
+    let newProtein =
+        getProtein() + protein;
+
+    localStorage.setItem(
+        "todayCalories",
+        newCalories
+    );
+
+    localStorage.setItem(
+        "todayProtein",
+        newProtein
+    );
+
+    loadTotals();
+}
+
+function addSavedFood() {
+
+    let value =
+        document.getElementById("foodSelect").value;
+
+    let quantity =
+        Number(
+            document.getElementById("foodQuantity").value
+        ) || 1;
+
+    if (!value) {
+        alert("Select a food first.");
+        return;
+    }
+
+    let parts = value.split(",");
+
+    let calories =
+        Number(parts[0]) * quantity;
+
+    let protein =
+        Number(parts[1]) * quantity;
+
+    addNutrition(calories, protein);
+
+    document.getElementById("foodSelect").value = "";
+}
+
+function addDrink() {
+
+    let value =
+        document.getElementById("drinkSelect").value;
+
+    let quantity =
+        Number(
+            document.getElementById("drinkQuantity").value
+        ) || 1;
+
+    if (!value) {
+        alert("Select a drink first.");
+        return;
+    }
+
+    let parts = value.split(",");
+
+    addNutrition(
+        Number(parts[0]) * quantity,
+        Number(parts[1]) * quantity
+    );
+
+    document.getElementById("drinkSelect").value = "";
+}
+
+function addManualFood() {
+
+    let calories =
+        Number(
+            document.getElementById("manualCalories").value
+        );
+
+    let protein =
+        Number(
+            document.getElementById("manualProtein").value
+        );
+
+    if (!calories && !protein) {
+        alert("Enter calories or protein.");
+        return;
+    }
+
+    addNutrition(
+        calories || 0,
+        protein || 0
+    );
+
+    document.getElementById("manualCalories").value = "";
+    document.getElementById("manualProtein").value = "";
+}
+
+function loadTotals() {
+
+    if (!profile) return;
+
+    let calories = getCalories();
+    let protein = getProtein();
+
+    let calorieTarget =
+        profile.targets.calories;
+
+    let proteinTarget =
+        profile.targets.protein;
+
+    document.getElementById("todayCalories")
+        .innerText = Math.round(calories);
+
+    document.getElementById("todayProtein")
+        .innerText = Math.round(protein);
+
+    let caloriePercent =
+        Math.round(
+            calories / calorieTarget * 100
+        );
+
+    let proteinPercent =
+        Math.round(
+            protein / proteinTarget * 100
+        );
+
+    document.getElementById("caloriePercent")
+        .innerText = caloriePercent + "%";
+
+    document.getElementById("proteinPercent")
+        .innerText = proteinPercent + "%";
+
+    let calorieBar =
+        document.getElementById("calorieBar");
+
+    let proteinBar =
+        document.getElementById("proteinBar");
+
+    calorieBar.style.width =
+        Math.min(caloriePercent, 100) + "%";
+
+    proteinBar.style.width =
+        Math.min(proteinPercent, 100) + "%";
+
+    calorieBar.classList.toggle(
+        "over",
+        calories > calorieTarget
+    );
+
+    proteinBar.classList.toggle(
+        "over",
+        false
+    );
+
+    let calorieRemaining =
+        Math.max(
+            calorieTarget - calories,
+            0
+        );
+
+    let proteinRemaining =
+        Math.max(
+            proteinTarget - protein,
+            0
+        );
+
+    let calorieElement =
+        document.getElementById("remainingCalories");
+
+    let proteinElement =
+        document.getElementById("remainingProtein");
+
+    if (calories > calorieTarget) {
+
+        calorieElement.innerText =
+            "Calories Over: " +
+            Math.round(calories - calorieTarget);
+
+        calorieElement.classList.add("over");
+
+    }
+    else {
+
+        calorieElement.innerText =
+            "Calories Left: " +
+            Math.round(calorieRemaining);
+
+        calorieElement.classList.remove("over");
+    }
+
+    if (protein > proteinTarget) {
+
+        proteinElement.innerText =
+            "Protein Over: " +
+            Math.round(protein - proteinTarget) + "g";
+
+    }
+    else {
+
+        proteinElement.innerText =
+            "Protein Left: " +
+            Math.round(proteinRemaining) + "g";
+
+    }
+}
+
+function resetToday() {
+
+    if (!confirm("Reset today's calories and protein?")) {
+        return;
+    }
+
+    localStorage.setItem(
+        "todayCalories",
+        "0"
+    );
+
+    localStorage.setItem(
+        "todayProtein",
+        "0"
+    );
+
+    loadTotals();
+}
 
 /* =========================================================
-   NEW WEEK
-   ========================================================= */
+   WEEK TRACKING
+========================================================= */
+
+function getWeekID() {
+
+    let now = new Date();
+
+    let day =
+        now.getDay() || 7;
+
+    let monday =
+        new Date(now);
+
+    monday.setDate(
+        now.getDate() - day + 1
+    );
+
+    return monday.getFullYear() +
+        "-" +
+        String(monday.getMonth() + 1).padStart(2, "0") +
+        "-" +
+        String(monday.getDate()).padStart(2, "0");
+}
 
 function checkNewWeek() {
 
+    let currentWeek = getWeekID();
 
-    const currentWeek =
-        getWeekID();
+    let savedWeek =
+        localStorage.getItem("weekID");
 
-
-    const savedWeek =
-
-        localStorage.getItem(
-            "weekID"
-        );
-
-
-    if (
-        savedWeek !== currentWeek
-    ) {
-
+    if (savedWeek !== currentWeek) {
 
         localStorage.setItem(
             "weekID",
             currentWeek
         );
 
-
         localStorage.setItem(
             "weekCalories",
             "0"
         );
-
 
         localStorage.setItem(
             "weekProtein",
             "0"
         );
 
-
         localStorage.setItem(
             "weekAddedDays",
-            "[]"
+            JSON.stringify([])
         );
-
 
         localStorage.setItem(
             "dailyHistory",
-            "{}"
+            JSON.stringify({})
         );
-
-
     }
-
 }
 
+function getWeekCalories() {
 
-/* =========================================================
-   TODAY TOTALS
-   ========================================================= */
-
-function loadTotals() {
-
-
-    const goal =
-        getGoalData();
-
-
-    const calories =
-
-        Number(
-
-            localStorage.getItem(
-                "todayCalories"
-            )
-
-        )
-
-        ||
-
-        0;
-
-
-    const protein =
-
-        Number(
-
-            localStorage.getItem(
-                "todayProtein"
-            )
-
-        )
-
-        ||
-
-        0;
-
-
-    document.getElementById(
-        "todayCalories"
-    ).textContent =
-
-        Math.round(
-            calories
-        )
-        .toLocaleString();
-
-
-    document.getElementById(
-        "todayProtein"
-    ).textContent =
-
-        Math.round(
-            protein
-        );
-
-
-    const caloriesRemaining =
-
-        Math.max(
-
-            0,
-
-            goal.dailyCalories
-            -
-            calories
-
-        );
-
-
-    document.getElementById(
-        "caloriesLeft"
-    ).textContent =
-
-        Math.round(
-            caloriesRemaining
-        )
-        .toLocaleString()
-
-        +
-
-        " kcal";
-
-
-    const proteinRemaining =
-
-        Math.max(
-
-            0,
-
-            DAILY_PROTEIN_TARGET
-            -
-            protein
-
-        );
-
-
-    document.getElementById(
-        "proteinLeft"
-    ).textContent =
-
-        Math.round(
-            proteinRemaining
-        )
-
-        +
-
-        "g";
-
-
-    const caloriePercent =
-
-        Math.min(
-
-            100,
-
-            (
-
-                calories
-                /
-                goal.dailyCalories
-
-            )
-
-            *
-
-            100
-
-        );
-
-
-    const proteinPercent =
-
-        Math.min(
-
-            100,
-
-            (
-
-                protein
-                /
-                DAILY_PROTEIN_TARGET
-
-            )
-
-            *
-
-            100
-
-        );
-
-
-    document.getElementById(
-        "calorieProgress"
-    ).style.width =
-
-        caloriePercent + "%";
-
-
-    document.getElementById(
-        "proteinProgress"
-    ).style.width =
-
-        proteinPercent + "%";
-
-
-    document.getElementById(
-        "caloriePercent"
-    ).textContent =
-
-        Math.round(
-
-            (
-
-                calories
-                /
-                goal.dailyCalories
-
-            )
-
-            *
-
-            100
-
-        )
-
-        +
-
-        "%";
-
-
-    document.getElementById(
-        "proteinPercent"
-    ).textContent =
-
-        Math.round(
-
-            (
-
-                protein
-                /
-                DAILY_PROTEIN_TARGET
-
-            )
-
-            *
-
-            100
-
-        )
-
-        +
-
-        "%";
-
-
-    document.getElementById(
-        "calorieProgress"
-    ).classList.toggle(
-
-        "over-target",
-
-        calories >
-        goal.dailyCalories
-
+    return Number(
+        localStorage.getItem("weekCalories") || 0
     );
+}
 
+function getWeekProtein() {
 
-    document.getElementById(
-        "proteinProgress"
-    ).classList.toggle(
-
-        "over-target",
-
-        protein >
-        DAILY_PROTEIN_TARGET
-
+    return Number(
+        localStorage.getItem("weekProtein") || 0
     );
-
-
 }
 
+function getAddedDays() {
 
-/* =========================================================
-   WEEK TOTALS
-   ========================================================= */
-
-function loadWeek() {
-
-
-    const goal =
-        getGoalData();
-
-
-    const calories =
-
-        Number(
-
-            localStorage.getItem(
-                "weekCalories"
-            )
-
-        )
-
-        ||
-
-        0;
-
-
-    const protein =
-
-        Number(
-
-            localStorage.getItem(
-                "weekProtein"
-            )
-
-        )
-
-        ||
-
-        0;
-
-
-    document.getElementById(
-        "weekCalories"
-    ).textContent =
-
-        Math.round(
-            calories
-        )
-        .toLocaleString();
-
-
-    document.getElementById(
-        "weekProtein"
-    ).textContent =
-
-        Math.round(
-            protein
-        );
-
-
-    const caloriePercent =
-
-        Math.min(
-
-            100,
-
-            (
-
-                calories
-                /
-                goal.weeklyCalories
-
-            )
-
-            *
-
-            100
-
-        );
-
-
-    const proteinPercent =
-
-        Math.min(
-
-            100,
-
-            (
-
-                protein
-                /
-                WEEKLY_PROTEIN_TARGET
-
-            )
-
-            *
-
-            100
-
-        );
-
-
-    document.getElementById(
-        "weekCalorieProgress"
-    ).style.width =
-
-        caloriePercent + "%";
-
-
-    document.getElementById(
-        "weekProteinProgress"
-    ).style.width =
-
-        proteinPercent + "%";
-
-
-    const calorieRemaining =
-
-        Math.max(
-
-            0,
-
-            goal.weeklyCalories
-            -
-            calories
-
-        );
-
-
-    const proteinRemaining =
-
-        Math.max(
-
-            0,
-
-            WEEKLY_PROTEIN_TARGET
-            -
-            protein
-
-        );
-
-
-    document.getElementById(
-        "weekCaloriesRemaining"
-    ).textContent =
-
-        calorieRemaining
-            .toLocaleString()
-
-        +
-
-        " calories remaining";
-
-
-    document.getElementById(
-        "weekProteinRemaining"
-    ).textContent =
-
-        proteinRemaining
-            .toLocaleString()
-
-        +
-
-        "g protein remaining";
-
-
-    updateWeekButton();
-
-}
-
-
-/* =========================================================
-   MEAL SELECT
-   ========================================================= */
-
-function mealSelected() {
-
-
-    const value =
-
-        document.getElementById(
-            "mealSelect"
-        ).value;
-
-
-    if (!value) return;
-
-
-    const item =
-        meals[value];
-
-
-    document.getElementById(
-        "calories"
-    ).value =
-        item.calories;
-
-
-    document.getElementById(
-        "protein"
-    ).value =
-        item.protein;
-
-}
-
-
-/* =========================================================
-   DRINK SELECT
-   ========================================================= */
-
-function drinkSelected() {
-
-
-    const value =
-
-        document.getElementById(
-            "drinkSelect"
-        ).value;
-
-
-    if (!value) return;
-
-
-    const item =
-        drinks[value];
-
-
-    document.getElementById(
-        "calories"
-    ).value =
-        item.calories;
-
-
-    document.getElementById(
-        "protein"
-    ).value =
-        item.protein;
-
-}
-
-
-/* =========================================================
-   ADD FOOD
-   ========================================================= */
-
-function addFood() {
-
-
-    const calories =
-
-        Number(
-
-            document.getElementById(
-                "calories"
-            ).value
-
-        )
-
-        ||
-
-        0;
-
-
-    const protein =
-
-        Number(
-
-            document.getElementById(
-                "protein"
-            ).value
-
-        )
-
-        ||
-
-        0;
-
-
-    const quantity =
-
-        Number(
-
-            document.getElementById(
-                "quantity"
-            ).value
-
-        )
-
-        ||
-
-        1;
-
-
-    const totalCalories =
-        calories * quantity;
-
-
-    const totalProtein =
-        protein * quantity;
-
-
-    const currentCalories =
-
-        Number(
-
-            localStorage.getItem(
-                "todayCalories"
-            )
-
-        )
-
-        ||
-
-        0;
-
-
-    const currentProtein =
-
-        Number(
-
-            localStorage.getItem(
-                "todayProtein"
-            )
-
-        )
-
-        ||
-
-        0;
-
-
-    localStorage.setItem(
-
-        "todayCalories",
-
-        currentCalories
-        +
-        totalCalories
-
+    return JSON.parse(
+        localStorage.getItem("weekAddedDays") || "[]"
     );
-
-
-    localStorage.setItem(
-
-        "todayProtein",
-
-        currentProtein
-        +
-        totalProtein
-
-    );
-
-
-    document.getElementById(
-        "mealSelect"
-    ).value = "";
-
-
-    document.getElementById(
-        "drinkSelect"
-    ).value = "";
-
-
-    document.getElementById(
-        "quantity"
-    ).value = 1;
-
-
-    document.getElementById(
-        "calories"
-    ).value = "";
-
-
-    document.getElementById(
-        "protein"
-    ).value = "";
-
-
-    loadTotals();
-
 }
-
-
-/* =========================================================
-   ADD TODAY TO WEEK
-   ========================================================= */
 
 function addTodayToWeek() {
 
+    let today = getTodayKey();
 
-    const today =
-        getToday();
+    let addedDays = getAddedDays();
 
-
-    let addedDays =
-
-        JSON.parse(
-
-            localStorage.getItem(
-                "weekAddedDays"
-            )
-
-        )
-
-        ||
-
-        [];
-
-
-    if (
-        addedDays.includes(today)
-    ) {
-
+    if (addedDays.includes(today)) {
         return;
-
     }
 
-
-    const todayCalories =
-
-        Number(
-
-            localStorage.getItem(
-                "todayCalories"
-            )
-
-        )
-
-        ||
-
-        0;
-
-
-    const todayProtein =
-
-        Number(
-
-            localStorage.getItem(
-                "todayProtein"
-            )
-
-        )
-
-        ||
-
-        0;
-
-
-    const weekCalories =
-
-        Number(
-
-            localStorage.getItem(
-                "weekCalories"
-            )
-
-        )
-
-        ||
-
-        0;
-
-
-    const weekProtein =
-
-        Number(
-
-            localStorage.getItem(
-                "weekProtein"
-            )
-
-        )
-
-        ||
-
-        0;
-
+    let calories = getCalories();
+    let protein = getProtein();
 
     localStorage.setItem(
-
         "weekCalories",
-
-        weekCalories
-        +
-        todayCalories
-
+        getWeekCalories() + calories
     );
-
 
     localStorage.setItem(
-
         "weekProtein",
-
-        weekProtein
-        +
-        todayProtein
-
+        getWeekProtein() + protein
     );
-
 
     addedDays.push(today);
 
-
     localStorage.setItem(
-
         "weekAddedDays",
-
-        JSON.stringify(
-            addedDays
-        )
-
+        JSON.stringify(addedDays)
     );
-
 
     let history =
-
         JSON.parse(
-
-            localStorage.getItem(
-                "dailyHistory"
-            )
-
-        )
-
-        ||
-
-        {};
-
-
-    history[today] = {
-
-        calories:
-            todayCalories,
-
-        protein:
-            todayProtein
-
-    };
-
-
-    localStorage.setItem(
-
-        "dailyHistory",
-
-        JSON.stringify(
-            history
-        )
-
-    );
-
-
-    loadWeek();
-
-    drawGraphs();
-
-}
-
-
-/* =========================================================
-   WEEK BUTTON
-   ========================================================= */
-
-function updateWeekButton() {
-
-
-    const today =
-        getToday();
-
-
-    const addedDays =
-
-        JSON.parse(
-
-            localStorage.getItem(
-                "weekAddedDays"
-            )
-
-        )
-
-        ||
-
-        [];
-
-
-    const button =
-
-        document.getElementById(
-            "addWeekButton"
+            localStorage.getItem("dailyHistory") || "{}"
         );
 
+    history[today] = {
+        calories: calories,
+        protein: protein
+    };
 
-    if (
-        addedDays.includes(today)
-    ) {
+    localStorage.setItem(
+        "dailyHistory",
+        JSON.stringify(history)
+    );
 
+    loadWeek();
+    drawGraphs();
+}
+
+function loadWeek() {
+
+    if (!profile) return;
+
+    let calories = getWeekCalories();
+    let protein = getWeekProtein();
+
+    let calorieTarget =
+        profile.targets.calories * 7;
+
+    let proteinTarget =
+        profile.targets.protein * 7;
+
+    document.getElementById("weekCalories")
+        .innerText = Math.round(calories);
+
+    document.getElementById("weekProtein")
+        .innerText = Math.round(protein);
+
+    let caloriePercent =
+        Math.round(
+            calories / calorieTarget * 100
+        );
+
+    let proteinPercent =
+        Math.round(
+            protein / proteinTarget * 100
+        );
+
+    document.getElementById("weekCaloriePercent")
+        .innerText = caloriePercent + "%";
+
+    document.getElementById("weekProteinPercent")
+        .innerText = proteinPercent + "%";
+
+    document.getElementById("weekCalorieBar")
+        .style.width =
+        Math.min(caloriePercent,100) + "%";
+
+    document.getElementById("weekProteinBar")
+        .style.width =
+        Math.min(proteinPercent,100) + "%";
+
+    let button =
+        document.getElementById("addWeekButton");
+
+    if (getAddedDays().includes(getTodayKey())) {
 
         button.disabled = true;
-
-
-        button.textContent =
+        button.innerText =
             "✓ Today Added to Week";
 
+        button.style.opacity = ".45";
 
     }
-
-
     else {
 
-
         button.disabled = false;
-
-
-        button.textContent =
+        button.innerText =
             "+ Add Today to Week";
 
-
+        button.style.opacity = "1";
     }
-
 }
-
-
-/* =========================================================
-   RESET DAY
-   ========================================================= */
-
-function resetDay() {
-
-
-    if (
-
-        !confirm(
-            "Reset today's calories and protein?"
-        )
-
-    ) {
-
-        return;
-
-    }
-
-
-    localStorage.setItem(
-        "todayCalories",
-        "0"
-    );
-
-
-    localStorage.setItem(
-        "todayProtein",
-        "0"
-    );
-
-
-    loadTotals();
-
-}
-
-
-/* =========================================================
-   RESET WEEK
-   ========================================================= */
 
 function resetWeek() {
 
-
-    if (
-
-        !confirm(
-            "Reset this week's totals?"
-        )
-
-    ) {
-
+    if (!confirm("Reset this week's totals?")) {
         return;
-
     }
-
 
     localStorage.setItem(
         "weekCalories",
         "0"
     );
 
-
     localStorage.setItem(
         "weekProtein",
         "0"
     );
 
-
     localStorage.setItem(
         "weekAddedDays",
-        "[]"
+        JSON.stringify([])
     );
-
 
     localStorage.setItem(
         "dailyHistory",
-        "{}"
+        JSON.stringify({})
     );
-
 
     loadWeek();
-
     drawGraphs();
-
 }
 
-
 /* =========================================================
-   WEIGHT GOAL
-   ========================================================= */
+   GRAPHS
+========================================================= */
 
-function saveWeightGoal() {
+function drawGraphs() {
 
+    if (!profile) return;
 
-    const current =
-
-        Number(
-
-            document.getElementById(
-                "currentWeight"
-            ).value
-
+    let history =
+        JSON.parse(
+            localStorage.getItem("dailyHistory") || "{}"
         );
 
+    let dates = [];
 
-    const goal =
+    let now = new Date();
 
-        Number(
+    let day =
+        now.getDay() || 7;
 
-            document.getElementById(
-                "goalWeight"
-            ).value
+    let monday =
+        new Date(now);
 
+    monday.setDate(
+        now.getDate() - day + 1
+    );
+
+    for (let i = 0; i < 7; i++) {
+
+        let date = new Date(monday);
+
+        date.setDate(
+            monday.getDate() + i
         );
 
+        let key =
+            date.getFullYear() +
+            "-" +
+            String(date.getMonth()+1).padStart(2,"0") +
+            "-" +
+            String(date.getDate()).padStart(2,"0");
 
-    if (
-        !current ||
-        current <= 0 ||
-        !goal ||
-        goal <= 0
-    ) {
-
-
-        alert(
-            "Please enter a valid current weight and goal weight."
-        );
-
-
-        return;
-
+        dates.push(key);
     }
 
+    let calorieGraph =
+        document.getElementById("calorieGraph");
 
-    const oldGoal =
+    let proteinGraph =
+        document.getElementById("proteinGraph");
 
-        Number(
+    calorieGraph.innerHTML = "";
+    proteinGraph.innerHTML = "";
 
-            localStorage.getItem(
-                "weightGoal"
+    let maxCalories =
+        Math.max(
+            profile.targets.calories * 1.5,
+            ...dates.map(d =>
+                history[d]?.calories || 0
             )
-
         );
 
-
-    if (
-        !oldGoal ||
-        oldGoal !== goal
-    ) {
-
-
-        localStorage.setItem(
-
-            "weightStart",
-
-            current
-
+    let maxProtein =
+        Math.max(
+            profile.targets.protein * 1.5,
+            ...dates.map(d =>
+                history[d]?.protein || 0
+            )
         );
 
-    }
+    dates.forEach(date => {
 
+        let calorie =
+            history[date]?.calories || 0;
 
-    localStorage.setItem(
+        let protein =
+            history[date]?.protein || 0;
 
-        "weightCurrent",
+        let calorieDay =
+            document.createElement("div");
 
-        current
+        calorieDay.className = "graph-day";
 
-    );
+        let calorieBar =
+            document.createElement("div");
 
+        calorieBar.className = "graph-bar";
 
-    localStorage.setItem(
+        calorieBar.style.height =
+            Math.max(
+                calorie > 0
+                    ? calorie / maxCalories * 100
+                    : 0,
+                0
+            ) + "%";
 
-        "weightGoal",
+        calorieDay.appendChild(
+            calorieBar
+        );
 
-        goal
+        calorieGraph.appendChild(
+            calorieDay
+        );
 
-    );
+        let proteinDay =
+            document.createElement("div");
 
+        proteinDay.className = "graph-day";
 
-    updateWeightGoalDisplay();
+        let proteinBar =
+            document.createElement("div");
 
-    drawWeightGraph();
+        proteinBar.className = "graph-bar";
 
+        proteinBar.style.height =
+            Math.max(
+                protein > 0
+                    ? protein / maxProtein * 100
+                    : 0,
+                0
+            ) + "%";
+
+        proteinDay.appendChild(
+            proteinBar
+        );
+
+        proteinGraph.appendChild(
+            proteinDay
+        );
+
+    });
 }
 
-
 /* =========================================================
-   LOAD WEIGHT GOAL
-   ========================================================= */
+   WEIGHT TRACKER
+========================================================= */
 
 function loadWeightGoal() {
 
+    if (!profile) return;
 
-    const current =
+    let savedCurrent =
+        localStorage.getItem("weightCurrent");
 
+    let current =
+        savedCurrent
+            ? Number(savedCurrent)
+            : Number(profile.weight);
+
+    let goal =
         Number(
-
-            localStorage.getItem(
-                "weightCurrent"
-            )
-
+            localStorage.getItem("weightGoal") ||
+            current
         );
 
+    document.getElementById(
+        "currentWeightDisplay"
+    ).innerText = current;
 
-    const goal =
+    document.getElementById(
+        "currentWeightInput"
+    ).value = current;
 
-        Number(
-
-            localStorage.getItem(
-                "weightGoal"
-            )
-
-        );
-
-
-    if (
-        current > 0
-    ) {
-
-
-        document.getElementById(
-            "currentWeight"
-        ).value =
-            current;
-
-    }
-
-
-    if (
-        goal > 0
-    ) {
-
-
-        document.getElementById(
-            "goalWeight"
-        ).value =
-            goal;
-
-    }
-
-
-    updateWeightGoalDisplay();
-
+    document.getElementById(
+        "goalWeightInput"
+    ).value = goal;
 }
 
+function saveWeightGoal() {
 
-/* =========================================================
-   WEIGHT DISPLAY + SUGGESTION
-   ========================================================= */
-
-function updateWeightGoalDisplay() {
-
-
-    const current =
-
+    let current =
         Number(
-
-            localStorage.getItem(
-                "weightCurrent"
-            )
-
+            document.getElementById("currentWeightInput").value
         );
 
-
-    const goal =
-
+    let goal =
         Number(
-
-            localStorage.getItem(
-                "weightGoal"
-            )
-
+            document.getElementById("goalWeightInput").value
         );
 
-
-    const summary =
-
-        document.getElementById(
-            "weightSummary"
-        );
-
-
-    if (
-        !current ||
-        !goal
-    ) {
-
-
-        summary.innerHTML =
-
-            "Enter your current and goal weight above.";
-
-
-        document.getElementById(
-            "goalSuggestion"
-        ).style.display =
-            "none";
-
-
+    if (!current || !goal) {
+        alert("Please enter both weights.");
         return;
-
     }
 
-
-    const difference =
-
-        Math.abs(
-            current - goal
-        );
-
-
-    let direction;
-
-
-    if (
-        current > goal
-    ) {
-
-        direction =
-            "to lose";
-
-    }
-
-
-    else if (
-        current < goal
-    ) {
-
-        direction =
-            "to gain";
-
-    }
-
-
-    else {
-
-        direction =
-            "remaining";
-
-    }
-
-
-    let progress = 100;
-
-
-    const savedStart =
-
-        Number(
-
-            localStorage.getItem(
-                "weightStart"
-            )
-
-        );
-
-
-    if (
-        savedStart > 0 &&
-        savedStart !== goal
-    ) {
-
-
-        const totalDistance =
-
-            Math.abs(
-                savedStart - goal
-            );
-
-
-        const currentDistance =
-
-            Math.abs(
-                current - goal
-            );
-
-
-        progress =
-
-            Math.max(
-
-                0,
-
-                Math.min(
-
-                    100,
-
-                    (
-
-                        1
-                        -
-                        currentDistance /
-                        totalDistance
-
-                    )
-
-                    *
-
-                    100
-
-                )
-
-            );
-
-    }
-
-
-    else {
-
-
-        localStorage.setItem(
-
-            "weightStart",
-
-            current
-
-        );
-
-
-        progress = 0;
-
-    }
-
-
-    summary.innerHTML = `
-
-        <div class="weight-big">
-
-            ${current.toFixed(1)} kg
-
-        </div>
-
-
-        <div class="weight-small">
-
-            Goal:
-            ${goal.toFixed(1)} kg
-
-        </div>
-
-
-        <div class="weight-small">
-
-            ${difference.toFixed(1)} kg
-            ${direction}
-
-        </div>
-
-
-        <div class="weight-progress">
-
-            <div class="weight-progress-bar">
-
-                <div
-                    class="weight-progress-fill"
-                    style="width:${progress}%">
-
-                </div>
-
-            </div>
-
-        </div>
-
-    `;
-
-
-    generateGoalSuggestion(
-        current,
+    localStorage.setItem(
+        "weightCurrent",
+        current
+    );
+
+    localStorage.setItem(
+        "weightGoal",
         goal
     );
 
-}
+    if (profile) {
 
+        profile.weight = current;
 
-/* =========================================================
-   SUGGESTION ENGINE
-   ========================================================= */
+        let targets =
+            calculateTargets(profile);
 
-function generateGoalSuggestion(
-    current,
-    goal
-) {
+        profile.targets = targets;
 
-
-    const container =
-
-        document.getElementById(
-            "goalSuggestion"
+        localStorage.setItem(
+            "userProfile",
+            JSON.stringify(profile)
         );
 
-
-    let suggestedGoal;
-
-
-    if (
-        goal < current
-    ) {
-
-        suggestedGoal =
-            "cut";
-
+        updateTheme();
+        updateTargets();
+        loadTotals();
+        loadWeek();
     }
 
-
-    else if (
-        goal > current
-    ) {
-
-        suggestedGoal =
-            "bulk";
-
-    }
-
-
-    else {
-
-        suggestedGoal =
-            "maintenance";
-
-    }
-
-
-    const data =
-        GOALS[
-            suggestedGoal
-        ];
-
-
-    const difference =
-
-        Math.abs(
-            current - goal
-        );
-
-
-    let reason;
-
-
-    if (
-        suggestedGoal === "cut"
-    ) {
-
-
-        reason =
-
-            `You are currently ${current.toFixed(1)} kg and your goal is ${goal.toFixed(1)} kg. Because your goal is ${difference.toFixed(1)} kg lower, the tracker suggests a calorie deficit to move your weight toward that target.`;
-
-    }
-
-
-    else if (
-        suggestedGoal === "bulk"
-    ) {
-
-
-        reason =
-
-            `You are currently ${current.toFixed(1)} kg and your goal is ${goal.toFixed(1)} kg. Because your goal is ${difference.toFixed(1)} kg higher, the tracker suggests a calorie surplus to move your weight toward that target.`;
-
-    }
-
-
-    else {
-
-
-        reason =
-
-            `Your current weight and goal weight are both ${current.toFixed(1)} kg. The tracker therefore suggests maintaining your current body weight.`;
-
-    }
-
-
-    const alreadySelected =
-
-        getCurrentGoal()
-        ===
-        suggestedGoal;
-
-
-    container.style.display =
-        "block";
-
-
-    container.innerHTML = `
-
-        <div class="suggestion-card">
-
-
-            <div class="suggestion-label">
-
-                Goal Suggestion
-
-            </div>
-
-
-            <div class="suggestion-title">
-
-                ${data.icon}
-                ${data.name}
-
-            </div>
-
-
-            <div class="suggestion-reason">
-
-                ${reason}
-
-            </div>
-
-
-            <div class="suggestion-target">
-
-
-                <div class="suggestion-target-box">
-
-
-                    <div class="suggestion-target-label">
-
-                        DAILY CALORIES
-
-                    </div>
-
-
-                    <div class="suggestion-target-value">
-
-                        ${data.dailyCalories
-                            .toLocaleString()}
-
-                    </div>
-
-
-                </div>
-
-
-                <div class="suggestion-target-box">
-
-
-                    <div class="suggestion-target-label">
-
-                        DAILY PROTEIN
-
-                    </div>
-
-
-                    <div class="suggestion-target-value">
-
-                        ${DAILY_PROTEIN_TARGET}g
-
-                    </div>
-
-
-                </div>
-
-
-            </div>
-
-
-            ${
-                alreadySelected
-
-                ?
-
-                `
-
-                    <button
-                        class="secondary-button"
-                        disabled
-                        style="
-                            color:#777;
-                            border-color:#333;
-                            cursor:default;
-                        ">
-
-                        ✓ ${data.name} Already Selected
-
-                    </button>
-
-                `
-
-                :
-
-                `
-
-                    <button
-                        class="primary-button"
-                        onclick="applySuggestedGoal('${suggestedGoal}')">
-
-                        Use Suggested ${data.name}
-
-                    </button>
-
-                `
-
-            }
-
-
-            <div class="suggestion-note">
-
-                This is a simple goal-direction suggestion
-                based on your current and target weight.
-
-            </div>
-
-
-        </div>
-
-    `;
-
+    loadWeightGoal();
 }
-
-
-/* =========================================================
-   WEEKLY WEIGHT
-   ========================================================= */
 
 function saveWeeklyWeight() {
 
-
-    const weight =
-
+    let weight =
         Number(
-
-            document.getElementById(
-                "weeklyWeight"
-            ).value
-
+            document.getElementById("weeklyWeightInput").value
         );
 
-
-    if (
-        !weight ||
-        weight <= 0
-    ) {
-
-
-        alert(
-            "Please enter a valid weight."
-        );
-
-
+    if (!weight) {
+        alert("Enter your weight.");
         return;
-
     }
 
-
-    const now =
-        Date.now();
-
-
-    const entry = {
-
-        weight:
-            weight,
-
-        timestamp:
-            now,
-
-        date:
-            getToday()
-
-    };
-
-
     let history =
-
         JSON.parse(
+            localStorage.getItem("weightHistory") || "[]"
+        );
 
-            localStorage.getItem(
-                "weightHistory"
-            )
-
-        )
-
-        ||
-
-        [];
-
-
-    history.push(
-        entry
-    );
-
+    history.unshift({
+        date: new Date().toISOString(),
+        weight: weight
+    });
 
     localStorage.setItem(
-
         "weightHistory",
-
-        JSON.stringify(
-            history
-        )
-
+        JSON.stringify(history)
     );
 
-
     localStorage.setItem(
-
-        "lastWeightEntry",
-
-        now
-
-    );
-
-
-    localStorage.setItem(
-
         "weightCurrent",
-
         weight
-
     );
 
+    localStorage.setItem(
+        "lastWeightEntry",
+        Date.now()
+    );
+
+    if (profile) {
+
+        profile.weight = weight;
+
+        let targets =
+            calculateTargets(profile);
+
+        profile.targets = targets;
+
+        localStorage.setItem(
+            "userProfile",
+            JSON.stringify(profile)
+        );
+
+        updateTheme();
+        updateTargets();
+        loadTotals();
+        loadWeek();
+    }
 
     document.getElementById(
-        "currentWeight"
-    ).value =
-        weight;
-
-
-    document.getElementById(
-        "weeklyWeight"
+        "weeklyWeightInput"
     ).value = "";
 
-
+    loadWeightGoal();
     updateWeightEntryState();
-
-    updateWeightGoalDisplay();
-
     renderWeightHistory();
-
     drawWeightGraph();
-
 }
-
-
-/* =========================================================
-   WEIGHT LOCK
-   ========================================================= */
 
 function updateWeightEntryState() {
 
-
-    const button =
-
-        document.getElementById(
-            "saveWeeklyWeightButton"
-        );
-
-
-    const input =
-
-        document.getElementById(
-            "weeklyWeight"
-        );
-
-
-    const resetButton =
-
-        document.getElementById(
-            "resetWeightEntryButton"
-        );
-
-
-    const status =
-
-        document.getElementById(
-            "weightEntryStatus"
-        );
-
-
-    const lastEntry =
-
+    let last =
         Number(
-
-            localStorage.getItem(
-                "lastWeightEntry"
-            )
-
+            localStorage.getItem("lastWeightEntry") || 0
         );
 
+    let sevenDays =
+        7 * 24 * 60 * 60 * 1000;
 
-    if (!lastEntry) {
+    let button =
+        document.getElementById("weightEntryButton");
 
+    let input =
+        document.getElementById("weeklyWeightInput");
 
-        button.disabled = false;
+    let status =
+        document.getElementById("weightEntryStatus");
 
-        input.disabled = false;
+    if (last && Date.now() - last < sevenDays) {
 
-        resetButton.style.display =
-            "none";
+        let remaining =
+            sevenDays - (Date.now() - last);
 
+        let days =
+            Math.ceil(
+                remaining / (24 * 60 * 60 * 1000)
+            );
 
-        status.textContent =
+        button.disabled = true;
+        input.disabled = true;
 
-            "You can enter your weight once every 7 days.";
+        button.innerText =
+            "Weigh-In Locked";
 
+        button.classList.add("locked");
 
-        return;
+        status.innerText =
+            "Next weigh-in available in approximately " +
+            days + " day" +
+            (days === 1 ? "" : "s") + ".";
 
     }
-
-
-    const sevenDays =
-
-        7 *
-        24 *
-        60 *
-        60 *
-        1000;
-
-
-    const timePassed =
-
-        Date.now()
-        -
-        lastEntry;
-
-
-    if (
-        timePassed >= sevenDays
-    ) {
-
+    else {
 
         button.disabled = false;
-
         input.disabled = false;
 
-        resetButton.style.display =
-            "none";
+        button.innerText =
+            "Save Weekly Weight";
 
+        button.classList.remove("locked");
 
-        status.textContent =
-
-            "Your weekly weigh-in is ready.";
-
-
-        return;
-
+        status.innerText =
+            "You can enter your weekly weight.";
     }
-
-
-    const remaining =
-
-        sevenDays
-        -
-        timePassed;
-
-
-    const days =
-
-        Math.floor(
-
-            remaining
-            /
-            (
-                24 *
-                60 *
-                60 *
-                1000
-            )
-
-        );
-
-
-    const hours =
-
-        Math.ceil(
-
-            (
-
-                remaining
-                %
-                (
-                    24 *
-                    60 *
-                    60 *
-                    1000
-                )
-
-            )
-
-            /
-
-            (
-                60 *
-                60 *
-                1000
-            )
-
-        );
-
-
-    button.disabled = true;
-
-    input.disabled = true;
-
-    resetButton.style.display =
-        "block";
-
-
-    status.innerHTML =
-
-        `✓ Weight recorded.<br>
-         Next weigh-in available in
-         <strong>${days}d ${hours}h</strong>.`;
-
 }
-
-
-/* =========================================================
-   RESET WEIGHT ENTRY
-   ========================================================= */
 
 function resetWeeklyWeight() {
 
-
-    if (
-
-        !confirm(
-
-            "Reset this weekly weigh-in so you can enter it again?"
-
-        )
-
-    ) {
-
-        return;
-
-    }
-
-
     let history =
-
         JSON.parse(
+            localStorage.getItem("weightHistory") || "[]"
+        );
 
-            localStorage.getItem(
-                "weightHistory"
-            )
-
-        )
-
-        ||
-
-        [];
-
-
-    if (
-        history.length > 0
-    ) {
-
-        history.pop();
-
+    if (history.length > 0) {
+        history.shift();
     }
-
 
     localStorage.setItem(
-
         "weightHistory",
-
-        JSON.stringify(
-            history
-        )
-
+        JSON.stringify(history)
     );
-
 
     localStorage.removeItem(
         "lastWeightEntry"
     );
 
-
-    document.getElementById(
-        "weeklyWeight"
-    ).value = "";
-
-
-    if (
-        history.length > 0
-    ) {
-
-
-        const latest =
-            history[
-                history.length - 1
-            ];
-
-
-        localStorage.setItem(
-
-            "weightCurrent",
-
-            latest.weight
-
-        );
-
-
-        document.getElementById(
-            "currentWeight"
-        ).value =
-            latest.weight;
-
-
-    }
-
-
-    updateWeightEntryState();
-
     renderWeightHistory();
-
+    updateWeightEntryState();
     drawWeightGraph();
-
-    updateWeightGoalDisplay();
-
 }
-
-
-/* =========================================================
-   WEIGHT HISTORY
-   ========================================================= */
 
 function renderWeightHistory() {
 
-
-    const container =
-
-        document.getElementById(
-            "weightHistory"
+    let history =
+        JSON.parse(
+            localStorage.getItem("weightHistory") || "[]"
         );
 
-
-    let history =
-
-        JSON.parse(
-
-            localStorage.getItem(
-                "weightHistory"
-            )
-
-        )
-
-        ||
-
-        [];
-
-
-    if (
-        history.length === 0
-    ) {
-
-
-        container.innerHTML =
-
-            `<div class="no-history">
-                No weekly weigh-ins yet.
-             </div>`;
-
-        return;
-
-    }
-
-
-    history =
-        [...history].reverse();
-
+    let container =
+        document.getElementById("weightHistory");
 
     container.innerHTML = "";
 
+    if (!history.length) {
 
-    history.forEach(
+        container.innerHTML =
+            '<p style="color:#777">No weigh-ins yet.</p>';
 
-        entry => {
+        return;
+    }
 
+    history.forEach(item => {
 
-            const item =
+        let div =
+            document.createElement("div");
 
-                document.createElement(
-                    "div"
-                );
+        div.className =
+            "history-item";
 
+        let date =
+            new Date(item.date)
+                .toLocaleDateString();
 
-            item.className =
-                "weight-history-item";
+        div.innerHTML =
+            "<span>" + date + "</span>" +
+            "<strong>" + item.weight + " kg</strong>";
 
+        container.appendChild(div);
 
-            const date =
-
-                new Date(
-                    entry.timestamp
-                );
-
-
-            const dateText =
-
-                date.toLocaleDateString(
-
-                    "en-ZA",
-
-                    {
-
-                        day:
-                            "numeric",
-
-                        month:
-                            "short",
-
-                        year:
-                            "numeric"
-
-                    }
-
-                );
-
-
-            item.innerHTML = `
-
-                <div class="weight-history-date">
-
-                    ${dateText}
-
-                </div>
-
-
-                <div class="weight-history-weight">
-
-                    ${Number(
-                        entry.weight
-                    ).toFixed(1)} kg
-
-                </div>
-
-            `;
-
-
-            container.appendChild(
-                item
-            );
-
-
-        }
-
-    );
-
+    });
 }
-
-
-/* =========================================================
-   WEIGHT GRAPH
-   ========================================================= */
 
 function drawWeightGraph() {
 
-
-    const container =
-
-        document.getElementById(
-            "weightGraph"
-        );
-
-
     let history =
-
         JSON.parse(
-
-            localStorage.getItem(
-                "weightHistory"
-            )
-
-        )
-
-        ||
-
-        [];
-
-
-    if (
-        history.length === 0
-    ) {
-
-
-        container.innerHTML = `
-
-            <div class="weight-graph-empty">
-
-                Your weight graph will appear
-                after your first weekly weigh-in.
-
-            </div>
-
-        `;
-
-
-        return;
-
-    }
-
-
-    const values =
-
-        history.map(
-            entry =>
-                Number(
-                    entry.weight
-                )
+            localStorage.getItem("weightHistory") || "[]"
         );
 
+    let graph =
+        document.getElementById("weightGraph");
 
-    const minWeight =
+    graph.innerHTML = "";
 
-        Math.min(
-            ...values
-        );
+    if (!history.length) return;
 
+    let values =
+        history.map(item => Number(item.weight));
 
-    const maxWeight =
+    let max =
+        Math.max(...values);
 
-        Math.max(
-            ...values
-        );
+    let min =
+        Math.min(...values);
 
+    let range =
+        Math.max(max - min, 1);
 
-    const goal =
+    /*
+       Show oldest to newest.
+    */
 
-        Number(
+    [...history].reverse().forEach(item => {
 
-            localStorage.getItem(
-                "weightGoal"
-            )
+        let day =
+            document.createElement("div");
 
-        );
+        day.className =
+            "graph-day";
 
+        let bar =
+            document.createElement("div");
 
-    const graphMin =
+        bar.className =
+            "graph-bar";
 
-        Math.floor(
+        let height =
+            20 +
+            ((item.weight - min) / range) * 80;
 
-            Math.min(
-                minWeight,
-                goal || minWeight
-            )
-            -
-            1
+        bar.style.height =
+            height + "%";
 
-        );
+        day.appendChild(bar);
 
-
-    const graphMax =
-
-        Math.ceil(
-
-            Math.max(
-                maxWeight,
-                goal || maxWeight
-            )
-            +
-            1
-
-        );
-
-
-    const width = 500;
-
-    const height = 210;
-
-    const paddingLeft = 42;
-
-    const paddingRight = 15;
-
-    const paddingTop = 10;
-
-    const paddingBottom = 25;
-
-
-    const graphWidth =
-
-        width
-        -
-        paddingLeft
-        -
-        paddingRight;
-
-
-    const graphHeight =
-
-        height
-        -
-        paddingTop
-        -
-        paddingBottom;
-
-
-    function xPosition(index) {
-
-
-        if (
-            history.length === 1
-        ) {
-
-            return (
-                paddingLeft
-                +
-                graphWidth / 2
-            );
-
-        }
-
-
-        return (
-
-            paddingLeft
-            +
-            (
-                index
-                /
-                (
-                    history.length - 1
-                )
-            )
-            *
-            graphWidth
-
-        );
-
-    }
-
-
-    function yPosition(weight) {
-
-
-        const range =
-
-            graphMax -
-            graphMin;
-
-
-        if (
-            range === 0
-        ) {
-
-            return (
-                paddingTop
-                +
-                graphHeight / 2
-            );
-
-        }
-
-
-        return (
-
-            paddingTop
-            +
-            (
-                1
-                -
-                (
-                    weight -
-                    graphMin
-                )
-                /
-                range
-            )
-            *
-            graphHeight
-
-        );
-
-    }
-
-
-    let svg = `
-
-        <svg
-            class="weight-svg"
-            viewBox="0 0 ${width} ${height}"
-            preserveAspectRatio="none">
-
-    `;
-
-
-    for (
-        let i = 0;
-        i <= 4;
-        i++
-    ) {
-
-
-        const weight =
-
-            graphMin
-            +
-            (
-                graphMax -
-                graphMin
-            )
-            *
-            (
-                i / 4
-            );
-
-
-        const y =
-            yPosition(
-                weight
-            );
-
-
-        svg += `
-
-            <line
-                x1="${paddingLeft}"
-                y1="${y}"
-                x2="${width - paddingRight}"
-                y2="${y}"
-                class="weight-graph-grid">
-            </line>
-
-
-            <text
-                x="${paddingLeft - 6}"
-                y="${y + 3}"
-                text-anchor="end"
-                class="weight-graph-label">
-
-                ${weight.toFixed(1)}
-
-            </text>
-
-        `;
-
-    }
-
-
-    if (
-        goal > 0 &&
-        goal >= graphMin &&
-        goal <= graphMax
-    ) {
-
-
-        const goalY =
-            yPosition(
-                goal
-            );
-
-
-        svg += `
-
-            <line
-                x1="${paddingLeft}"
-                y1="${goalY}"
-                x2="${width - paddingRight}"
-                y2="${goalY}"
-                stroke="var(--accent)"
-                stroke-width="1"
-                stroke-dasharray="5 5"
-                opacity="0.6">
-            </line>
-
-        `;
-
-    }
-
-
-    let path = "";
-
-
-    history.forEach(
-
-        (
-            entry,
-            index
-        ) => {
-
-
-            const x =
-                xPosition(index);
-
-
-            const y =
-                yPosition(
-                    Number(
-                        entry.weight
-                    )
-                );
-
-
-            if (
-                index === 0
-            ) {
-
-
-                path +=
-                    `M ${x} ${y}`;
-
-
-            }
-
-            else {
-
-
-                path +=
-                    ` L ${x} ${y}`;
-
-            }
-
-        }
-
-    );
-
-
-    svg += `
-
-        <path
-            d="${path}"
-            class="weight-graph-line">
-        </path>
-
-    `;
-
-
-    history.forEach(
-
-        (
-            entry,
-            index
-        ) => {
-
-
-            const x =
-                xPosition(index);
-
-
-            const y =
-                yPosition(
-                    Number(
-                        entry.weight
-                    )
-                );
-
-
-            svg += `
-
-                <circle
-                    cx="${x}"
-                    cy="${y}"
-                    r="5"
-                    class="weight-graph-point">
-
-                </circle>
-
-            `;
-
-
-            const date =
-
-                new Date(
-                    entry.timestamp
-                );
-
-
-            const label =
-
-                date.toLocaleDateString(
-
-                    "en-ZA",
-
-                    {
-
-                        day:
-                            "numeric",
-
-                        month:
-                            "short"
-
-                    }
-
-                );
-
-
-            svg += `
-
-                <text
-                    x="${x}"
-                    y="${height - 5}"
-                    text-anchor="middle"
-                    class="weight-graph-label">
-
-                    ${label}
-
-                </text>
-
-            `;
-
-        }
-
-    );
-
-
-    svg += `
-
-        </svg>
-
-    `;
-
-
-    container.innerHTML =
-        svg;
-
+        graph.appendChild(day);
+    });
 }
-
-
-/* =========================================================
-   DASHBOARD TABS
-   ========================================================= */
-
-function showPage(
-    page,
-    button
-) {
-
-
-    checkEasterEgg(page);
-
-
-    document
-        .querySelectorAll(
-            "#dashboardScreen .page"
-        )
-        .forEach(
-
-            p =>
-                p.classList.remove(
-                    "active"
-                )
-
-        );
-
-
-    document
-        .getElementById(page)
-        .classList
-        .add("active");
-
-
-    document
-        .querySelectorAll(
-            "#dashboardScreen .tab-button"
-        )
-        .forEach(
-
-            b =>
-                b.classList.remove(
-                    "active"
-                )
-
-        );
-
-
-    button.classList.add(
-        "active"
-    );
-
-
-    if (
-        page === "graphs"
-    ) {
-
-        drawGraphs();
-
-    }
-
-
-    if (
-        page === "weight"
-    ) {
-
-        loadWeightGoal();
-
-        updateWeightEntryState();
-
-        renderWeightHistory();
-
-        drawWeightGraph();
-
-    }
-
-}
-
 
 /* =========================================================
    EASTER EGG
-   ========================================================= */
-
-let tabSwitchCount = 0;
-
-let lastTab = null;
-
-let firstSwitchTime = null;
-
-
-const EASTER_EGG_SWITCHES = 5;
-
-const EASTER_EGG_TIME = 2500;
-
+========================================================= */
 
 function checkEasterEgg(page) {
 
-
-    const now =
-        Date.now();
-
+    let now = Date.now();
 
     if (
-
-        firstSwitchTime === null
-
-        ||
-
-        now - firstSwitchTime >
-            EASTER_EGG_TIME
-
-        ||
-
-        page === lastTab
-
+        now - lastTabSwitch > 2500
     ) {
-
-
         tabSwitchCount = 0;
-
-        firstSwitchTime = now;
-
     }
 
+    tabSwitchCount++;
+    lastTabSwitch = now;
 
-    if (
-        page !== lastTab
-    ) {
+    if (tabSwitchCount >= 5) {
 
-        tabSwitchCount++;
-
-    }
-
-
-    lastTab =
-        page;
-
-
-    if (
-
-        tabSwitchCount >=
-        EASTER_EGG_SWITCHES
-
-    ) {
-
-
-        activateEasterEgg();
-
-
-        tabSwitchCount = 0;
-
-        firstSwitchTime = null;
-
-        lastTab = null;
-
-    }
-
-}
-
-
-function activateEasterEgg() {
-
-
-    document
-        .getElementById(
+        document.getElementById(
             "easterEgg"
-        )
-        .classList
-        .add("show");
+        ).classList.add("active");
 
+        tabSwitchCount = 0;
+    }
 }
-
 
 function closeEasterEgg() {
 
-
-    document
-        .getElementById(
-            "easterEgg"
-        )
-        .classList
-        .remove("show");
-
+    document.getElementById(
+        "easterEgg"
+    ).classList.remove("active");
 }
-
-
-/* =========================================================
-   GRAPHS
-   ========================================================= */
-
-function drawGraphs() {
-
-
-    const goal =
-        getGoalData();
-
-
-    const history =
-
-        JSON.parse(
-
-            localStorage.getItem(
-                "dailyHistory"
-            )
-
-        )
-
-        ||
-
-        {};
-
-
-    const dates =
-        getWeekDates();
-
-
-    const calories =
-
-        dates.map(
-
-            date =>
-
-                history[date]
-
-                    ?
-
-                    history[date]
-                        .calories
-
-                    :
-
-                    0
-
-        );
-
-
-    const protein =
-
-        dates.map(
-
-            date =>
-
-                history[date]
-
-                    ?
-
-                    history[date]
-                        .protein
-
-                    :
-
-                    0
-
-        );
-
-
-    drawBarGraph(
-
-        "calorieBars",
-
-        "calorieYLabels",
-
-        "calorieTargetLine",
-
-        calories,
-
-        goal.dailyCalories,
-
-        500
-
-    );
-
-
-    drawBarGraph(
-
-        "proteinBars",
-
-        "proteinYLabels",
-
-        "proteinTargetLine",
-
-        protein,
-
-        DAILY_PROTEIN_TARGET,
-
-        40
-
-    );
-
-}
-
-
-/* =========================================================
-   BAR GRAPH
-   ========================================================= */
-
-function drawBarGraph(
-
-    barsID,
-
-    labelsID,
-
-    targetID,
-
-    values,
-
-    target,
-
-    roundAmount
-
-) {
-
-
-    const bars =
-
-        document.getElementById(
-            barsID
-        );
-
-
-    const labels =
-
-        document.getElementById(
-            labelsID
-        );
-
-
-    bars.innerHTML = "";
-
-    labels.innerHTML = "";
-
-
-    let maxValue =
-
-        Math.max(
-
-            target,
-
-            ...values
-
-        );
-
-
-    maxValue =
-
-        Math.ceil(
-
-            maxValue
-            /
-            roundAmount
-
-        )
-
-        *
-        roundAmount;
-
-
-    if (
-        maxValue === 0
-    ) {
-
-        maxValue =
-            roundAmount;
-
-    }
-
-
-    for (
-
-        let i = 4;
-
-        i >= 0;
-
-        i--
-
-    ) {
-
-
-        const value =
-
-            Math.round(
-
-                maxValue
-                *
-                (i / 4)
-
-            );
-
-
-        const label =
-
-            document.createElement(
-                "div"
-            );
-
-
-        label.textContent =
-
-            value
-                .toLocaleString();
-
-
-        labels.appendChild(
-            label
-        );
-
-    }
-
-
-    const targetLine =
-
-        document.getElementById(
-            targetID
-        );
-
-
-    targetLine.style.top =
-
-        (
-
-            100
-
-            -
-
-            (
-
-                target
-                /
-                maxValue
-                *
-                100
-
-            )
-
-        )
-
-        +
-
-        "%";
-
-
-    const days = [
-
-        "Mon",
-
-        "Tue",
-
-        "Wed",
-
-        "Thu",
-
-        "Fri",
-
-        "Sat",
-
-        "Sun"
-
-    ];
-
-
-    values.forEach(
-
-        (
-            value,
-            index
-        ) => {
-
-
-            const column =
-
-                document.createElement(
-                    "div"
-                );
-
-
-            column.className =
-                "bar-column";
-
-
-            const bar =
-
-                document.createElement(
-                    "div"
-                );
-
-
-            bar.className =
-                "bar";
-
-
-            const height =
-
-                maxValue > 0
-
-                    ?
-
-                    (
-                        value
-                        /
-                        maxValue
-                        *
-                        100
-                    )
-
-                    :
-
-                    0;
-
-
-            bar.style.height =
-                height + "%";
-
-
-            bar.title =
-                value.toLocaleString();
-
-
-            const day =
-
-                document.createElement(
-                    "div"
-                );
-
-
-            day.className =
-                "day-label";
-
-
-            day.textContent =
-                days[index];
-
-
-            column.appendChild(
-                bar
-            );
-
-
-            column.appendChild(
-                day
-            );
-
-
-            bars.appendChild(
-                column
-            );
-
-
-        }
-
-    );
-
-}
-
 
 /* =========================================================
    STARTUP
-   ========================================================= */
+========================================================= */
 
-checkNewDay();
+function startApp() {
 
-checkNewWeek();
+    if (!profile) {
 
-displayDate();
+        document.getElementById(
+            "setupScreen"
+        ).style.display = "block";
 
-updateTheme();
+        document.getElementById(
+            "mainApp"
+        ).style.display = "none";
 
-updateTargets();
+        return;
+    }
 
-loadTotals();
+    checkNewDay();
+    checkNewWeek();
 
-loadWeek();
+    document.getElementById(
+        "setupScreen"
+    ).style.display = "none";
 
-drawGraphs();
+    document.getElementById(
+        "mainApp"
+    ).style.display = "block";
 
-loadWeightGoal();
+    updateTheme();
+    updateTargets();
+    loadTotals();
+    loadWeek();
+    drawGraphs();
+    loadWeightGoal();
+    updateWeightEntryState();
+    renderWeightHistory();
+    drawWeightGraph();
+}
 
-updateWeightEntryState();
-
-renderWeightHistory();
-
-drawWeightGraph();
-
-
-/*
-   Keep weekly weight lock accurate.
-*/
+startApp();
 
 setInterval(
-
     updateWeightEntryState,
-
     60000
-
 );
 
-
 </script>
-
 
 </body>
 </html>
