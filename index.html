@@ -22,7 +22,7 @@
 <style>
 
 /* =========================================================
-   THEME COLOURS
+   THEME
    ========================================================= */
 
 :root {
@@ -174,7 +174,7 @@ h1 {
 
     flex: 1;
 
-    padding: 14px;
+    padding: 14px 8px;
 
     border-radius: 12px;
 
@@ -373,6 +373,8 @@ button {
 
     transform: none;
 
+    cursor: not-allowed;
+
 }
 
 
@@ -513,11 +515,6 @@ button {
 
 }
 
-
-/*
-   When over target, the bar becomes red.
-   This is intentionally a warning state.
-*/
 
 .over-target {
 
@@ -846,6 +843,322 @@ button {
 
 
 /* =========================================================
+   WEIGHT GOAL
+   ========================================================= */
+
+.weight-goal-card {
+
+    background: #151515;
+
+    border: 1px solid #292929;
+
+    border-radius: 16px;
+
+    padding: 20px;
+
+    margin-bottom: 18px;
+
+}
+
+
+.weight-goal-card h2 {
+
+    margin-top: 0;
+
+}
+
+
+.weight-summary {
+
+    margin-top: 18px;
+
+    padding: 16px;
+
+    background: #101010;
+
+    border-radius: 12px;
+
+    border: 1px solid #292929;
+
+    text-align: center;
+
+}
+
+
+.weight-big {
+
+    font-size: 34px;
+
+    font-weight: bold;
+
+    color: var(--accent);
+
+}
+
+
+.weight-small {
+
+    color: #999;
+
+    font-size: 13px;
+
+    margin-top: 4px;
+
+}
+
+
+.weight-progress {
+
+    margin-top: 15px;
+
+}
+
+
+.weight-progress-bar {
+
+    width: 100%;
+
+    height: 12px;
+
+    background: #292929;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+}
+
+
+.weight-progress-fill {
+
+    height: 100%;
+
+    background: var(--accent);
+
+    box-shadow:
+        0 0 10px var(--accent-glow);
+
+    border-radius: 20px;
+
+    transition:
+        width 0.3s ease;
+
+}
+
+
+/* =========================================================
+   WEEKLY WEIGH-IN
+   ========================================================= */
+
+.weight-entry {
+
+    background: #151515;
+
+    border: 1px solid #292929;
+
+    border-radius: 16px;
+
+    padding: 20px;
+
+    margin-bottom: 18px;
+
+}
+
+
+.weight-entry h2 {
+
+    margin-top: 0;
+
+}
+
+
+.weight-status {
+
+    margin-top: 10px;
+
+    color: #999;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+
+}
+
+
+.weight-input {
+
+    font-size: 20px;
+
+    font-weight: bold;
+
+    text-align: center;
+
+}
+
+
+.weight-entry-button {
+
+    margin-top: 12px;
+
+}
+
+
+.weight-entry-button:disabled {
+
+    background: #333;
+
+    color: #777;
+
+    box-shadow: none;
+
+}
+
+
+/* =========================================================
+   WEIGHT HISTORY
+   ========================================================= */
+
+.weight-history-item {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 13px 0;
+
+    border-bottom: 1px solid #292929;
+
+}
+
+
+.weight-history-item:last-child {
+
+    border-bottom: none;
+
+}
+
+
+.weight-history-date {
+
+    color: #aaa;
+
+    font-size: 13px;
+
+}
+
+
+.weight-history-weight {
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+    color: var(--accent);
+
+}
+
+
+.no-history {
+
+    color: #777;
+
+    text-align: center;
+
+    padding: 15px 0;
+
+}
+
+
+/* =========================================================
+   WEIGHT GRAPH
+   ========================================================= */
+
+.weight-chart {
+
+    position: relative;
+
+    height: 260px;
+
+    margin-top: 15px;
+
+}
+
+
+.weight-svg {
+
+    width: 100%;
+
+    height: 220px;
+
+    display: block;
+
+}
+
+
+.weight-graph-line {
+
+    fill: none;
+
+    stroke: var(--accent);
+
+    stroke-width: 3;
+
+    stroke-linecap: round;
+
+    stroke-linejoin: round;
+
+}
+
+
+.weight-graph-point {
+
+    fill: var(--accent);
+
+    stroke: #090909;
+
+    stroke-width: 3;
+
+}
+
+
+.weight-graph-grid {
+
+    stroke: #292929;
+
+    stroke-width: 1;
+
+}
+
+
+.weight-graph-label {
+
+    fill: #777;
+
+    font-size: 10px;
+
+}
+
+
+.weight-graph-empty {
+
+    height: 220px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: #777;
+
+    text-align: center;
+
+}
+
+
+/* =========================================================
    EASTER EGG
    ========================================================= */
 
@@ -1017,6 +1330,13 @@ button {
 
     }
 
+
+    .tab-button {
+
+        font-size: 14px;
+
+    }
+
 }
 
 </style>
@@ -1064,23 +1384,17 @@ button {
 
 
             <option value="cut">
-
                 🥗 Cut — 1,900 kcal
-
             </option>
 
 
             <option value="maintenance">
-
                 ⚖️ Maintenance — 2,400 kcal
-
             </option>
 
 
             <option value="bulk">
-
                 💪 Bulk — 2,700 kcal
-
             </option>
 
 
@@ -1115,6 +1429,15 @@ button {
         </button>
 
 
+        <button
+            class="tab-button"
+            onclick="showPage('weight', this)">
+
+            WG
+
+        </button>
+
+
     </div>
 
 
@@ -1127,9 +1450,7 @@ button {
         class="page active">
 
 
-        <!-- =================================================
-             ADD FOOD
-             ================================================= -->
+        <!-- ADD FOOD -->
 
         <div class="card">
 
@@ -1277,9 +1598,7 @@ button {
         </div>
 
 
-        <!-- =================================================
-             TODAY'S TOTAL
-             ================================================= -->
+        <!-- TODAY -->
 
         <div class="card">
 
@@ -1359,12 +1678,11 @@ button {
             </div>
 
 
-            <!-- CALORIE PROGRESS -->
-
             <div class="progress-container">
 
 
                 <div class="progress-header">
+
 
                     <span>
                         Calories
@@ -1377,6 +1695,7 @@ button {
                         0%
 
                     </span>
+
 
                 </div>
 
@@ -1398,12 +1717,11 @@ button {
             </div>
 
 
-            <!-- PROTEIN PROGRESS -->
-
             <div class="progress-container">
 
 
                 <div class="progress-header">
+
 
                     <span>
                         Protein
@@ -1416,6 +1734,7 @@ button {
                         0%
 
                     </span>
+
 
                 </div>
 
@@ -1436,8 +1755,6 @@ button {
 
             </div>
 
-
-            <!-- REMAINING -->
 
             <div class="remaining">
 
@@ -1516,9 +1833,7 @@ button {
         </div>
 
 
-        <!-- =================================================
-             WEEK
-             ================================================= -->
+        <!-- WEEK -->
 
         <div class="card">
 
@@ -1527,8 +1842,6 @@ button {
                 This Week
             </h2>
 
-
-            <!-- WEEK CALORIES -->
 
             <div class="week-row">
 
@@ -1594,8 +1907,6 @@ button {
 
             </div>
 
-
-            <!-- WEEK PROTEIN -->
 
             <div class="week-row">
 
@@ -1688,8 +1999,6 @@ button {
         class="page">
 
 
-        <!-- WEEKLY CALORIES -->
-
         <div class="graph-card">
 
 
@@ -1763,8 +2072,6 @@ button {
 
         </div>
 
-
-        <!-- WEEKLY PROTEIN -->
 
         <div class="graph-card">
 
@@ -1841,11 +2148,177 @@ button {
     </div>
 
 
+    <!-- =====================================================
+         WEIGHT GOAL PAGE
+         ===================================================== -->
+
+    <div
+        id="weight"
+        class="page">
+
+
+        <!-- WEIGHT GOAL -->
+
+        <div class="weight-goal-card">
+
+
+            <h2>
+                Weight Goal
+            </h2>
+
+
+            <label>
+                Current Weight (kg)
+            </label>
+
+
+            <input
+                type="number"
+                id="currentWeight"
+                class="weight-input"
+                step="0.1"
+                min="0"
+                placeholder="e.g. 72.0">
+
+
+            <label>
+                Goal Weight (kg)
+            </label>
+
+
+            <input
+                type="number"
+                id="goalWeight"
+                class="weight-input"
+                step="0.1"
+                min="0"
+                placeholder="e.g. 68.0">
+
+
+            <button
+                class="primary-button"
+                onclick="saveWeightGoal()">
+
+                Save Weight Goal
+
+            </button>
+
+
+            <div
+                id="weightSummary"
+                class="weight-summary">
+
+                Enter your current and goal weight above.
+
+            </div>
+
+
+        </div>
+
+
+        <!-- WEEKLY WEIGH-IN -->
+
+        <div class="weight-entry">
+
+
+            <h2>
+                Weekly Weight
+            </h2>
+
+
+            <label>
+                This Week's Weight (kg)
+            </label>
+
+
+            <input
+                type="number"
+                id="weeklyWeight"
+                class="weight-input"
+                step="0.1"
+                min="0"
+                placeholder="Enter weight">
+
+
+            <button
+                id="saveWeeklyWeightButton"
+                class="primary-button weight-entry-button"
+                onclick="saveWeeklyWeight()">
+
+                Save Weekly Weight
+
+            </button>
+
+
+            <button
+                id="resetWeightEntryButton"
+                class="secondary-button"
+                onclick="resetWeeklyWeight()">
+
+                Reset Weekly Entry
+
+            </button>
+
+
+            <div
+                id="weightEntryStatus"
+                class="weight-status">
+
+                You can enter your weight once every 7 days.
+
+            </div>
+
+
+        </div>
+
+
+        <!-- WEIGHT HISTORY -->
+
+        <div class="card">
+
+
+            <h2>
+                Weight History
+            </h2>
+
+
+            <div
+                id="weightHistory">
+
+            </div>
+
+
+        </div>
+
+
+        <!-- WEIGHT GRAPH -->
+
+        <div class="graph-card">
+
+
+            <h2>
+                Weight Trend
+            </h2>
+
+
+            <div
+                id="weightGraph"
+                class="weight-chart">
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
 </div>
 
 
 <!-- =========================================================
-     SECRET EASTER EGG
+     EASTER EGG
      ========================================================= -->
 
 <div
@@ -1957,8 +2430,6 @@ function updateTheme() {
     ) {
 
 
-        /* NEON GREEN */
-
         accent =
             "#39ff14";
 
@@ -1975,8 +2446,6 @@ function updateTheme() {
     ) {
 
 
-        /* PURPLE */
-
         accent =
             "#7b2cff";
 
@@ -1988,12 +2457,8 @@ function updateTheme() {
     }
 
 
-    else if (
-        goal === "bulk"
-    ) {
+    else {
 
-
-        /* NEON RED */
 
         accent =
             "#ff1744";
@@ -2024,7 +2489,7 @@ function updateTheme() {
 
 
 /* =========================================================
-   CURRENT GOAL
+   GOAL
    ========================================================= */
 
 function getCurrentGoal() {
@@ -2042,7 +2507,6 @@ function getCurrentGoal() {
 
     );
 
-
 }
 
 
@@ -2053,26 +2517,25 @@ function getGoalData() {
         getCurrentGoal()
     ];
 
-
 }
 
-
-/* =========================================================
-   CHANGE GOAL
-   ========================================================= */
 
 function changeGoal() {
 
 
     const selectedGoal =
+
         document.getElementById(
             "goalSelect"
         ).value;
 
 
     localStorage.setItem(
+
         "currentGoal",
+
         selectedGoal
+
     );
 
 
@@ -2103,6 +2566,7 @@ function updateTargets() {
     document.getElementById(
         "dailyCalorieTarget"
     ).textContent =
+
         goal.dailyCalories
             .toLocaleString();
 
@@ -2110,6 +2574,7 @@ function updateTargets() {
     document.getElementById(
         "weeklyCalorieTarget"
     ).textContent =
+
         goal.weeklyCalories
             .toLocaleString();
 
@@ -2229,12 +2694,10 @@ const drinks = {
 function getToday() {
 
 
-    const d =
-        new Date();
+    return new Date()
 
-
-    return d
         .toISOString()
+
         .split("T")[0];
 
 
@@ -2270,12 +2733,11 @@ function displayDate() {
 
         );
 
-
 }
 
 
 /* =========================================================
-   WEEK ID
+   WEEK
    ========================================================= */
 
 function getWeekID() {
@@ -2317,13 +2779,8 @@ function getWeekID() {
 
         .split("T")[0];
 
-
 }
 
-
-/* =========================================================
-   WEEK DATES
-   ========================================================= */
 
 function getWeekDates() {
 
@@ -2411,6 +2868,7 @@ function checkNewDay() {
 
 
     const savedDate =
+
         localStorage.getItem(
             "savedDate"
         );
@@ -2441,7 +2899,6 @@ function checkNewDay() {
 
     }
 
-
 }
 
 
@@ -2457,6 +2914,7 @@ function checkNewWeek() {
 
 
     const savedWeek =
+
         localStorage.getItem(
             "weekID"
         );
@@ -2499,12 +2957,11 @@ function checkNewWeek() {
 
     }
 
-
 }
 
 
 /* =========================================================
-   LOAD TODAY'S TOTALS
+   TODAY TOTALS
    ========================================================= */
 
 function loadTotals() {
@@ -2563,8 +3020,6 @@ function loadTotals() {
         );
 
 
-    /* CALORIES LEFT */
-
     const caloriesRemaining =
 
         Math.max(
@@ -2592,8 +3047,6 @@ function loadTotals() {
         " kcal";
 
 
-    /* PROTEIN LEFT */
-
     const proteinRemaining =
 
         Math.max(
@@ -2620,8 +3073,6 @@ function loadTotals() {
         "g";
 
 
-    /* CALORIE PERCENT */
-
     const caloriePercent =
 
         Math.min(
@@ -2629,17 +3080,19 @@ function loadTotals() {
             100,
 
             (
+
                 calories
                 /
                 goal.dailyCalories
+
             )
+
             *
+
             100
 
         );
 
-
-    /* PROTEIN PERCENT */
 
     const proteinPercent =
 
@@ -2648,11 +3101,15 @@ function loadTotals() {
             100,
 
             (
+
                 protein
                 /
                 DAILY_PROTEIN_TARGET
+
             )
+
             *
+
             100
 
         );
@@ -2662,18 +3119,14 @@ function loadTotals() {
         "calorieProgress"
     ).style.width =
 
-        caloriePercent
-        +
-        "%";
+        caloriePercent + "%";
 
 
     document.getElementById(
         "proteinProgress"
     ).style.width =
 
-        proteinPercent
-        +
-        "%";
+        proteinPercent + "%";
 
 
     document.getElementById(
@@ -2683,15 +3136,21 @@ function loadTotals() {
         Math.round(
 
             (
+
                 calories
                 /
                 goal.dailyCalories
+
             )
+
             *
+
             100
 
         )
+
         +
+
         "%";
 
 
@@ -2702,19 +3161,23 @@ function loadTotals() {
         Math.round(
 
             (
+
                 protein
                 /
                 DAILY_PROTEIN_TARGET
+
             )
+
             *
+
             100
 
         )
+
         +
+
         "%";
 
-
-    /* OVER TARGET */
 
     document.getElementById(
         "calorieProgress"
@@ -2744,7 +3207,7 @@ function loadTotals() {
 
 
 /* =========================================================
-   LOAD WEEK
+   WEEK TOTALS
    ========================================================= */
 
 function loadWeek() {
@@ -2803,8 +3266,6 @@ function loadWeek() {
         );
 
 
-    /* CALORIE PERCENT */
-
     const caloriePercent =
 
         Math.min(
@@ -2812,17 +3273,19 @@ function loadWeek() {
             100,
 
             (
+
                 calories
                 /
                 goal.weeklyCalories
+
             )
+
             *
+
             100
 
         );
 
-
-    /* PROTEIN PERCENT */
 
     const proteinPercent =
 
@@ -2831,11 +3294,15 @@ function loadWeek() {
             100,
 
             (
+
                 protein
                 /
                 WEEKLY_PROTEIN_TARGET
+
             )
+
             *
+
             100
 
         );
@@ -2845,21 +3312,15 @@ function loadWeek() {
         "weekCalorieProgress"
     ).style.width =
 
-        caloriePercent
-        +
-        "%";
+        caloriePercent + "%";
 
 
     document.getElementById(
         "weekProteinProgress"
     ).style.width =
 
-        proteinPercent
-        +
-        "%";
+        proteinPercent + "%";
 
-
-    /* REMAINING */
 
     const calorieRemaining =
 
@@ -2940,16 +3401,13 @@ function mealSelected() {
     document.getElementById(
         "calories"
     ).value =
-
         item.calories;
 
 
     document.getElementById(
         "protein"
     ).value =
-
         item.protein;
-
 
 }
 
@@ -2978,16 +3436,13 @@ function drinkSelected() {
     document.getElementById(
         "calories"
     ).value =
-
         item.calories;
 
 
     document.getElementById(
         "protein"
     ).value =
-
         item.protein;
-
 
 }
 
@@ -3045,17 +3500,11 @@ function addFood() {
 
 
     const totalCalories =
-
-        calories
-        *
-        quantity;
+        calories * quantity;
 
 
     const totalProtein =
-
-        protein
-        *
-        quantity;
+        protein * quantity;
 
 
     const currentCalories =
@@ -3109,8 +3558,6 @@ function addFood() {
 
     );
 
-
-    /* CLEAR INPUTS */
 
     document.getElementById(
         "mealSelect"
@@ -3273,8 +3720,6 @@ function addTodayToWeek() {
     );
 
 
-    /* DAILY HISTORY */
-
     let history =
 
         JSON.parse(
@@ -3357,8 +3802,7 @@ function updateWeekButton() {
     ) {
 
 
-        button.disabled =
-            true;
+        button.disabled = true;
 
 
         button.textContent =
@@ -3367,11 +3811,11 @@ function updateWeekButton() {
 
     }
 
+
     else {
 
 
-        button.disabled =
-            false;
+        button.disabled = false;
 
 
         button.textContent =
@@ -3391,9 +3835,11 @@ function resetDay() {
 
 
     if (
+
         !confirm(
             "Reset today's calories and protein?"
         )
+
     ) {
 
         return;
@@ -3426,9 +3872,11 @@ function resetWeek() {
 
 
     if (
+
         !confirm(
             "Reset this week's totals?"
         )
+
     ) {
 
         return;
@@ -3468,127 +3916,1373 @@ function resetWeek() {
 
 
 /* =========================================================
-   SECRET EASTER EGG
+   WEIGHT GOAL
    ========================================================= */
 
-let tabSwitchCount = 0;
-
-let lastTab = null;
-
-let firstSwitchTime = null;
+function saveWeightGoal() {
 
 
-const EASTER_EGG_SWITCHES = 5;
+    const current =
 
-const EASTER_EGG_TIME = 2500;
+        Number(
+
+            document.getElementById(
+                "currentWeight"
+            ).value
+
+        );
 
 
-function checkEasterEgg(page) {
+    const goal =
+
+        Number(
+
+            document.getElementById(
+                "goalWeight"
+            ).value
+
+        );
+
+
+    if (
+        !current ||
+        current <= 0 ||
+        !goal ||
+        goal <= 0
+    ) {
+
+
+        alert(
+            "Please enter a valid current weight and goal weight."
+        );
+
+
+        return;
+
+    }
+
+
+    localStorage.setItem(
+
+        "weightCurrent",
+
+        current
+
+    );
+
+
+    localStorage.setItem(
+
+        "weightGoal",
+
+        goal
+
+    );
+
+
+    updateWeightGoalDisplay();
+
+    drawWeightGraph();
+
+}
+
+
+/* =========================================================
+   LOAD WEIGHT GOAL
+   ========================================================= */
+
+function loadWeightGoal() {
+
+
+    const current =
+
+        Number(
+
+            localStorage.getItem(
+                "weightCurrent"
+            )
+
+        );
+
+
+    const goal =
+
+        Number(
+
+            localStorage.getItem(
+                "weightGoal"
+            )
+
+        );
+
+
+    if (
+        current > 0
+    ) {
+
+
+        document.getElementById(
+            "currentWeight"
+        ).value =
+            current;
+
+    }
+
+
+    if (
+        goal > 0
+    ) {
+
+
+        document.getElementById(
+            "goalWeight"
+        ).value =
+            goal;
+
+    }
+
+
+    updateWeightGoalDisplay();
+
+}
+
+
+/* =========================================================
+   WEIGHT GOAL DISPLAY
+   ========================================================= */
+
+function updateWeightGoalDisplay() {
+
+
+    const current =
+
+        Number(
+
+            localStorage.getItem(
+                "weightCurrent"
+            )
+
+        );
+
+
+    const goal =
+
+        Number(
+
+            localStorage.getItem(
+                "weightGoal"
+            )
+
+        );
+
+
+    const summary =
+
+        document.getElementById(
+            "weightSummary"
+        );
+
+
+    if (
+        !current ||
+        !goal
+    ) {
+
+
+        summary.innerHTML =
+
+            "Enter your current and goal weight above.";
+
+
+        return;
+
+    }
+
+
+    const difference =
+
+        Math.abs(
+            current - goal
+        );
+
+
+    let direction;
+
+
+    if (
+        current > goal
+    ) {
+
+        direction =
+            "to lose";
+
+    }
+
+
+    else if (
+        current < goal
+    ) {
+
+        direction =
+            "to gain";
+
+    }
+
+
+    else {
+
+        direction =
+            "remaining";
+
+    }
+
+
+    let progress = 100;
+
+
+    const savedStart =
+
+        Number(
+
+            localStorage.getItem(
+                "weightStart"
+            )
+
+        );
+
+
+    if (
+        savedStart > 0 &&
+        savedStart !== goal
+    ) {
+
+
+        const totalDistance =
+
+            Math.abs(
+                savedStart - goal
+            );
+
+
+        const currentDistance =
+
+            Math.abs(
+                current - goal
+            );
+
+
+        progress =
+
+            Math.max(
+
+                0,
+
+                Math.min(
+
+                    100,
+
+                    (
+                        1
+                        -
+                        currentDistance /
+                        totalDistance
+                    )
+                    *
+                    100
+
+                )
+
+            );
+
+    }
+
+
+    else {
+
+
+        localStorage.setItem(
+
+            "weightStart",
+
+            current
+
+        );
+
+
+        progress = 0;
+
+    }
+
+
+    summary.innerHTML = `
+
+        <div class="weight-big">
+
+            ${current.toFixed(1)} kg
+
+        </div>
+
+
+        <div class="weight-small">
+
+            Goal:
+            ${goal.toFixed(1)} kg
+
+        </div>
+
+
+        <div class="weight-small">
+
+            ${difference.toFixed(1)} kg
+            ${direction}
+
+        </div>
+
+
+        <div class="weight-progress">
+
+            <div class="weight-progress-bar">
+
+                <div
+                    class="weight-progress-fill"
+                    style="width:${progress}%">
+
+                </div>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================================================
+   WEEKLY WEIGHT
+   ========================================================= */
+
+function saveWeeklyWeight() {
+
+
+    const weight =
+
+        Number(
+
+            document.getElementById(
+                "weeklyWeight"
+            ).value
+
+        );
+
+
+    if (
+        !weight ||
+        weight <= 0
+    ) {
+
+
+        alert(
+            "Please enter a valid weight."
+        );
+
+
+        return;
+
+    }
 
 
     const now =
         Date.now();
 
 
-    /*
-       Start a new sequence if:
+    const entry = {
 
-       - first switch
-       - too much time has passed
-       - same tab clicked twice
+        weight:
+            weight,
+
+        timestamp:
+            now,
+
+        date:
+            getToday()
+
+    };
+
+
+    let history =
+
+        JSON.parse(
+
+            localStorage.getItem(
+                "weightHistory"
+            )
+
+        )
+
+        ||
+
+        [];
+
+
+    history.push(
+        entry
+    );
+
+
+    localStorage.setItem(
+
+        "weightHistory",
+
+        JSON.stringify(
+            history
+        )
+
+    );
+
+
+    localStorage.setItem(
+
+        "lastWeightEntry",
+
+        now
+
+    );
+
+
+    /*
+       Update current weight automatically
+       to the latest weekly weigh-in.
+    */
+
+    localStorage.setItem(
+
+        "weightCurrent",
+
+        weight
+
+    );
+
+
+    document.getElementById(
+        "currentWeight"
+    ).value =
+        weight;
+
+
+    document.getElementById(
+        "weeklyWeight"
+    ).value = "";
+
+
+    updateWeightEntryState();
+
+    updateWeightGoalDisplay();
+
+    renderWeightHistory();
+
+    drawWeightGraph();
+
+}
+
+
+/* =========================================================
+   WEEKLY WEIGHT LOCK
+   ========================================================= */
+
+function updateWeightEntryState() {
+
+
+    const button =
+
+        document.getElementById(
+            "saveWeeklyWeightButton"
+        );
+
+
+    const input =
+
+        document.getElementById(
+            "weeklyWeight"
+        );
+
+
+    const resetButton =
+
+        document.getElementById(
+            "resetWeightEntryButton"
+        );
+
+
+    const status =
+
+        document.getElementById(
+            "weightEntryStatus"
+        );
+
+
+    const lastEntry =
+
+        Number(
+
+            localStorage.getItem(
+                "lastWeightEntry"
+            )
+
+        );
+
+
+    if (!lastEntry) {
+
+
+        button.disabled = false;
+
+        input.disabled = false;
+
+        resetButton.style.display =
+            "none";
+
+
+        status.textContent =
+
+            "You can enter your weight once every 7 days.";
+
+
+        return;
+
+    }
+
+
+    const sevenDays =
+
+        7 *
+        24 *
+        60 *
+        60 *
+        1000;
+
+
+    const timePassed =
+
+        Date.now()
+        -
+        lastEntry;
+
+
+    if (
+        timePassed >= sevenDays
+    ) {
+
+
+        button.disabled = false;
+
+        input.disabled = false;
+
+        resetButton.style.display =
+            "none";
+
+
+        status.textContent =
+
+            "Your weekly weigh-in is ready.";
+
+        return;
+
+    }
+
+
+    const remaining =
+
+        sevenDays
+        -
+        timePassed;
+
+
+    const days =
+
+        Math.floor(
+
+            remaining
+            /
+            (
+                24 *
+                60 *
+                60 *
+                1000
+            )
+
+        );
+
+
+    const hours =
+
+        Math.ceil(
+
+            (
+                remaining
+                %
+                (
+                    24 *
+                    60 *
+                    60 *
+                    1000
+                )
+
+            )
+
+            /
+
+            (
+                60 *
+                60 *
+                1000
+            )
+
+        );
+
+
+    button.disabled = true;
+
+    input.disabled = true;
+
+    resetButton.style.display =
+        "block";
+
+
+    status.innerHTML =
+
+        `✓ Weight recorded.<br>
+         Next weigh-in available in
+         <strong>${days}d ${hours}h</strong>.`;
+
+}
+
+
+/* =========================================================
+   RESET WEEKLY WEIGHT
+   ========================================================= */
+
+function resetWeeklyWeight() {
+
+
+    if (
+
+        !confirm(
+
+            "Reset this weekly weigh-in so you can enter it again?"
+
+        )
+
+    ) {
+
+        return;
+
+    }
+
+
+    let history =
+
+        JSON.parse(
+
+            localStorage.getItem(
+                "weightHistory"
+            )
+
+        )
+
+        ||
+
+        [];
+
+
+    /*
+       Remove the most recent entry.
     */
 
     if (
-
-        firstSwitchTime === null
-
-        ||
-
-        now - firstSwitchTime >
-            EASTER_EGG_TIME
-
-        ||
-
-        page === lastTab
-
+        history.length > 0
     ) {
 
-
-        tabSwitchCount = 0;
-
-        firstSwitchTime = now;
+        history.pop();
 
     }
 
+
+    localStorage.setItem(
+
+        "weightHistory",
+
+        JSON.stringify(
+            history
+        )
+
+    );
+
+
+    localStorage.removeItem(
+        "lastWeightEntry"
+    );
+
+
+    document.getElementById(
+        "weeklyWeight"
+    ).value = "";
+
+
+    updateWeightEntryState();
+
+    renderWeightHistory();
+
+    drawWeightGraph();
+
+
+    /*
+       If history still contains weights,
+       use the newest one as current weight.
+    */
 
     if (
-        page !== lastTab
+        history.length > 0
     ) {
 
 
-        tabSwitchCount++;
+        const latest =
+            history[
+                history.length - 1
+            ];
+
+
+        localStorage.setItem(
+
+            "weightCurrent",
+
+            latest.weight
+
+        );
+
+
+        document.getElementById(
+            "currentWeight"
+        ).value =
+            latest.weight;
+
 
     }
 
 
-    lastTab =
-        page;
-
-
-    if (
-
-        tabSwitchCount >=
-        EASTER_EGG_SWITCHES
-
-    ) {
-
-
-        activateEasterEgg();
-
-
-        tabSwitchCount = 0;
-
-        firstSwitchTime = null;
-
-        lastTab = null;
-
-    }
+    updateWeightGoalDisplay();
 
 }
 
 
 /* =========================================================
-   SHOW EASTER EGG
+   WEIGHT HISTORY
    ========================================================= */
 
-function activateEasterEgg() {
+function renderWeightHistory() {
 
 
-    document
-        .getElementById(
-            "easterEgg"
+    const container =
+
+        document.getElementById(
+            "weightHistory"
+        );
+
+
+    let history =
+
+        JSON.parse(
+
+            localStorage.getItem(
+                "weightHistory"
+            )
+
         )
-        .classList
-        .add("show");
 
+        ||
+
+        [];
+
+
+    if (
+        history.length === 0
+    ) {
+
+
+        container.innerHTML =
+
+            `<div class="no-history">
+                No weekly weigh-ins yet.
+             </div>`;
+
+        return;
+
+    }
+
+
+    /*
+       Newest first.
+    */
+
+    history =
+        [...history].reverse();
+
+
+    container.innerHTML = "";
+
+
+    history.forEach(
+
+        entry => {
+
+
+            const item =
+
+                document.createElement(
+                    "div"
+                );
+
+
+            item.className =
+                "weight-history-item";
+
+
+            const date =
+
+                new Date(
+                    entry.timestamp
+                );
+
+
+            const dateText =
+
+                date.toLocaleDateString(
+
+                    "en-ZA",
+
+                    {
+
+                        day:
+                            "numeric",
+
+                        month:
+                            "short",
+
+                        year:
+                            "numeric"
+
+                    }
+
+                );
+
+
+            item.innerHTML = `
+
+                <div class="weight-history-date">
+
+                    ${dateText}
+
+                </div>
+
+
+                <div class="weight-history-weight">
+
+                    ${Number(
+                        entry.weight
+                    ).toFixed(1)} kg
+
+                </div>
+
+            `;
+
+
+            container.appendChild(
+                item
+            );
+
+
+        }
+
+    );
 
 }
 
 
 /* =========================================================
-   CLOSE EASTER EGG
+   WEIGHT GRAPH
    ========================================================= */
 
-function closeEasterEgg() {
+function drawWeightGraph() {
 
 
-    document
-        .getElementById(
-            "easterEgg"
+    const container =
+
+        document.getElementById(
+            "weightGraph"
+        );
+
+
+    let history =
+
+        JSON.parse(
+
+            localStorage.getItem(
+                "weightHistory"
+            )
+
         )
-        .classList
-        .remove("show");
 
+        ||
+
+        [];
+
+
+    if (
+        history.length === 0
+    ) {
+
+
+        container.innerHTML = `
+
+            <div class="weight-graph-empty">
+
+                Your weight graph will appear
+                after your first weekly weigh-in.
+
+            </div>
+
+        `;
+
+
+        return;
+
+    }
+
+
+    const values =
+
+        history.map(
+            entry =>
+                Number(
+                    entry.weight
+                )
+        );
+
+
+    const minWeight =
+
+        Math.min(
+            ...values
+        );
+
+
+    const maxWeight =
+
+        Math.max(
+            ...values
+        );
+
+
+    const goal =
+
+        Number(
+
+            localStorage.getItem(
+                "weightGoal"
+            )
+
+        );
+
+
+    const graphMin =
+
+        Math.floor(
+
+            Math.min(
+                minWeight,
+                goal || minWeight
+            )
+            -
+            1
+
+        );
+
+
+    const graphMax =
+
+        Math.ceil(
+
+            Math.max(
+                maxWeight,
+                goal || maxWeight
+            )
+            +
+            1
+
+        );
+
+
+    const width = 500;
+
+    const height = 210;
+
+    const paddingLeft = 42;
+
+    const paddingRight = 15;
+
+    const paddingTop = 10;
+
+    const paddingBottom = 25;
+
+
+    const graphWidth =
+
+        width
+        -
+        paddingLeft
+        -
+        paddingRight;
+
+
+    const graphHeight =
+
+        height
+        -
+        paddingTop
+        -
+        paddingBottom;
+
+
+    function xPosition(index) {
+
+
+        if (
+            history.length === 1
+        ) {
+
+            return (
+                paddingLeft
+                +
+                graphWidth / 2
+            );
+
+        }
+
+
+        return (
+
+            paddingLeft
+            +
+            (
+                index
+                /
+                (
+                    history.length - 1
+                )
+            )
+            *
+            graphWidth
+
+        );
+
+    }
+
+
+    function yPosition(weight) {
+
+
+        const range =
+
+            graphMax -
+            graphMin;
+
+
+        if (
+            range === 0
+        ) {
+
+            return (
+                paddingTop
+                +
+                graphHeight / 2
+            );
+
+        }
+
+
+        return (
+
+            paddingTop
+            +
+            (
+                1
+                -
+                (
+                    weight -
+                    graphMin
+                )
+                /
+                range
+            )
+            *
+            graphHeight
+
+        );
+
+    }
+
+
+    /* GRID */
+
+    let svg = `
+
+        <svg
+            class="weight-svg"
+            viewBox="0 0 ${width} ${height}"
+            preserveAspectRatio="none">
+
+    `;
+
+
+    for (
+        let i = 0;
+        i <= 4;
+        i++
+    ) {
+
+
+        const weight =
+
+            graphMin
+            +
+            (
+                graphMax -
+                graphMin
+            )
+            *
+            (
+                i / 4
+            );
+
+
+        const y =
+
+            yPosition(
+                weight
+            );
+
+
+        svg += `
+
+            <line
+                x1="${paddingLeft}"
+                y1="${y}"
+                x2="${width - paddingRight}"
+                y2="${y}"
+                class="weight-graph-grid">
+            </line>
+
+
+            <text
+                x="${paddingLeft - 6}"
+                y="${y + 3}"
+                text-anchor="end"
+                class="weight-graph-label">
+
+                ${weight.toFixed(1)}
+
+            </text>
+
+        `;
+
+    }
+
+
+    /* GOAL LINE */
+
+    if (
+        goal > 0 &&
+        goal >= graphMin &&
+        goal <= graphMax
+    ) {
+
+
+        const goalY =
+            yPosition(
+                goal
+            );
+
+
+        svg += `
+
+            <line
+                x1="${paddingLeft}"
+                y1="${goalY}"
+                x2="${width - paddingRight}"
+                y2="${goalY}"
+                stroke="var(--accent)"
+                stroke-width="1"
+                stroke-dasharray="5 5"
+                opacity="0.6">
+            </line>
+
+        `;
+
+    }
+
+
+    /* PATH */
+
+    let path = "";
+
+
+    history.forEach(
+
+        (
+            entry,
+            index
+        ) => {
+
+
+            const x =
+                xPosition(index);
+
+
+            const y =
+                yPosition(
+                    Number(
+                        entry.weight
+                    )
+                );
+
+
+            if (
+                index === 0
+            ) {
+
+
+                path +=
+                    `M ${x} ${y}`;
+
+
+            }
+
+            else {
+
+
+                path +=
+                    ` L ${x} ${y}`;
+
+            }
+
+        }
+
+    );
+
+
+    svg += `
+
+        <path
+            d="${path}"
+            class="weight-graph-line">
+        </path>
+
+    `;
+
+
+    /* POINTS */
+
+    history.forEach(
+
+        (
+            entry,
+            index
+        ) => {
+
+
+            const x =
+                xPosition(index);
+
+
+            const y =
+                yPosition(
+                    Number(
+                        entry.weight
+                    )
+                );
+
+
+            svg += `
+
+                <circle
+                    cx="${x}"
+                    cy="${y}"
+                    r="5"
+                    class="weight-graph-point">
+
+                </circle>
+
+            `;
+
+
+            /*
+               Date label.
+            */
+
+            const date =
+
+                new Date(
+                    entry.timestamp
+                );
+
+
+            const label =
+
+                date.toLocaleDateString(
+
+                    "en-ZA",
+
+                    {
+
+                        day:
+                            "numeric",
+
+                        month:
+                            "short"
+
+                    }
+
+                );
+
+
+            svg += `
+
+                <text
+                    x="${x}"
+                    y="${height - 5}"
+                    text-anchor="middle"
+                    class="weight-graph-label">
+
+                    ${label}
+
+                </text>
+
+            `;
+
+        }
+
+    );
+
+
+    svg += `
+
+        </svg>
+
+    `;
+
+
+    container.innerHTML =
+        svg;
 
 }
 
@@ -3602,8 +5296,6 @@ function showPage(
     button
 ) {
 
-
-    /* CHECK SECRET */
 
     checkEasterEgg(page);
 
@@ -3655,11 +5347,133 @@ function showPage(
 
     }
 
+
+    if (
+        page === "weight"
+    ) {
+
+        loadWeightGoal();
+
+        updateWeightEntryState();
+
+        renderWeightHistory();
+
+        drawWeightGraph();
+
+    }
+
 }
 
 
 /* =========================================================
-   DRAW GRAPHS
+   SECRET EASTER EGG
+   ========================================================= */
+
+let tabSwitchCount = 0;
+
+let lastTab = null;
+
+let firstSwitchTime = null;
+
+
+const EASTER_EGG_SWITCHES = 5;
+
+const EASTER_EGG_TIME = 2500;
+
+
+function checkEasterEgg(page) {
+
+
+    const now =
+        Date.now();
+
+
+    if (
+
+        firstSwitchTime === null
+
+        ||
+
+        now - firstSwitchTime >
+            EASTER_EGG_TIME
+
+        ||
+
+        page === lastTab
+
+    ) {
+
+
+        tabSwitchCount = 0;
+
+        firstSwitchTime = now;
+
+    }
+
+
+    if (
+        page !== lastTab
+    ) {
+
+        tabSwitchCount++;
+
+    }
+
+
+    lastTab =
+        page;
+
+
+    if (
+
+        tabSwitchCount >=
+        EASTER_EGG_SWITCHES
+
+    ) {
+
+
+        activateEasterEgg();
+
+
+        tabSwitchCount = 0;
+
+        firstSwitchTime = null;
+
+        lastTab = null;
+
+    }
+
+}
+
+
+function activateEasterEgg() {
+
+
+    document
+        .getElementById(
+            "easterEgg"
+        )
+        .classList
+        .add("show");
+
+}
+
+
+function closeEasterEgg() {
+
+
+    document
+        .getElementById(
+            "easterEgg"
+        )
+        .classList
+        .remove("show");
+
+}
+
+
+/* =========================================================
+   GRAPHS
    ========================================================= */
 
 function drawGraphs() {
@@ -3824,6 +5638,7 @@ function drawBarGraph(
             roundAmount
 
         )
+
         *
         roundAmount;
 
@@ -3837,8 +5652,6 @@ function drawBarGraph(
 
     }
 
-
-    /* Y LABELS */
 
     for (
 
@@ -3882,8 +5695,6 @@ function drawBarGraph(
     }
 
 
-    /* TARGET LINE */
-
     const targetLine =
 
         document.getElementById(
@@ -3916,8 +5727,6 @@ function drawBarGraph(
         "%";
 
 
-    /* DAYS */
-
     const days = [
 
         "Mon",
@@ -3936,8 +5745,6 @@ function drawBarGraph(
 
     ];
 
-
-    /* BARS */
 
     values.forEach(
 
@@ -3992,11 +5799,6 @@ function drawBarGraph(
                 height + "%";
 
 
-            /*
-               Shows exact value when
-               you hover over a bar.
-            */
-
             bar.title =
                 value.toLocaleString();
 
@@ -4039,7 +5841,7 @@ function drawBarGraph(
 
 
 /* =========================================================
-   START APP
+   START
    ========================================================= */
 
 checkNewDay();
@@ -4057,6 +5859,15 @@ loadTotals();
 loadWeek();
 
 drawGraphs();
+
+loadWeightGoal();
+
+updateWeightEntryState();
+
+renderWeightHistory();
+
+drawWeightGraph();
+
 
 </script>
 
