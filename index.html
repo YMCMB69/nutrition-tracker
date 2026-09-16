@@ -976,7 +976,7 @@ button.danger {
                      style="margin-top:15px;margin-bottom:10px">
 
                     <div style="display:flex;justify-content:space-between">
-                        <span style="color:#888">Estimated BMR</span>
+                        <span style="color:#888">Estimated RMR</span>
                         <strong id="setupResultBMR">0</strong>
                     </div>
 
@@ -987,12 +987,19 @@ button.danger {
                         <strong id="setupResultTDEE">0</strong>
                     </div>
 
+                    <br>
+
+                    <div style="display:flex;justify-content:space-between">
+                        <span style="color:#888">Activity level (PAL)</span>
+                        <strong id="setupResultPAL">1.00</strong>
+                    </div>
+
                 </div>
 
                 <p class="small-note">
-                    Your maintenance calorie number is an estimate, not
-                    a measurement. Your weight trend over time is more
-                    useful for finding your personal real-world maintenance.
+                    Your RMR uses the Ten-Haaf athlete equation. Maintenance is estimated as RMR × PAL.
+                    These are starting estimates; your real weight trend and logged intake can
+                    be used to calibrate your personal maintenance over time.
                 </p>
 
                 <div class="setup-buttons">
@@ -1740,7 +1747,7 @@ button.danger {
                 <hr style="border-color:#222">
 
                 <div style="display:flex;justify-content:space-between;margin:10px 0">
-                    <span style="color:#888">BMR</span>
+                    <span style="color:#888">RMR</span>
                     <strong id="profileBMR">0</strong>
                 </div>
 
@@ -1749,10 +1756,14 @@ button.danger {
                     <strong id="profileTDEE">0</strong>
                 </div>
 
+                <div style="display:flex;justify-content:space-between;margin:10px 0">
+                    <span style="color:#888">Activity level (PAL)</span>
+                    <strong id="profilePAL">1.00</strong>
+                </div>
+
                 <p class="small-note">
-                    These numbers are starting estimates. Your actual
-                    weight trend and calorie intake over time can be used
-                    to fine-tune your personal maintenance level.
+                    These numbers are starting estimates. Your actual weight trend and calorie intake over time
+                    are more useful for fine-tuning your personal maintenance level.
                 </p>
 
             </div>
@@ -1809,358 +1820,169 @@ let setupData = {
 
 /*
 =========================================================
-ACTIVITY CALCULATION
+ENERGY CALCULATION — SPORTS/NUTRITION METHOD
 
-Instead of using:
+1) Resting energy expenditure (RMR): Ten-Haaf/Weijs
+   athlete-specific equation. A 2023 systematic review/meta-analysis
+   found this equation was the most precise of the commonly studied
+   equations in athletic populations, with 80.2% of participants
+   predicted within +/-10% of measured RMR.
 
-BMR x 1.2 / 1.375 / 1.55 / 1.725
+2) Maintenance (TDEE): RMR x a Physical Activity Level (PAL).
+   PAL is selected from the user's steps, training volume and job
+   activity so we do NOT add separate walking + gym + job calories
+   on top of an activity multiplier.
 
-we build the estimate from separate components.
+3) Goal calories:
+   Cut targets are based on a target weekly rate of weight loss,
+   converted to an approximate energy deficit using 7,700 kcal/kg.
+   Maintenance stays at estimated TDEE. Bulk uses a controlled
+   surplus.
 
-This helps prevent someone with a normal job who trains 5x/week
-and walks 10k steps from automatically being classified as
-"extremely active."
+4) Protein:
+   Cut = 2.2 g/kg, maintenance/bulk = 2.0 g/kg, rounded to 5 g.
 =========================================================
 */
 
-const jobCalories = {
+function calculateRMR(data) {
 
-    sedentary: 0,
-
-    standing: 120,
-
-    physical: 250
-
-};
-
-
-/*
-Walking estimate.
-
-A rough energy cost is estimated from:
-
-body weight
-x distance walked
-x walking energy cost
-
-10,000 steps is roughly 7-8 km for many adults.
-
-We cap the contribution so unusually high step entries don't
-create absurd calorie targets.
-*/
-
-function calculateWalkingCalories(weight, steps) {
-
-    let estimatedDistanceKm =
-        Number(steps) * 0.00072;
-
-    let calories =
-        Number(weight) *
-        estimatedDistanceKm *
-        0.5;
-
-    return Math.min(
-        Math.max(calories, 0),
-        600
-    );
-}
-
-
-/*
-Resistance / general gym training.
-
-We use a conservative average rather than assuming the person
-burns a huge amount during every gym session.
-
-5 kcal/kg/hour is a reasonable rough starting estimate for
-moderate-to-hard training.
-*/
-
-function calculateTrainingCalories(weight, days, duration) {
-
-    if (!days || !duration) {
-        return 0;
-    }
-
-    let hours =
-        Number(duration) / 60;
-
-    let caloriesPerSession =
-        Number(weight) *
-        5 *
-        hours;
-
-    let weeklyCalories =
-        caloriesPerSession *
-        Number(days);
-
-    return weeklyCalories / 7;
-}
-
-
-/*
-=========================================================
-BMR
-
-Mifflin-St Jeor
-=========================================================
-*/
-
-function calculateBMR(data) {
-
-    let weight =
-        Number(data.weight);
-
-    let height =
-        Number(data.height);
-
-    let age =
-        Number(data.age);
-
-    if (data.sex === "male") {
-
-        return (
-            10 * weight +
-            6.25 * height -
-            5 * age +
-            5
-        );
-
-    }
+    const weight = Number(data.weight) || 0;
+    const heightM = (Number(data.height) || 0) / 100;
+    const age = Number(data.age) || 0;
+    const male = data.sex === "male" ? 1 : 0;
 
     return (
-        10 * weight +
-        6.25 * height -
-        5 * age -
-        161
+        11.936 * weight +
+        587.728 * heightM -
+        8.129 * age +
+        191.027 * male +
+        29.279
     );
 }
 
+/* Keep the old function name internally so the rest of the app
+   continues to work without changing every screen. */
+function calculateBMR(data) {
+    return calculateRMR(data);
+}
 
 /*
-=========================================================
-TDEE
+   Choose one PAL from the whole activity picture.
 
-Use BMR plus a single activity factor.
-
-The previous version started at BMR x 1.2, then added
-walking, training, job calories and another 8%. That can
-double-count activity and push maintenance much too high.
-
-This version uses the questionnaire to choose a realistic
-activity multiplier. Steps, training and job activity each
-make a modest adjustment, but they are not added as separate
-calorie buckets.
-=========================================================
+   These are deliberately broad bands. PAL is a measure of total
+   daily activity, not calories burned by one exercise session.
+   The questionnaire is therefore used to classify the person's
+   overall activity instead of stacking separate calorie estimates.
 */
+function calculatePAL(data) {
+
+    const steps = Math.max(0, Number(data.steps) || 0);
+    const days = Math.max(0, Math.min(7, Number(data.trainingDays) || 0));
+    const duration = Math.max(0, Number(data.trainingDuration) || 0);
+    const weeklyTrainingHours = (days * duration) / 60;
+
+    let points = 0;
+
+    // Everyday movement.
+    if (steps >= 12000) points += 2;
+    else if (steps >= 8000) points += 1;
+    else if (steps >= 5000) points += 0.5;
+
+    // Structured training volume.
+    if (weeklyTrainingHours >= 8) points += 2;
+    else if (weeklyTrainingHours >= 4) points += 1;
+    else if (weeklyTrainingHours >= 2) points += 0.5;
+
+    // Occupational activity.
+    if (data.job === "standing") points += 0.5;
+    else if (data.job === "physical") points += 1;
+
+    if (points < 1) return 1.40;
+    if (points < 2) return 1.60;
+    if (points < 3.5) return 1.75;
+    return 1.90;
+}
 
 function calculateTDEE(data) {
 
-    let bmr =
-        calculateBMR(data);
+    const rmr = calculateRMR(data);
+    const pal = calculatePAL(data);
 
-    let steps =
-        Math.max(0, Number(data.steps) || 0);
-
-    let trainingDays =
-        Math.max(0, Math.min(7, Number(data.trainingDays) || 0));
-
-    let trainingDuration =
-        Math.max(0, Number(data.trainingDuration) || 0);
-
-    /*
-       Start with normal daily living.
-       Then make controlled adjustments for the actual
-       movement/training information entered by the user.
-    */
-
-    let activityFactor = 1.20;
-
-    // Daily steps: up to +0.12 at approximately 10k steps.
-    let stepFactor =
-        Math.min(0.12, (steps / 10000) * 0.12);
-
-    // Training: up to +0.13 for roughly 5 x 2-hour sessions/week.
-    let trainingFactor =
-        Math.min(0.13,
-            (trainingDays / 5) *
-            (trainingDuration / 120) *
-            0.13
-        );
-
-    // Job activity adjustment.
-    let jobFactor = 0;
-
-    if (data.job === "standing") {
-        jobFactor = 0.03;
-    }
-    else if (data.job === "physical") {
-        jobFactor = 0.06;
-    }
-
-    activityFactor +=
-        stepFactor +
-        trainingFactor +
-        jobFactor;
-
-    // Keep the estimate inside a sensible range.
-    activityFactor =
-        Math.max(1.20, Math.min(1.55, activityFactor));
-
-    return bmr * activityFactor;
+    return rmr * pal;
 }
 
-
 /*
-=========================================================
-GOAL CALORIES
-=========================================================
+   Goal calories.
+
+   For cutting, the three choices represent approximate weekly
+   body-weight-loss rates. This makes the deficit scale with body
+   size instead of blindly taking 10/15/20% from everyone.
 */
+function calculateGoalCalories(tdee, goal, intensity, weight) {
 
-function calculateGoalCalories(tdee, goal, intensity) {
-
-    let calories;
+    if (goal === "maintenance") {
+        return Math.round(tdee / 10) * 10;
+    }
 
     if (goal === "cut") {
 
-        if (intensity === "slow") {
-            calories = tdee * 0.90;
-        }
-        else if (intensity === "moderate") {
-            calories = tdee * 0.85;
-        }
-        else {
-            calories = tdee * 0.80;
-        }
+        let weeklyRate;
 
+        if (intensity === "slow") weeklyRate = 0.005;
+        else if (intensity === "moderate") weeklyRate = 0.0075;
+        else weeklyRate = 0.010;
+
+        // Approximate energy deficit: 7,700 kcal per kg of body mass.
+        const weeklyDeficit = Number(weight) * weeklyRate * 7700;
+        const dailyDeficit = weeklyDeficit / 7;
+
+        return Math.round((tdee - dailyDeficit) / 10) * 10;
     }
 
-    else if (goal === "bulk") {
+    // Controlled surplus for muscle gain.
+    let surplusRate;
+    if (intensity === "slow") surplusRate = 0.05;
+    else if (intensity === "moderate") surplusRate = 0.08;
+    else surplusRate = 0.10;
 
-        if (intensity === "slow") {
-            calories = tdee * 1.05;
-        }
-        else if (intensity === "moderate") {
-            calories = tdee * 1.08;
-        }
-        else {
-            calories = tdee * 1.10;
-        }
-
-    }
-
-    else {
-
-        calories = tdee;
-
-    }
-
-    /*
-       Conservative minimum for a cutting target.
-       IMPORTANT: use the data passed to calculateTargets,
-       not a global profile that may not exist during setup.
-    */
-
-    return Math.round(
-        calories / 10
-    ) * 10;
+    return Math.round((tdee * (1 + surplusRate)) / 10) * 10;
 }
-
-
-/*
-=========================================================
-PROTEIN
-
-Higher during a cut.
-=========================================================
-*/
 
 function calculateProtein(weight, goal) {
 
-    let multiplier;
+    let multiplier = goal === "cut" ? 2.2 : 2.0;
 
-    if (goal === "cut") {
-
-        multiplier = 2.2;
-
-    }
-    else if (goal === "maintenance") {
-
-        multiplier = 2.0;
-
-    }
-    else {
-
-        multiplier = 2.0;
-
-    }
-
-    // Round protein to the nearest 5g so the app gives a practical
-    // target such as 160g rather than an awkward 158g.
     return Math.round(
         (Number(weight) * multiplier) / 5
     ) * 5;
 }
 
-
-/*
-=========================================================
-FULL CALCULATION
-=========================================================
-*/
-
 function calculateTargets(data) {
 
-    let bmr =
-        calculateBMR(data);
+    const rmr = calculateRMR(data);
+    const pal = calculatePAL(data);
+    const tdee = rmr * pal;
 
-    let tdee =
-        calculateTDEE(data);
-
-    let calories =
-        calculateGoalCalories(
-            tdee,
-            data.goal,
-            data.intensity
-        );
-
-    /*
-       Apply the cutting floor here, where we actually have
-       access to the current user's sex.
-    */
+    let calories = calculateGoalCalories(
+        tdee,
+        data.goal,
+        data.intensity,
+        data.weight
+    );
 
     if (data.goal === "cut") {
 
-        let floor =
-            data.sex === "female"
-                ? 1400
-                : 1600;
-
-        calories =
-            Math.max(calories, floor);
-
+        const floor = data.sex === "female" ? 1400 : 1600;
+        calories = Math.max(calories, floor);
     }
 
-    let protein =
-        calculateProtein(
-            data.weight,
-            data.goal
-        );
-
     return {
-
-        bmr: Math.round(bmr),
-
-        tdee:
-            Math.round(
-                tdee / 10
-            ) * 10,
-
-        calories:
-            Math.round(calories / 10) * 10,
-
-        protein
-
+        bmr: Math.round(rmr),
+        rmr: Math.round(rmr),
+        pal,
+        tdee: Math.round(tdee / 10) * 10,
+        calories: Math.round(calories / 10) * 10,
+        protein: calculateProtein(data.weight, data.goal)
     };
 }
 
@@ -2380,6 +2202,11 @@ function showSetupResults() {
     ).innerText =
         targets.tdee +
         " kcal";
+
+    document.getElementById(
+        "setupResultPAL"
+    ).innerText =
+        targets.pal.toFixed(2);
 
     /* Show Step 7 directly.
        Do NOT call nextSetupStep(7) here because step 7
@@ -2760,6 +2587,11 @@ function loadProfileScreen() {
     ).innerText =
         profile.targets.tdee +
         " kcal";
+
+    document.getElementById(
+        "profilePAL"
+    ).innerText =
+        profile.targets.pal.toFixed(2);
 }
 
 function saveProfile() {
@@ -2893,6 +2725,11 @@ function saveProfile() {
     ).innerText =
         targets.tdee +
         " kcal";
+
+    document.getElementById(
+        "profilePAL"
+    ).innerText =
+        targets.pal.toFixed(2);
 
     alert(
         "Targets updated!\n\n" +
