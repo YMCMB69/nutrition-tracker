@@ -690,6 +690,11 @@ button.danger {
                         Female
                     </button>
 
+                    <button class="option"
+                            onclick="selectSetupOption(this,'sex','unknown')">
+                        Not sure / Prefer not to say
+                    </button>
+
                 </div>
 
                 <div class="setup-buttons">
@@ -1937,6 +1942,19 @@ function calculateRMR(data) {
     // Mifflin-St Jeor.
     if (data.sex === "male") {
         return (10 * weight) + (6.25 * height) - (5 * age) + 5;
+    }
+
+    if (data.sex === "unknown") {
+        // If the user is unsure or prefers not to say, use the midpoint
+        // between the male and female Mifflin-St Jeor equations rather
+        // than forcing either choice.
+        const maleRMR =
+            (10 * weight) + (6.25 * height) - (5 * age) + 5;
+
+        const femaleRMR =
+            (10 * weight) + (6.25 * height) - (5 * age) - 161;
+
+        return (maleRMR + femaleRMR) / 2;
     }
 
     return (10 * weight) + (6.25 * height) - (5 * age) - 161;
