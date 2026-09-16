@@ -1542,14 +1542,32 @@ button.danger {
                 <input id="currentWeightInput"
                        type="number"
                        step=".1"
-                       placeholder="Current weight">
+                       placeholder="Current weight"
+                       oninput="updateWeightGoalSuggestion()">
 
                 <label>Goal Weight</label>
 
                 <input id="goalWeightInput"
                        type="number"
                        step=".1"
-                       placeholder="Goal weight">
+                       placeholder="Goal weight"
+                       oninput="updateWeightGoalSuggestion()">
+
+                <div id="weightGoalSuggestion"
+                     class="card"
+                     style="display:none;margin-top:15px;margin-bottom:0;border-color:var(--accent);box-shadow:0 0 14px var(--glow);">
+                    <h3 style="margin-top:0;">Goal Suggestion 💡</h3>
+                    <div id="weightGoalSuggestionText"
+                         class="status"
+                         style="line-height:1.6;margin-bottom:12px;">
+                    </div>
+                    <button id="useWeightGoalSuggestion"
+                            class="primary"
+                            type="button"
+                            onclick="useWeightGoalSuggestion()">
+                        Use Suggestion
+                    </button>
+                </div>
 
                 <button class="primary"
                         onclick="saveWeightGoal()">
@@ -2820,6 +2838,7 @@ function changeGoal(goal) {
     loadTotals();
     loadWeek();
     drawGraphs();
+    updateWeightGoalSuggestion();
 
 }
 
@@ -4060,6 +4079,112 @@ function drawGraphs() {
    WEIGHT
 ========================================================= */
 
+function updateWeightGoalSuggestion() {
+
+    const box = document.getElementById("weightGoalSuggestion");
+    const text = document.getElementById("weightGoalSuggestionText");
+    const currentInput = document.getElementById("currentWeightInput");
+    const goalInput = document.getElementById("goalWeightInput");
+
+    if (!box || !text || !currentInput || !goalInput) return;
+
+    const current = parseFloat(currentInput.value);
+    const goalWeight = parseFloat(goalInput.value);
+
+    // Do not show the recommendation until both weights are entered.
+    if (!Number.isFinite(current) || current <= 0 ||
+        !Number.isFinite(goalWeight) || goalWeight <= 0) {
+        box.style.display = "none";
+        return;
+    }
+
+    let suggestedGoal;
+    let title;
+    let explanation;
+    let icon;
+
+    if (goalWeight < current) {
+        suggestedGoal = "cut";
+        title = "🥗 Cut";
+        icon = "🥗";
+        explanation =
+            "Your goal weight is lower than your current weight, so the app suggests a <strong>Cut</strong>. This puts your calorie and protein targets into fat-loss mode.";
+    }
+    else if (goalWeight > current) {
+        suggestedGoal = "bulk";
+        title = "💪 Bulk";
+        icon = "💪";
+        explanation =
+            "Your goal weight is higher than your current weight, so the app suggests a <strong>Bulk</strong>. This puts your calorie and protein targets into controlled muscle-gain mode.";
+    }
+    else {
+        suggestedGoal = "maintenance";
+        title = "⚖️ Maintenance";
+        icon = "⚖️";
+        explanation =
+            "Your goal weight matches your current weight, so the app suggests <strong>Maintenance</strong>.";
+    }
+
+    const goalDifference = Math.abs(goalWeight - current).toFixed(1);
+    const currentGoal = document.getElementById("goalSelect")?.value || profile?.goal || "";
+
+    text.innerHTML =
+        "<div style=\"font-size:18px;font-weight:800;margin-bottom:6px;\">Suggested goal: " + title + "</div>" +
+        "<div>Current weight: <strong>" + current.toFixed(1) + " kg</strong><br>" +
+        "Goal weight: <strong>" + goalWeight.toFixed(1) + " kg</strong><br>" +
+        (goalDifference === "0.0"
+            ? "You are aiming to maintain your current weight."
+            : "Difference: <strong>" + goalDifference + " kg</strong>") +
+        "</div><br>" + explanation;
+
+    box.style.display = "block";
+
+    const button = document.getElementById("useWeightGoalSuggestion");
+    if (button) {
+        if (currentGoal === suggestedGoal) {
+            button.innerText = "✓ Using " + title.replace(/^[^A-Za-z⚖️🥗💪]+/, "");
+        } else {
+            button.innerText = "Use Suggestion: " + title;
+        }
+    }
+
+    // Keep the recommendation available for the button without relying on
+    // the currently selected dashboard goal.
+    box.dataset.suggestedGoal = suggestedGoal;
+}
+
+function useWeightGoalSuggestion() {
+
+    const box = document.getElementById("weightGoalSuggestion");
+    if (!box) return;
+
+    const suggestedGoal = box.dataset.suggestedGoal;
+    if (!suggestedGoal) {
+        updateWeightGoalSuggestion();
+        return;
+    }
+
+    if (!profile) {
+        alert("Please finish your profile setup first.");
+        return;
+    }
+
+    // Use the existing goal-change function so the theme, calorie target,
+    // protein target and dashboard all update together.
+    changeGoal(suggestedGoal);
+    updateWeightGoalSuggestion();
+
+    const button = document.getElementById("useWeightGoalSuggestion");
+    if (button) {
+        const labels = {
+            cut: "🥗 Cut",
+            maintenance: "⚖️ Maintenance",
+            bulk: "💪 Bulk"
+        };
+        button.innerText = "✓ Using " + labels[suggestedGoal];
+    }
+}
+
 function loadWeightGoal() {
 
     if (!profile) return;
@@ -4096,69 +4221,60 @@ function loadWeightGoal() {
         "goalWeightInput"
     ).value =
         goal;
+
+    updateWeightGoalSuggestion();
 }
 
 function saveWeightGoal() {
 
-    let current =
-        Number(
-            document.getElementById(
-                "currentWeightInput"
-            ).value
-        );
+    const currentInput = document.getElementById("currentWeightInput");
+    const goalInput = document.getElementById("goalWeightInput");
+    const suggestion = document.getElementById("weightGoalSuggestion");
 
-    let goal =
-        Number(
-            document.getElementById(
-                "goalWeightInput"
-            ).value
-        );
-
-    if (
-        !current ||
-        !goal
-    ) {
-
-        alert(
-            "Please enter both weights."
-        );
-
+    if (!currentInput || !goalInput) {
+        alert("Weight goal fields could not be found. Please refresh the app.");
         return;
     }
 
-    localStorage.setItem(
-        "weightCurrent",
-        current
-    );
+    const current = parseFloat(currentInput.value);
+    const goal = parseFloat(goalInput.value);
 
-    localStorage.setItem(
-        "weightGoal",
-        goal
-    );
-
-    if (profile) {
-
-        profile.weight =
-            current;
-
-        profile.targets =
-            calculateTargets(
-                profile
-            );
-
-        localStorage.setItem(
-            "userProfile",
-            JSON.stringify(profile)
-        );
-
-        updateTheme();
-        updateTargets();
-        loadTotals();
-        loadWeek();
-
+    if (!Number.isFinite(current) || current <= 0 ||
+        !Number.isFinite(goal) || goal <= 0) {
+        alert("Please enter both your current weight and goal weight.");
+        return;
     }
 
-    loadWeightGoal();
+    // Save the Weight Goal independently from the weekly weigh-in.
+    // Saving a goal must never depend on dashboard elements being present.
+    localStorage.setItem("weightCurrent", String(current));
+    localStorage.setItem("weightGoal", String(goal));
+
+    // Keep the profile weight synchronized when a valid current weight is entered,
+    // but fail safely if an older profile/version is missing fields.
+    if (profile && typeof profile === "object") {
+        profile.weight = current;
+        try {
+            profile.targets = calculateTargets(profile);
+            localStorage.setItem("userProfile", JSON.stringify(profile));
+            updateTheme();
+            updateTargets();
+            loadTotals();
+            loadWeek();
+        } catch (error) {
+            // The goal itself has already been saved, so don't make the button appear broken.
+            console.warn("Weight goal saved, but dashboard recalculation failed:", error);
+            localStorage.setItem("userProfile", JSON.stringify(profile));
+        }
+    }
+
+    document.getElementById("currentWeightDisplay").innerText = current.toFixed(1);
+    updateWeightGoalSuggestion();
+
+    if (suggestion) {
+        suggestion.innerHTML +=
+            '<br><strong style="display:inline-block;margin-top:8px;">✓ Weight goal saved.</strong>';
+    }
 }
 
 function saveWeeklyWeight() {
